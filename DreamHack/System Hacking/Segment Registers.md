@@ -1,0 +1,3 @@
+Various segment registers exist on CPU architecture. In the beginning, they started with Code Segment, Data segment, and extra segment. While these segments were dedicated for special purpose, fs and gs were added without the purpose. 
+
+On Linux, fs is used as the pointer to the Thread Local Storage. In most cases, threads in multi-threads program have their own replicates while accessing to the shared resources. TLS is used to support this mechanism. For example, suppose several threads are using the errno(the variable storing the error code). Without TLS, since all threads write on the same memory space, race condition might occur, while TLS allows each thread to have each errno variable. 
