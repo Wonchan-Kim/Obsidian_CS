@@ -154,7 +154,7 @@ Calling with the first argument as ARCH_SET_FS and second argument as address, f
 GDB debugger has the command 'catch', that can be used to stop the process when the particular event was triggered. 
 ```
 $ gdb -q ./canary
-pwndbg> catch syscall arch_prtcl
+pwndbg> catch syscall arch_prctl
 pwndbg> run
 ```
 Reaching the catchpoint, the RDI is set to '0x1002', the constant value of the ARCH_SET_FS. Since the rdi is set to 0x7ffff7fb0740, this process will save TLS at this address, and fs will point to this address. 
