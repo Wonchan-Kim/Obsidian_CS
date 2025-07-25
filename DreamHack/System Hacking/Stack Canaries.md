@@ -144,3 +144,23 @@ Going to <main +21> line, note that the value stored in rax is moved to rbp-8.
 [[Segment Registers]]
 
 On <main+54>, move the last 8 bytes to the rdx and compare it with canary value. If not the same call the stack check failed. 
+
+## Canary generation
+fs points to the TLS. Knowing the value of the fs allows us to know the address of the TLS. However, on Linux, the value of fs can be only viewed or manipulated via specific system calls. GDB is not authorized to reveal the information of fs. 
+
+The system call that is called when setting the fs is ```arch-prctl(int code, unsigned long addr)```
+Calling with the first argument as ARCH_SET_FS and second argument as address, fs is set as the addr. 
+
+GDB debugger has the command 'catch', that can be used to stop the process when the particular event was triggered. 
+```
+$ gdb -q ./canary
+pwndbg> catch syscall arch_prtcl
+pwndbg> run
+```
+Reaching the catchpoint, the RDI is set to '0x1002', the constant value of the ARCH_SET_FS. Since the rdi is set to 0x7ffff7fb0740, this process will save TLS at this address, and fs will point to this address. 
+
+![[Pasted image 20250725163308.png]]
+Check the address value with
+x/gx 0x7ffff7d7f740 +0X28 where the canary will be stored. At this point, the value is yet to be set. 
+
+Now, we can use the watch command in the gdb, which is used to pause the process when the value stored in the designated address is modified. 
