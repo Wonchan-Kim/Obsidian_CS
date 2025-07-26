@@ -164,3 +164,8 @@ Check the address value with
 x/gx 0x7ffff7d7f740 +0X28 where the canary will be stored. At this point, the value is yet to be set. 
 
 Now, we can use the watch command in the gdb, which is used to pause the process when the value stored in the designated address is modified. 
+
+## Canary Exploit
+1) Brute Force
+   x64 -> 8 byte canary, x86 -> 4 byte canary
+   however, excluding the null byte, there is always 7 and 3 bytes each. Which leads to 2^56 , 2^24 calculations. 
