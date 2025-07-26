@@ -169,3 +169,27 @@ Now, we can use the watch command in the gdb, which is used to pause the process
 1) Brute Force
    x64 -> 8 byte canary, x86 -> 4 byte canary
    however, excluding the null byte, there is always 7 and 3 bytes each. Which leads to 2^56 , 2^24 calculations. 
+2) TLS Access
+   Canary is stored in TLS, functions using canary reference this. While address of TLS is modified at every run, if it is possible to access the address of the TLS and read and write, we can read the canary value or modify. 
+```c bypass_canary.c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+	char memo[8];
+	char name[8];
+	printf("name : ");
+	read(0,name,64);
+	printf("hello %s\n", name);
+	printf("memo : ");
+	read(0,memo,64);
+	printf("memo %s\n", memo);
+	return 0;
+}
+```
+
+When compiled, name is located later than memo. Therefore, when you insert 9 bytes into the name, unless the canary value is set to Null byte, we can get the canary value. 
+
+
+
+
