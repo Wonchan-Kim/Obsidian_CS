@@ -189,6 +189,7 @@ int main() {
 ```
 
 When compiled, name is located later than memo. Therefore, when you insert 9 bytes into the name, unless the canary value is set to Null byte, we can get the canary value. 
+After that, when inputting value into memo, we cover the name as well by usign 16 bytes + canary 8 bytes. 
 
 
 
