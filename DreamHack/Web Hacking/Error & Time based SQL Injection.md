@@ -61,3 +61,18 @@ Select extractvalue(1, ':abcd');
 ERROR 1105(HY000): XPATH syntax error: ':abcd'
 # ":" XPATH should not start with :
 ```
+
+## Application of the extractvalue
+Using this function, it is possible to extract the information of the database. Following subquery allows us to retrieve the data of the database. (0x3a is :)
+
+```
+SELECT extravalue(1, concat(0x3a), SELECT password FROM users WHERE username='admin')));
+
+ERROR 1105 (HY000): XPATH syntax error: ':Th1sispassword'
+```
+
+## Application of Error based SQL Injection
+### MySQL
+```
+SELECT 
+```
