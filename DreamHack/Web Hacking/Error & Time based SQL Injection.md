@@ -45,4 +45,19 @@ ERROR 1105 (HY000): XPATH syntax error: ':5.7.29-0ubuntu0.16.04.1-log'
 ```
 The information of the operating system is included in the error message. 
 
-extractvalue() function extracts the data f
+extractvalue() function extracts the data from the XML data passed as the first argument and using the XPATH passed as the second argument. 
+If the second argument is not the correct XPATH, it prints out the error message indicating that the XPATH syntax error. 
+
+Example
+```
+SELECT extractvalue('<a>test</a> <b>abcd</b>, '/a');
+
+test
+1 row in set
+```
+```
+Select extractvalue(1, ':abcd');
+
+ERROR 1105(HY000): XPATH syntax error: ':abcd'
+# ":" XPATH should not start with :
+```
