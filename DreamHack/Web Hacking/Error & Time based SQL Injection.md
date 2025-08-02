@@ -32,3 +32,17 @@ app.run(host='0.0.0.0', port=8000, debug=True)
 Looking at the code, the debug is on, the entry the user entered can be included in SQL query without further investigation, leading SQL Injection vulnerability. However, there is no code to print the SQL query result, just returning the result of the query execution, 
 
 Application based on the Flask framework prints the reason of the error of the code with the debug mode activated. The attacker can collect various informations and data through the error messages. 
+
+## Writing Attacking Code
+In order to use the error in the application to attack, we need to make the error occur not before the queries run, but during the Runtime. 
+
+Following is the most commonly used during the error based sql attack.
+```SQL
+SELECT extractvalue(1, concat(0x3a, version()))
+/*
+ERROR 1105 (HY000): XPATH syntax error: ':5.7.29-0ubuntu0.16.04.1-log'
+*/
+```
+The information of the operating system is included in the error message. 
+
+extractvalue() function extracts the data f
