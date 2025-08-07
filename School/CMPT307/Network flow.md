@@ -13,4 +13,4 @@ for every reverse edge e of P, update f(eR) = f(eR) - cmin
 ```
 At most W|V| iterations of outside loop of FF, each iteration takes O(|E|) times, so overall time O(|VE|) where W is the max capacity of an edge in G. 
 
-Meaning, if W is large there is the possibility we spend more time per path search, tying to find the better path. 
+Meaning, if W is large there is the possibility we spend more time per path search, tying to find the better path.
