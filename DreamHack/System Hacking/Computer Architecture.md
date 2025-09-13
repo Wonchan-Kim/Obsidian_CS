@@ -8,4 +8,13 @@ CPU는 프로그램의 연산을 처리하고 시스템을 관리하는 컴퓨�
 Read the code of the process, execute and saving the results; this series of process takes place in the CPU. CPU consists of ALU, Control Unit and Registers.
 
 ### ISA
-ISA란 CPU가 해석하는 명령어의 집합이다. 프로그램은 기계어로 이루어져 있는데, 프로그램을 실행하면 이 기계어로 된 명령어들을 CPU
+ISA란 CPU가 해석하는 명령어의 집합이다. 프로그램은 기계어로 이루어져 있는데, 프로그램을 실행하면 이 기계어로 된 명령어들을 CPU가 읽고 처리한다. ISA 는 기계어를 CPU 가 어떻게 해석하고 처리할지 정의한다. 
+
+ISA는 x86-64, MIPS 등 다양하게 존재하며 크게 CISC, RISC 로 나뉜다. 
+![[Pasted image 20250912222403.png]]
+중점적으로 x86-64를 다룬다. 
+
+64비트 아키텍쳐이며, CPU가 한번에 처리할 수 있는 데이터의 크기, word이다. 비트 수가 많으면 가상 메모리의 크기에서 이점을 가질 수 있다.
+
+#### Register
+
