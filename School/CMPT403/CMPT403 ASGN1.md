@@ -33,6 +33,11 @@ Q1.
 	    3. Availability: The compromised devices are explicitly used to launch DDoS attacks, which are a direct attack on the availability of a target service. 
 	2. Worm: it actively scans the internet for vulnerable devices. Upon finding one, it uses the exploit to infect new device. The newly infected device can then join the botnet and begins scanning for more victims.
 	3. Patching the update immediately to fix the vulnerability is crucial. If not available, it can be mitigated by configuring the firewall rules to restrict the access to the device from the public internet, to prevent the malicious packet from the vulnerable service. 
+
+Q2.
+1. {a} Some buffer overflow attacks do not overwrite any return address at all is true. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
+2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is true. Limiting what compromised code can do helps to mitigate the impact.
+3. Return-oriented programming is able to defeat stack canaries is True. Canaries detect simple Return address clobbering, but with an information leaked during the attack, 
 	
 ---
 Coding Question
