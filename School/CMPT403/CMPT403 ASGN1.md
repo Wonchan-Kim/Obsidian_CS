@@ -4,22 +4,8 @@ Confidentiality: Information is secret
 Integrity: Information is not tampered
 Availability: System is usable
 
-(a)
-	 i. Availability: Consumes the victim's cpu resources. 
-
-	 ii. Can be classified as the Trojan Horse. It spreads by hiding, in this cas a useful webpage. 
-	 iii.  
-
-{a}
-{i}
-
-	 Availability: consumes the victim's cpu resources
-	integrity: 
-
-
-1. {A} a list with an upper-roman list ordering
-2. This item will show as "B"
-3. and this one 
+1.
+a. 
 ----
 Coding Question
 
