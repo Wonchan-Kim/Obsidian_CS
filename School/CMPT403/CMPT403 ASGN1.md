@@ -4,9 +4,14 @@ Confidentiality: Information is secret
 Integrity: Information is not tampered
 Availability: System is usable
 
-1.
-a. 
-----
+a.	1. Availability: stolen resources reduces the victim's system performance
+	
+
+
+
+1. {A}
+		
+---
 Coding Question
 
 Q1.
