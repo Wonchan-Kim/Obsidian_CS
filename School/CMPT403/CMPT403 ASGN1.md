@@ -23,13 +23,18 @@ Q1.
 	    3. Availability: The compromised devices are explicitly used to launch DDoS attacks, which are a direct attack on the availability of a target service. 
 	2. Worm: it actively scans the internet for vulnerable devices. Upon finding one, it uses the exploit to infect new device. The newly infected device can then join the botnet and begins scanning for more victims.
 	3. Patching the update immediately to fix the vulnerability is crucial. If not available, it can be mitigated by configuring the firewall rules to restrict the access to the device from the public internet, to prevent the malicious packet from the vulnerable service. 
-
-Q2.
-1. {a} Some buffer overflow attacks do not overwrite any return address at all is true. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
-2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is true. Limiting what compromised code can do helps to mitigate the impact.
-3. Return-oriented programming is able to defeat stack canaries is True. Canaries only detect overwriting  
-	
 ---
+Q2.
+1. {a} Some buffer overflow attacks do not overwrite any return address at all is ===TRUE===. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
+2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ===TRUE===. Limiting what compromised code can do helps to mitigate the impact.
+3. Return-oriented programming is able to defeat stack canaries is ===TRUE===. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
+4. XSS attacks usually require the attacker to gain full control over the web server first is ===FALSE===. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
+5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ===TRUE===. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
+---
+Q3.
+1. {i} 
+---
+
 Coding Question
 
 Q1.
