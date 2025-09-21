@@ -1,13 +1,3 @@
-## Q1
-CIA principle: 
-Confidentiality: Information is secret
-Integrity: Information is not tampered
-Availability: System is usable
-
-a.	1. Availability: stolen resources reduces the victim's system performance
-	
-
-
 Q1.
 1. {a} Crypto-jacking
 	1. {i} Availability: stolen resources reduces the victim's system performance
