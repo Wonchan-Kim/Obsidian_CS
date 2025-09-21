@@ -27,7 +27,7 @@ Q1.
 Q2.
 1. {a} Some buffer overflow attacks do not overwrite any return address at all is true. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
 2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is true. Limiting what compromised code can do helps to mitigate the impact.
-3. Return-oriented programming is able to defeat stack canaries is True. Canaries detect simple Return address clobbering, but with an information leaked during the attack, 
+3. Return-oriented programming is able to defeat stack canaries is True. Canaries only detect overwriting  
 	
 ---
 Coding Question
