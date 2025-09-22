@@ -83,3 +83,22 @@ Important point is to set the length of username and password to be below 24 to 
 
 Same as question b), there exists the padding. 
 After changing the password value, and putting '.' or ',' to set the end of line, 
+Hence the second argument should be in the format in the
+password. 
+
+Looking back at the code, in order to access the canary without touching it, we can just put the invalid characters to igo over the second argument. 
+
+In my case for the answer, I chose the character '_'. Which ascii value is 95.
+
+Taking padding in to consideration, I first wrote
+password------------------- (28)
+To invade the canary without changing the value, need to add 4 bytes of invalid character more. 
+password------------------------ (32)
+
+Now we bypassed the canary, hence we can access to the v.goodusername and v.goodpassword. 
+
+We can manipulate both of them by putting the valid Ascii value 
+Since my user name is wck5,
+I can input wck5 and terminate with either '.' or ','.
+Adding this information, now my second argument becomes 
+password------------------------wck (32)
