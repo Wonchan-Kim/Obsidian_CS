@@ -32,7 +32,7 @@ Q2.
 5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ===TRUE===. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
 ---
 Q3.
-1. {i} 
+1. {i} The first example is Wannacry RaNsomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update. 
 ---
 
 Coding Question
