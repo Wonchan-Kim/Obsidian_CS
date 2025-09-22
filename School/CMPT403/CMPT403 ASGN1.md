@@ -60,3 +60,26 @@ then reads the good password from the password file 25 bytes both
 읽은 바이트 수 25 최대, strlen 25, 마지막 25번째 원소를 eol.
 
 first input is copied in to the v.username.
+
+
+Q3. 
+Note how the struct is composed. 
+
+![[Pasted image 20250922140735.png]]
+The input2 value, which is the second argument passed into the program is only accessed after setting up the v.username, v.goodcanary, v.canary. 
+
+The key to exploit this question is to find the vulnerability in the following while loop.
+
+![[Pasted image 20250922140951.png]]
+The while loop checks if the written_char is less than 25, and iterates the second argument via modifying the 'ind' value. 
+Note that ind value is always incremented and also breaks when it reaches the end of the string.
+
+If the current index is the ascii value that is specified in the first validity check, it increases the written char value.
+If the current index is either ',' or '.', it modifies the v.password[ind] to 0. 
+Otherwise if it fails all validity check, it modifies the warn user value to 1.
+
+Since the v.username is set, it is possible to modify the value stored in the v starting from the v.password, as it is sequentially connected.
+Important point is to set the length of username and password to be below 24 to pass the while loop test.
+
+Same as question b), there exists the padding. 
+After changing the password value, and putting '.' or ',' to set the end of line, 
