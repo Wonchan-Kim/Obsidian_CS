@@ -36,10 +36,14 @@ Q3.
 2. Malware are designed to bypass or disable the antivirus detection.
    First of all, while anti virus software relies on the signature-based detection, malware can modify the binary easily each time it spreads, making the malware look different to any known signature. 
    
-   Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software.
+   Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software as the vulnerability is not known, and no antivirus can detect the malware that exploits is. 
    
    Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.  
-1. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Even with the strong server security, so the attacker can't break in, however, once the 
+
+
+4. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Also since most of people use the same password across the sites with least possible modifications, there might be several valid options attackers could try. Even with the strong server security, if the password is not complex or diverse enough, there is a high possibility that the attacker could log in with valid credential.  
+   
+   The password manger can play important role here, by generating a unique, random and strong passwords for every single site. Even if id a :password a' was breached, it won't affect other informations. 
 ---
 
 Coding Question
