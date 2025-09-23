@@ -39,7 +39,7 @@ Q3.
    Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software.
    
    Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.  
-3. 
+1. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Even with the strong server security, so the attacker can't break in, however, once the 
 ---
 
 Coding Question
