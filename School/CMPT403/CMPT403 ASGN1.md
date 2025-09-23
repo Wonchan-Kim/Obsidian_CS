@@ -116,9 +116,10 @@ Looking back at the code, in order to access the canary without touching it, we 
 In my case for the answer, I chose the character '.' Which ascii value is 95.
 
 Taking padding in to consideration, I first wrote
-password.------------------ (28)
+wck54.--------------------- (27).
+The reason why it is 27 bytes is because there is one int32 and two char[25], making 54. So two more bytes are needed to match the padding
 To invade the canary without changing the value, need to add 4 bytes of invalid character more. 
-password.----------------------- (32)
+wck54.-------------------------  (31)
 
 Now we bypassed the canary, hence we can access to the v.goodusername and v.goodpassword. 
 
@@ -126,12 +127,16 @@ We can manipulate both of them by putting the valid Ascii value
 Since my user name is wck5,
 I can input wck5 and terminate with either '.' or ','.
 Adding this information, now my second argument becomes 
-password.-----------------------wck5. (37)
+wck54.-------------------------wck5. (36)
 
-I terminated the v.goodusername with '.' so it will be end of line, with padding required to fill up to the v.goodpassword.
-password.-----------------------wck5.----------------------- (60)
+I terminated the v.goodusername with '.' so it will be end of line, with invalid characters required to fill up to the v.goodpassword.
+wck54.-------------------------wck5.-------------------- (56)
 
 After that, we can add the password. to finish the reading process.
-password.-----------------------wck5.-----------------------password.(69)
+wck54.-------------------------wck5.--------------------wck54. (62)
+
+My final answer would be 
+wck5
+wck54.-------------------------wck5.--------------------wck54.
 
 
