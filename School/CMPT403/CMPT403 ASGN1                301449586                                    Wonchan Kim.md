@@ -17,7 +17,7 @@ Q1.
 	3. keep softwares up-to-date, as software patches include the security response. 
 	   Especially, in zero-day vulnerability, once discovered, vendors release security patches to close the hole. 
 4. Zyxel Firewalls
-	1. {i}CIA
+	1. {i} CIA
 	    1. {1} Confidentiality: Attacker gained the root control, which directly leads to the leakage of the private/sensitive data.
 	    2. Integrity: With root access, an attacker has the authorization to modify the entire firewall configuration, alter logs, etc. 
 	    3. Availability: The compromised devices are explicitly used to launch DDoS attacks, which are a direct attack on the availability of a target service. 
@@ -30,19 +30,19 @@ Q2.
 3. Return-oriented programming is able to defeat stack canaries is ==TRUE==. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
 4. XSS attacks usually require the attacker to gain full control over the web server first is ==FALSE==. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
 5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ==TRUE==. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
----
+----------------------
 Q3.
-1. {i} The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. 
+1. The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. 
    The second example is Equifax data breach that occured in the same year, compromising the personal information of approximately 148 million people. Attackers managed to steal sensitive data from the credit reporting agency by exploiting a vulnerability within the company’s system. Equifax failed to patch its systems months after a fix was released for this vulnerability, resulting in successful exploitation.
+   
 2. Malware are designed to bypass or disable the antivirus detection.
    First of all, while anti virus software relies on the signature-based detection, malware can modify the binary easily each time it spreads(polymorphism & metamorphism). This creates a new binary signature for each variant, rendering existing signature useless.  
    
    Secondly, antivirus is inherently reactive. Zero-days exploits can not be successfully prevented by anti virus software as the vulnerability is not known, and no antivirus can detect the malware that exploits is. 
    
-   Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.  
+   Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.
 
-
-4. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Also since most of people use the same password across the sites with least possible modifications, there might be several valid options attackers could try. Even with the strong server security, if the password is not complex or diverse enough, there is a high possibility that the attacker could log in with valid credential.  
+1. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Also since most of people use the same password across the sites with least possible modifications, there might be several valid options attackers could try. Even with the strong server security, if the password is not complex or diverse enough, there is a high possibility that the attacker could log in with valid credential.  
    
    A password manager is a crucial defense method. It mitigates this risk by generating and storing a unique, long, and random password for each individual service. This practice minimizes the damage from a breach, even if the password for Site A is compromised, it has no value for an attacker trying to access other sites.
 ---
@@ -52,11 +52,11 @@ Coding Question
 Q1.
 Looking at the code, 
 ![[Pasted image 20250922154605.png]]
-the vulnerability turns out to be in the part that while the first argument has the buffer overflow vulnerability, yet is modified at the end of the function. 
+The strcpy function is used to copy the user-provided username into a 16-byte buffer named v.username. However, there is no bounds checking, meaning if the input username is longer than 15 characters, total 16 including null, it will write past the end of the username buffer. The check_failed integer variable, which controls login access, is located directly after the username buffer in the stack's memory layout.
 
 ![[Pasted image 20250922154645.png]]
 While the login is only denied by checking the check_failed flag, it is located under the username input. By changing the check_failed flag in to 0 using buffer overflow, it is possible to login to the system.
-Since uname_len is 16bytes enter 17bytes total with 0 at the end.
+Since uname_len is 16bytes enter 17bytes total with 0(null byte) at the end.
 
 WCK51234123412340 would be my username to login.
 Password here is irrelevant. 
@@ -85,10 +85,11 @@ The most important stuff is that the code prints the canary value on the termina
 
 Through debugging, I could find out that the paddings are added after the password in order to make it 28 bytes and the little endian is used for the memory layout. Putting the Canary value and modifying v.goodusername, v.good_password, v.username, I could able to login. Modifying the v.username to the same value of the v.goodusername also enable to log in to the system without needing to know the original username. 
 
+With canary value HVPX
+
 My final answer would be
 
 wck5
-
 AAAAAAAAAAAAAAAAAAAAAAAAABBBHVXPwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
 
 
@@ -101,47 +102,30 @@ The input2 value, which is the second argument passed into the program is only a
 The key to exploit this question is to find the vulnerability in the following while loop.
 
 ![[Pasted image 20250922140951.png]]
-The while loop checks if the written_char is less than 25, and iterates the second argument via modifying the 'ind' value. 
-Note that ind value is always incremented and also breaks when it reaches the end of the string.
+The while loop checks if written_char is less than 25 and iterates through the second command-line argument by modifying the ind value. Note that the ind value is always incremented, and the loop breaks only when it reaches the end of the input string.
 
-If the current index is the ascii value that is specified in the first validity check, it increases the written char value.
-If the current index is either ',' or '.', it modifies the v.password[ind] to 0. 
-Otherwise if it fails all validity check, it modifies the warn_user value to 1.
+If the character at the current index passes the validity check, the written_char counter is incremented. If the character is a ',' or '.', it writes a null terminator to v.password[ind]. Otherwise, if the character fails all validity checks, the warn_user flag is set to 1.
 
-Since the v.username is set, it is possible to modify the value stored in the v starting from the v.password, as it is sequentially connected.
-Important point is to set the length of username and password to be below 24 to pass the while loop test.
+Since the members of the v struct are located sequentially in memory, it is possible to modify values starting from v.password onwards. An important point is that the number of valid characters used for the username and password must be less than 25 to pass the while loop's test.
 
-Same as question b), there exists the padding. 
-After changing the password value, and putting '.' or ',' to set the end of line, 
-Hence the second argument should be in the format in the
-password. 
+Similar to the previous question, memory padding exists between the struct's members. To access the memory after the canary without modifying the canary itself, we can use invalid characters in our input to advance the ind pointer over the canary's memory location.
 
-Looking back at the code, in order to access the canary without touching it, we can just put the invalid characters to igo over the second argument. 
+Taking memory padding into consideration, I first constructed the string 
+wck54.--------------------- (27 bytes). 
+To bypass the 4-byte canary without changing its value, I needed to add 4 more invalid characters, resulting in: 
+wck54.------------------------- (31 bytes).
 
-In my case for the answer, I chose the character '.' Which ascii value is 95.
+Now that the payload is positioned past the canary, we can access v.goodusername and v.goodpassword.
 
-Taking padding in to consideration, I first wrote
-wck54.--------------------- (27).
-The reason why it is 27 bytes is because there is one int32 and two char[25], making 54. So two more bytes are needed to match the padding
-To invade the canary without changing the value, need to add 4 bytes of invalid character more. 
-wck54.-------------------------  (31)
+We can manipulate both of these variables by writing valid ASCII values. Since my username is wck5, I can input wck5 and terminate it with a .. Adding this to the payload, the second argument now becomes:
+wck54.-------------------------wck5. (36 bytes).
 
-Now we bypassed the canary, hence we can access to the v.goodusername and v.goodpassword. 
+I terminated v.goodusername with a . to act as a null terminator, then added more invalid characters to fill the space up to v.goodpassword:
+wck54.-------------------------wck5.-------------------- (56 bytes).
 
-We can manipulate both of them by putting the valid Ascii value 
-Since my user name is wck5,
-I can input wck5 and terminate with either '.' or ','.
-Adding this information, now my second argument becomes 
-wck54.-------------------------wck5. (36)
+After that, we add the desired password, followed by a ., to finish the process:
+wck54.-------------------------wck5.--------------------wck54. (62 bytes).
 
-I terminated the v.goodusername with '.' so it will be end of line, with invalid characters required to fill up to the v.goodpassword.
-wck54.-------------------------wck5.-------------------- (56)
-
-After that, we can add the password. to finish the reading process.
-wck54.-------------------------wck5.--------------------wck54. (62)
-
-My final answer would be 
+My final answer would be
 wck5
 wck54.-------------------------wck5.--------------------wck54.
-
-
