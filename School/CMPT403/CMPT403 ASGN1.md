@@ -38,9 +38,8 @@ Q3.
    
    Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software.
    
-   Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software. 
-   
-   Lastly, the way malware attacks is not by writing files directly, operates on the memory instead. Since antivirus usually scans the file, such attacks are harder to catch. Also 
+   Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.  
+3. 
 ---
 
 Coding Question
