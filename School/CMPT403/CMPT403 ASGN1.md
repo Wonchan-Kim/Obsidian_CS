@@ -7,13 +7,13 @@ Q1.
 	1. {i} 
 			1. Confidentiality: Backdoor is the random number generator allows attacking to predict the cryptographic keys. With these keys, sensitive datas might be decrypted. 
 			2. Integrity: attacker can modify the messages or the digital signatures.
-	2. Supply-chain attack: vulnerability was distributed when the legitimate software was installed.
-	3. stop using the compromised algorithm and any software that relies on it. One should rely on the cryptographic standards and algorithms that are known to be secure. 
+	2. Supply-chain attack: vulnerability was distributed when the legitimate software was installed, with the malicious algorithm included.
+	3. One should rely on the cryptographic standards and algorithms that are known to be secure. 
 3. Pegasus
 	1. {i}  CIA
 		1. {1} Confidentiality: designed to secretly access and exfiltrate the private and sensitive data, furthermore even activating the phone functionalities. 
 		2. Integrity: malware installs itself on the operating system and can manipulate the device. 
-	2. Spear-phishing/zero-click or one-click RCE : via messaging/rendering paths, exploiting 0 days. 
+	2. Malware spreads through sending victims malicious file disguised as a GIF file. Clicking or accessing such file will lead to installation of the surveillance software. 
 	3. keep softwares up-to-date, as software patches include the security response. 
 	   Especially, in zero-day vulnerability, once discovered, vendors release security patches to close the hole. 
 4. Zyxel Firewalls
@@ -25,14 +25,14 @@ Q1.
 	3. Patching the update immediately to fix the vulnerability is crucial. If not available, it can be mitigated by configuring the firewall rules to restrict the access to the device from the public internet, to prevent the malicious packet from the vulnerable service. 
 ---
 Q2.
-1. {a} Some buffer overflow attacks do not overwrite any return address at all is ===TRUE===. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
-2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ===TRUE===. Limiting what compromised code can do helps to mitigate the impact.
-3. Return-oriented programming is able to defeat stack canaries is ===TRUE===. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
-4. XSS attacks usually require the attacker to gain full control over the web server first is ===FALSE===. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
-5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ===TRUE===. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
+1. {a} Some buffer overflow attacks do not overwrite any return address at all is ==TRUE==. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
+2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ==TRUE==. Limiting what compromised code can do helps to mitigate the impact.
+3. Return-oriented programming is able to defeat stack canaries is ==TRUE==. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
+4. XSS attacks usually require the attacker to gain full control over the web server first is ==FALSE==. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
+5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ==TRUE==. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
 ---
 Q3.
-1. {i} The first example is Wannacry RaNsomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. The second example is Equifax data leak that occured in the same year. Similar to the first case, the software update was already distributed to prevent the exploit of vulnerability of Apache Struts, however, Equifax did not update. As a result, private information of 100 million people got leaked. 
+1. {i} The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. The second example is Equifax data leak that occured in the same year. Similar to the first case, the software update was already distributed to prevent the exploit of vulnerability of Apache Struts, however, Equifax did not update. As a result, private information of 100 million people got leaked. 
 2. 
 ---
 
