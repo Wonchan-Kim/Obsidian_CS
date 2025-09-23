@@ -44,7 +44,7 @@ Q3.
 
 4. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Also since most of people use the same password across the sites with least possible modifications, there might be several valid options attackers could try. Even with the strong server security, if the password is not complex or diverse enough, there is a high possibility that the attacker could log in with valid credential.  
    
-   The password manger can play important role here, by generating a unique, random and strong passwords for every single site. Even if id a :password a' was breached, it won't affect other informations. 
+   A password manager is a crucial defense method. It mitigates this risk by generating and storing a unique, long, and random password for each individual service. This practice minimizes the damage from a breach, even if the password for Site A is compromised, it has no value for an attacker trying to access other sites.
 ---
 
 Coding Question
