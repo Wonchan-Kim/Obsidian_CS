@@ -33,7 +33,14 @@ Q2.
 ---
 Q3.
 1. {i} The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. The second example is Equifax data breach that occured in the same year, compromising the personal information of approximately 148 million people. Attackers managed to steal sensitive data from the credit reporting agency by exploiting a vulnerability within the company’s system. Equifax failed to patch its systems months after a fix was released for this vulnerability, resulting in successful exploitation.
-2. 
+2. Malware are designed to bypass or disable the antivirus detection.
+   First of all, while anti virus software relies on the signature-based detection, malware can modify the binary easily each time it spreads, making the malware look different to any known signature. 
+   
+   Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software.
+   
+   Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software. 
+   
+   Lastly, the way malware attacks is not by writing files directly, operates on the memory instead. Since antivirus usually scans the file, such attacks are harder to catch. Also 
 ---
 
 Coding Question
