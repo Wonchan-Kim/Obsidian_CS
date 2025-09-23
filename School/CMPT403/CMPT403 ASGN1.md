@@ -39,6 +39,16 @@ Q3.
 Coding Question
 
 Q1.
+Looking at the code, 
+![[Pasted image 20250922154605.png]]
+the vulnerability turns out to be in the part that while the first argument has the buffer overflow vulnerbaility, yet is modified at the end of the function. 
+
+![[Pasted image 20250922154645.png]]
+While the login is only denied by cheking the check_failed flag, it is located under the username input. By changing the check_failed flag in to 0 using buffer overflow, it is possible to login to the system.
+Since uname_len is 16bytes,enter 17bytes total with 0 at the end.
+
+WCK51234123412340 would be my username to login.
+Password here is irrelevant. 
 
 Q2. Canary is used
 
@@ -59,7 +69,20 @@ then reads the good password from the password file 25 bytes both
 
 읽은 바이트 수 25 최대, strlen 25, 마지막 25번째 원소를 eol.
 
-first input is copied in to the v.username.
+first input is copied in to the v.username. 
+Using buffer overflow, we can modify the value stored in the v struct as the memory are consecutive. 
+
+![[Pasted image 20250922153847.png]]
+Looking at the canary, we can know it is time based and username based. 
+The most important stuff is that the code prints the canary value on the terminal. 
+
+Through debugging, I could find out that the paddings are added after the password in order to make it 28 bytes and the little endian is used for the memory layout. Putting the Canary value and modifying v.goodusername, v.good_password, v.username, I could able to login. Modifying the v.username to the same value of the v.goodusername also enable to log in to the system without needing to know the original username. 
+
+My final answer would be
+
+wck5
+
+AAAAAAAAAAAAAAAAAAAAAAAAABBBHVXPwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
 
 
 Q3. 
@@ -101,4 +124,12 @@ We can manipulate both of them by putting the valid Ascii value
 Since my user name is wck5,
 I can input wck5 and terminate with either '.' or ','.
 Adding this information, now my second argument becomes 
-password------------------------wck (32)
+password------------------------wck5. (37)
+
+I terminated the v.goodusername with '.' so it will be end of line, with padding required to fill up to the v.goodpassword.
+password------------------------wck5.----------------------- (60)
+
+After that, we can add the password. to finish the reading processs.
+password------------------------wck5.-----------------------password.(69)
+
+
