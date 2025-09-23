@@ -8,12 +8,12 @@ Q1.
 			1. Confidentiality: Backdoor is the random number generator allows attacking to predict the cryptographic keys. With these keys, sensitive datas might be decrypted. 
 			2. Integrity: attacker can modify the messages or the digital signatures.
 	2. Supply-chain attack: vulnerability was distributed when the legitimate software was installed, with the malicious algorithm included.
-	3. One should rely on the cryptographic standards and algorithms that are known to be secure. 
+	3. One should rely on the cryptographic standards and algorithms that are known to be secure that are thoroughly tested, and widely trusted by the secure community.
 3. Pegasus
 	1. {i}  CIA
 		1. {1} Confidentiality: designed to secretly access and exfiltrate the private and sensitive data, furthermore even activating the phone functionalities. 
 		2. Integrity: malware installs itself on the operating system and can manipulate the device. 
-	2. Malware spreads through sending victims malicious file disguised as a GIF file. Clicking or accessing such file will lead to installation of the surveillance software. 
+	2. Pegasus is well-known zero click exploits. Malware spreads through sending victims malicious file disguised as a GIF file. Clicking or accessing such file will lead to installation of the surveillance software. 
 	3. keep softwares up-to-date, as software patches include the security response. 
 	   Especially, in zero-day vulnerability, once discovered, vendors release security patches to close the hole. 
 4. Zyxel Firewalls
@@ -26,7 +26,7 @@ Q1.
 ---
 Q2.
 1. {a} Some buffer overflow attacks do not overwrite any return address at all is ==TRUE==. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
-2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ==TRUE==. Limiting what compromised code can do helps to mitigate the impact.
+2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ==TRUE==. Limiting what compromised code can do helps to mitigate the impact. Also known as Principle of Least Privilege. 
 3. Return-oriented programming is able to defeat stack canaries is ==TRUE==. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
 4. XSS attacks usually require the attacker to gain full control over the web server first is ==FALSE==. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
 5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ==TRUE==. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
