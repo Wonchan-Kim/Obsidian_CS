@@ -32,11 +32,12 @@ Q2.
 5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ==TRUE==. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
 ---
 Q3.
-1. {i} The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. The second example is Equifax data breach that occured in the same year, compromising the personal information of approximately 148 million people. Attackers managed to steal sensitive data from the credit reporting agency by exploiting a vulnerability within the company’s system. Equifax failed to patch its systems months after a fix was released for this vulnerability, resulting in successful exploitation.
+1. {i} The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. 
+   The second example is Equifax data breach that occured in the same year, compromising the personal information of approximately 148 million people. Attackers managed to steal sensitive data from the credit reporting agency by exploiting a vulnerability within the company’s system. Equifax failed to patch its systems months after a fix was released for this vulnerability, resulting in successful exploitation.
 2. Malware are designed to bypass or disable the antivirus detection.
-   First of all, while anti virus software relies on the signature-based detection, malware can modify the binary easily each time it spreads, making the malware look different to any known signature. 
+   First of all, while anti virus software relies on the signature-based detection, malware can modify the binary easily each time it spreads(polymorphism & metamorphism). This creates a new binary signature for each variant, rendering existing signature useless.  
    
-   Secondly, antivirus is the late response to the known malware. Zero-days exploits can not be successfully prevented by anti virus software as the vulnerability is not known, and no antivirus can detect the malware that exploits is. 
+   Secondly, antivirus is inherently reactive. Zero-days exploits can not be successfully prevented by anti virus software as the vulnerability is not known, and no antivirus can detect the malware that exploits is. 
    
    Thirdly, malware often installs at a low system level such as rootkits making it available to hide from the antivirus software, allowing them to intercept the system calls and files. Code packing can also be used to compress the malicious code.  
 
