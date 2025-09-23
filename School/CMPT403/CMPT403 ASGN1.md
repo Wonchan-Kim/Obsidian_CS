@@ -41,11 +41,11 @@ Coding Question
 Q1.
 Looking at the code, 
 ![[Pasted image 20250922154605.png]]
-the vulnerability turns out to be in the part that while the first argument has the buffer overflow vulnerbaility, yet is modified at the end of the function. 
+the vulnerability turns out to be in the part that while the first argument has the buffer overflow vulnerability, yet is modified at the end of the function. 
 
 ![[Pasted image 20250922154645.png]]
-While the login is only denied by cheking the check_failed flag, it is located under the username input. By changing the check_failed flag in to 0 using buffer overflow, it is possible to login to the system.
-Since uname_len is 16bytes,enter 17bytes total with 0 at the end.
+While the login is only denied by checking the check_failed flag, it is located under the username input. By changing the check_failed flag in to 0 using buffer overflow, it is possible to login to the system.
+Since uname_len is 16bytes enter 17bytes total with 0 at the end.
 
 WCK51234123412340 would be my username to login.
 Password here is irrelevant. 
@@ -64,10 +64,6 @@ Q2. Canary is used
       v.canary = 'b';
       v.goodcanary = 'b';
 ```
-then reads the good user name from password file
-then reads the good password from the password file 25 bytes both
-
-읽은 바이트 수 25 최대, strlen 25, 마지막 25번째 원소를 eol.
 
 first input is copied in to the v.username. 
 Using buffer overflow, we can modify the value stored in the v struct as the memory are consecutive. 
@@ -99,7 +95,7 @@ Note that ind value is always incremented and also breaks when it reaches the en
 
 If the current index is the ascii value that is specified in the first validity check, it increases the written char value.
 If the current index is either ',' or '.', it modifies the v.password[ind] to 0. 
-Otherwise if it fails all validity check, it modifies the warn user value to 1.
+Otherwise if it fails all validity check, it modifies the warn_user value to 1.
 
 Since the v.username is set, it is possible to modify the value stored in the v starting from the v.password, as it is sequentially connected.
 Important point is to set the length of username and password to be below 24 to pass the while loop test.
@@ -111,12 +107,12 @@ password.
 
 Looking back at the code, in order to access the canary without touching it, we can just put the invalid characters to igo over the second argument. 
 
-In my case for the answer, I chose the character '_'. Which ascii value is 95.
+In my case for the answer, I chose the character '.' Which ascii value is 95.
 
 Taking padding in to consideration, I first wrote
-password------------------- (28)
+password.------------------ (28)
 To invade the canary without changing the value, need to add 4 bytes of invalid character more. 
-password------------------------ (32)
+password.----------------------- (32)
 
 Now we bypassed the canary, hence we can access to the v.goodusername and v.goodpassword. 
 
@@ -124,12 +120,12 @@ We can manipulate both of them by putting the valid Ascii value
 Since my user name is wck5,
 I can input wck5 and terminate with either '.' or ','.
 Adding this information, now my second argument becomes 
-password------------------------wck5. (37)
+password.-----------------------wck5. (37)
 
 I terminated the v.goodusername with '.' so it will be end of line, with padding required to fill up to the v.goodpassword.
-password------------------------wck5.----------------------- (60)
+password.-----------------------wck5.----------------------- (60)
 
-After that, we can add the password. to finish the reading processs.
-password------------------------wck5.-----------------------password.(69)
+After that, we can add the password. to finish the reading process.
+password.-----------------------wck5.-----------------------password.(69)
 
 
