@@ -7,7 +7,7 @@ Q1.
 	1. {i} 
 			1. Confidentiality: Backdoor is the random number generator allows attacking to predict the cryptographic keys. With these keys, sensitive datas might be decrypted. 
 			2. Integrity: attacker can modify the messages or the digital signatures.
-	2. Supply-chain attack: vulnerability was distributed when the legitimate software was installed, with the malicious algorithm included.
+	2. Weakness was deliberately introduced into a trusted standard and then was distributed through legitimate software. This attack can be classified as supply-chain attack.
 	3. One should rely on the cryptographic standards and algorithms that are known to be secure that are thoroughly tested, and widely trusted by the secure community.
 3. Pegasus
 	1. {i}  CIA
@@ -47,7 +47,7 @@ Q3.
    A password manager is a crucial defense method. It mitigates this risk by generating and storing a unique, long, and random password for each individual service. This practice minimizes the damage from a breach, even if the password for Site A is compromised, it has no value for an attacker trying to access other sites.
 ---
 
-Coding Question
+# Programming Assignment
 
 Q1.
 Looking at the code, 
@@ -90,7 +90,7 @@ With canary value HVPX
 My final answer would be
 
 wck5
-AAAAAAAAAAAAAAAAAAAAAAAAABBBHVXPwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
+AAAAAAAAAAAAAAAAAAAAAAAAABBBHVPXwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
 
 
 Q3. 
@@ -129,3 +129,31 @@ wck54.-------------------------wck5.--------------------wck54. (62 bytes).
 My final answer would be
 wck5
 wck54.-------------------------wck5.--------------------wck54.
+
+---
+
+
+
+
+
+# LLM USAGE 
+
+Q1. 
+	Overall, AI was used to lint the text. 
+	(a) AI was used to crosscheck the CIA principle and method of spread
+	(b) AI was used to crosscheck the CIA principle and provide the idea of the method of spread. I crosschecked through checking on the internet.
+	(c) AI was used to cross check the CIA principle and method of spread. Also provided the idea of how zero-day attack can be prevented through the software update.
+	(d) AI was used to cross check the CIA principle and method of spread. Also provided the idea of how configuring firewall rules can prevent the attack. 
+Q2.
+	Overall, AI was used to lint the text.
+	For (b), AI provided the idea of Principle of Least Privilege.
+	For (c), AI crosschecked with the concept I was not fully sure, how ROP can defeat stack canary.
+	For (e), AI crosschecked with the concept I was not fully sure, of how more risky it is for openSSL to be vulnerable. 
+Q3.
+	Overall, AI was used to lint the text.
+	For i), while I was familiar with the Equifax data breach, AI provided the example of the Wannacry Ransomware. I went over the case after.
+	For ii), the concept of polymorphism and metamorphism was introduced by AI. 
+Q4. 
+	Overall, AI was used to lint the text.
+	
+ 
