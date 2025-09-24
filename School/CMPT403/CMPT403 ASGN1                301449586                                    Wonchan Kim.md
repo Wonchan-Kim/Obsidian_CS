@@ -1,3 +1,6 @@
+# <center><b>CMPT403 Assignment1</b><center>
+<center><b>301449586 Wonchan Kim</b></center>
+
 Q1.
 1. {a} Crypto-jacking
 	1. {i} Availability: stolen resources reduces the victim's system performance
@@ -23,14 +26,17 @@ Q1.
 	    3. Availability: The compromised devices are explicitly used to launch DDoS attacks, which are a direct attack on the availability of a target service. 
 	2. Worm: it actively scans the internet for vulnerable devices. Upon finding one, it uses the exploit to infect new device. The newly infected device can then join the botnet and begins scanning for more victims.
 	3. Patching the update immediately to fix the vulnerability is crucial. If not available, it can be mitigated by configuring the firewall rules to restrict the access to the device from the public internet, to prevent the malicious packet from the vulnerable service. 
----
+
+<div class="page-break" style="page-break-before: always;"></div>
+
 Q2.
 1. {a} Some buffer overflow attacks do not overwrite any return address at all is ==TRUE==. Overflows can target for various things, such as target function pointers, heap meta datas, or adjacent variables. 
 2. Minimizing privileges in critical programs can help mitigate the impact of the buffer overflow attacks is ==TRUE==. Limiting what compromised code can do helps to mitigate the impact. Also known as Principle of Least Privilege. 
 3. Return-oriented programming is able to defeat stack canaries is ==TRUE==. Canaries only detect overwriting the return address with arbitrary data but return oriented programming uses existing code fragments. Return oriented programming therefore can bypass the canary protection by hijacking legitimate instructions.
 4. XSS attacks usually require the attacker to gain full control over the web server first is ==FALSE==. XSS exploits in web applications, and most cases requires to inject malicious scripts into content that other users use or view, but not gaining the control of entire server. 
 5. If there is a format string vulnerability in OpenSSL, it would be more serious bug that Heartbleed is ==TRUE==. While the Heartbleed was an information disclosure bug, such as leaking memory contents, openSSL can lead to direct memory reads or writes. 
-----------------------
+<div class="page-break" style="page-break-before: always;"></div>
+
 Q3.
 1. The first example is Wannacry Ransomeware attack in 2017. It was an attack exploiting the vulnerability 'SMBv1' of Microsoft Windows. The patch was already distributed two months ago the attack, however, many industries and institutions didn't update accordingly. 
    The second example is Equifax data breach that occured in the same year, compromising the personal information of approximately 148 million people. Attackers managed to steal sensitive data from the credit reporting agency by exploiting a vulnerability within the company’s system. Equifax failed to patch its systems months after a fix was released for this vulnerability, resulting in successful exploitation.
@@ -45,7 +51,7 @@ Q3.
 1. From the attackers' perspective, when the login name or user id is exposed, for example can try brute-force method to generate the fairly well known combinations that can be obtained from the information leaked. Also since most of people use the same password across the sites with least possible modifications, there might be several valid options attackers could try. Even with the strong server security, if the password is not complex or diverse enough, there is a high possibility that the attacker could log in with valid credential.  
    
    A password manager is a crucial defense method. It mitigates this risk by generating and storing a unique, long, and random password for each individual service. This practice minimizes the damage from a breach, even if the password for Site A is compromised, it has no value for an attacker trying to access other sites.
----
+<div class="page-break" style="page-break-before: always;"></div>
 
 # Programming Assignment
 
@@ -59,7 +65,7 @@ While the login is only denied by checking the check_failed flag, it is located 
 
 WCK5123412341234 would be my username to login, as null character then will be stored in the check_failed. 
 Password here is irrelevant. 
-
+---
 Q2. Canary is used
 
 ```
@@ -90,6 +96,9 @@ My final answer would be
 
 wck5
 AAAAAAAAAAAAAAAAAAAAAAAAABBBPYXSwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
+
+---
+
 
 
 Q3. 
@@ -129,11 +138,7 @@ My final answer would be
 wck5
 wck54.-------------------------wck5.--------------------wck54.
 
----
-
-
-
-
+<div class="page-break" style="page-break-before: always;"></div>
 
 # LLM USAGE 
 
