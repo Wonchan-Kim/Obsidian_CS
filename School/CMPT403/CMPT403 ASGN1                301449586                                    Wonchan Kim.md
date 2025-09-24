@@ -56,9 +56,8 @@ The strcpy function is used to copy the user-provided username into a 16-byte bu
 
 ![[Pasted image 20250922154645.png]]
 While the login is only denied by checking the check_failed flag, it is located under the username input. By changing the check_failed flag in to 0 using buffer overflow, it is possible to login to the system.
-Since uname_len is 16bytes enter 17bytes total with 0(null byte) at the end.
 
-WCK51234123412340 would be my username to login.
+WCK5123412341234 would be my username to login, as null character then will be stored in the check_failed. 
 Password here is irrelevant. 
 
 Q2. Canary is used
@@ -85,12 +84,12 @@ The most important stuff is that the code prints the canary value on the termina
 
 Through debugging, I could find out that the paddings are added after the password in order to make it 28 bytes and the little endian is used for the memory layout. Putting the Canary value and modifying v.goodusername, v.good_password, v.username, I could able to login. Modifying the v.username to the same value of the v.goodusername also enable to log in to the system without needing to know the original username. 
 
-With canary value HVPX
+With canary value PYXS
 
 My final answer would be
 
 wck5
-AAAAAAAAAAAAAAAAAAAAAAAAABBBHVPXwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
+AAAAAAAAAAAAAAAAAAAAAAAAABBBPYXSwck5CCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAAAAAAAAADwck5CCCCCCCCCCCCCCCCCCCCC
 
 
 Q3. 
