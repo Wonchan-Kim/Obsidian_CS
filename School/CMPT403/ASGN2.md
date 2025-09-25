@@ -19,4 +19,16 @@ Yes! You did it!
 
 
 <h2>Q2</h2>
+This question is exploiting the vulnerability that occurs from heap alignment. There are two mallocs call, and we can check two variables are aligned on the memory.
+![[Pasted image 20250925161409.png]]
+We can find that the result of malloc is stored in rbp - 0x10 and 0x8 each.
+As the variable is the pointer, we can check the value stored in the variable with following command. 
 ![[Pasted image 20250925160211.png]]
+We can check two things: 
+1. values are stored in little endian (note that A is stored in the third block)
+2. difference between two memory allocation is 32, 16('c'-'a')
+The memory alignment will be as following:
+
+
+printf 'AAAAAAAAAAAAAAAAAAAAAAAAAAAA\x34\x13' >hof.txt
+
