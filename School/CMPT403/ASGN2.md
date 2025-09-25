@@ -29,6 +29,13 @@ We can check two things:
 2. difference between two memory allocation is 32, 16('c'-'a')
 The memory alignment will be as following:
 
-
+![[Pasted image 20250925162106.png]]
+Hence, 
+![[Pasted image 20250925162200.png]]
+Hence, we can add 28 of random bytes and change the role to admin.
 printf 'AAAAAAAAAAAAAAAAAAAAAAAAAAAA\x34\x13' >hof.txt
+
+worked.
+
+
 
