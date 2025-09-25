@@ -19,3 +19,4 @@ Yes! You did it!
 
 
 <h2>Q2</h2>
+![[Pasted image 20250925160211.png]]
