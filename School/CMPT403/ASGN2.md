@@ -3,4 +3,7 @@
 <h2>Q2</h2>
 ![[Pasted image 20250925144031.png]]
 ![[Pasted image 20250925144137.png]]
-with gdb debugger, it is possible to get the function address. 
+with gdb debugger, it is possible to get the function address. Need to overflow the buffer with the address of target_function.
+
+
+
