@@ -4,17 +4,17 @@
 ## Q1
 
 ![[Pasted image 20250925144031.png]]
-![[Pasted image 20250925144137.png]]
 
-Using the GDB debugger, it is possible to get the function address. The buffer needs to be overflowed with the address of the target_function.
+Using the GDB debugger, it is possible to get the function address. The buffer needs to be overflowed with the address of the target_function. From the following disassembly, we can check the address is 0x00000000004011bb.
 
 ![[Pasted image 20250925145859.png]]
 
 Set the breakpoint at the vulnerable function and run the program.
+Since the return address of the function is stored in ($rbp + 8), we can calculate how much we should fill up the buffer.
 
 ![[Pasted image 20250925152245.png]]
 
-This indicates there is an 18-byte difference between the return address of the vulnerable function.
+This indicates there is an 18-byte difference between the buffer and the return address of the vulnerable function.
 
 Hence, we can use the following command:
 
@@ -66,7 +66,7 @@ This worked.
 
 ## Q3
 
-The "Delete user" functionality uses the free function. However, looking at the code, there is a possibility that if the "add user" function is called directly after deletion, the new user will be added at the same memory address. This new user will then be considered the default user since check_privilege only uses the address of the default user.
+The Delete user functionality uses the free function. However, looking at the code, there is a possibility that if the add user function is called directly after deletion, the new user will be added at the same memory address. This new user will then be considered the default user since checkprivilege function only uses the address of the default user.
 
 ![[Pasted image 20250926160037.png]]
 
