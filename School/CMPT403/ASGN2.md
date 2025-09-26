@@ -38,5 +38,15 @@ printf 'AAAAAAAAAAAAAAAAAAAAAAAAAAAA\x34\x13' >hof.txt
 worked.
 
 <h2>Q3</h2>
+Delete user is using the free function. However, looking at the code, there is a possibility if the add user function is called directly after the deletion, the user will be added on the same address and will be considered as the default user since check privilege only uses the information of the address of the default user. 
+![[Pasted image 20250926160037.png]]
 
 
+Let's verify this idea. 
+
+![[Pasted image 20250926155930.png]]
+
+It is clarified that this code is vulnerable to Use-After-Free attack. Now the only steps necessary are modifying the check privilege to root. 
+![[Pasted image 20250926160234.png]]
+
+Putting the same inputs into the txt file, the attack works.
