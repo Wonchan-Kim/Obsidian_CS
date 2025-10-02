@@ -32,4 +32,10 @@ For attribute C, unclustered B+tree with alternative 2 should be built as it sti
    
    Total 6 I/O.
    
-   
+   Following figure is for Q3-2 and Q3-3. 
+   ![[Pasted image 20251002153316.png]]
+## Q4
+
+1. Bucket number can be directly calculated with current level_i and value of next, h_i(k) or h_i+1(k). 
+2. In case of overflow, bucket pointed by the NEXT is redistributed using one more hash bit. Repeated splits reduce overflow pages.
+3. Extendible hashing uses variable length prefixes on the hash value. Directory is required to map prefixes to the actual buckets, since 
