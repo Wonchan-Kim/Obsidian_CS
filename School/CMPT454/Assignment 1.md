@@ -1,6 +1,8 @@
 <div><center><h1>CMPT454 Assignment 1</h1></center></div>
 <div><center><h3>Wonchan Kim 301449586</h2></center></div>
+
 ## Q1
+
 1. Index page will have x branches and x-1 keys. Since key size is 8 and pointer size is 4, $8*(x-1) + 4*x <= 512$. $12x <= 520$. Hence max branch of index page is 43.
 2. Since minimum threshold is 50%, $\lceil 43/2 \rceil = 22$. Minimum is 22 branches.
 3. Since the index is using Alternative 2 <key,rid>, each entry size is 14 bytes. Also 4 bytes should be reserved to point to the next leaf pointer. 
@@ -49,7 +51,6 @@ For attribute C, unclustered B+tree with alternative 2 should be built as it sti
    Add a pointer of overflow in bucket 2 and write in to disk(1 I/O - write).
    
    Total 6 I/O.
-   
    Following figure is for Q3-2 and Q3-3. 
    ![[Pasted image 20251002153316.png]]
 
