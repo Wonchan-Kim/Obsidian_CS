@@ -50,4 +50,6 @@ Availability (System is usable) - legitimate user can access to the service
 ![[Pasted image 20251011155022.png]]
 
 ![[Pasted image 20251011155706.png]]
-Dos attack - Availability was violated. If the passwords were leaked, the
+Dos attack - Availability was violated. If the passwords were leaked, the Confidentiality was also violated.
+
+Money stolen from an online exchange - Integrity assures the data is trustworthy and has not been modified by unauthorized persons, 
