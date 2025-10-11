@@ -47,4 +47,7 @@ Confidentiality ( information is secret)
 Integrity (Information/system is not tampered) - not changed/modified
 Availability (System is usable) - legitimate user can access to the service
 
+Case 1
+![[Pasted image 20251011155022.png]]
 
+Availability, Integrity 
