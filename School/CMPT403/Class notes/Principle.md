@@ -44,5 +44,7 @@ Network, software, hardware, data, crypto, and even people, since the attacker o
 ---
 # CIA
 Confidentiality ( information is secret)
-Integrity (Information/system is not tampered)
-Availability (System is usable)
+Integrity (Information/system is not tampered) - not changed/modified
+Availability (System is usable) - legitimate user can access to the service
+
+
