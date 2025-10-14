@@ -108,3 +108,8 @@ Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the 
    ex) distributed databases, backups. minimizing the access to root, logging
 ![[Pasted image 20251014150243.png]]
 ![[Pasted image 20251014150406.png]]
+
+3) Human element - weakest link in any security system
+   Almost all modern attacks have an element of social engineering, the sustem relies on human perfection is an insecure system.
+   
+   Security should be intuitive to the human psyche. 
