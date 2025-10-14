@@ -106,4 +106,5 @@ Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the 
 2. Safe and recoverable failure
    Minimizing the damage caused by a failure or compromise. 
    ex) distributed databases, backups. minimizing the access to root, logging
-3. 
+![[Pasted image 20251014150243.png]]
+![[Pasted image 20251014150406.png]]
