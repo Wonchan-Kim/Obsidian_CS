@@ -113,3 +113,8 @@ Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the 
    Almost all modern attacks have an element of social engineering, the sustem relies on human perfection is an insecure system.
    
    Security should be intuitive to the human psyche. 
+   Rubber ducky - people actually plug usb they found 
+   
+   The system that relies on human perfection is an insecure system. 
+   ![[Pasted image 20251014154556.png]]
+4) 
