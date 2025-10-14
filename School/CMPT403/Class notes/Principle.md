@@ -77,3 +77,8 @@ Repudiation - Integrity (False denial)
 Information Disclosure - Confidentiality (SQLi,)
 Denial of service - Availability (Flooding, resource exhaustion)
 Escalation of Privilege - Integrity, Confidentiality 
+
+---
+## Principles of Secure design
+Security should be considered starting from the design phase. 즉 보안은 소프트웨어의 기능적 속성이 아니라 구조적 제약으로 취급되어야 한다. 
+
