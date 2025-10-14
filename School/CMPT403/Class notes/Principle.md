@@ -102,3 +102,8 @@ for one, do not rely on security through obscurity, hide details of the implemen
 Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the security. 
 
 - KISS (Keep it simple, stupid) - UNIX principle: write programs that do one thing and do it well. 
+
+2. Safe and recoverable failure
+   Minimizing the damage caused by a failure or compromise. 
+   ex) distributed databases, backups. minimizing the access to root, logging
+3. 
