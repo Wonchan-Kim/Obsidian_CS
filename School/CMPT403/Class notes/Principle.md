@@ -99,4 +99,6 @@ Adapted from the paper, the protection of information in computer systems.
 
 for one, do not rely on security through obscurity, hide details of the implementation to prevent compromising analysis. 
 ![[Pasted image 20251014142945.png]]
+Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the security. 
 
+- KISS (Keep it simple, stupid) - UNIX principle: write programs that do one thing and do it well. 
