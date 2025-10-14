@@ -87,3 +87,14 @@ Security should be considered starting from the design phase. 즉 보안은 소�
 
 ![[Pasted image 20251014141350.png]]
 Internet was closed network among credential users, however, internet environment these days don't allow this model. The fundamental reason of the security threat is the collapse of the threat model.
+
+### Principles of secure design
+
+Adapted from the paper, the protection of information in computer systems. 
+
+1. Open and simple design
+2. Safe and Recoverable Failure
+3. Human element should be always considered
+<div></div>
+
+for one, do not rely on security through obscurity, hide details of the implementation to prevent compromising analysis. 
