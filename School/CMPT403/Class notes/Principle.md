@@ -63,3 +63,8 @@ It turns out the administrator opened a fake update file : Integrity + availabil
 
 Every violation of CIA originates from a vulnerability - and every vulnerability originates from a wrong assumption : 보안은 기술적 실패가 아니라 사고의 실패에서 출발한다.
 ![[Pasted image 20251014115037.png]]
+
+| Design          | Concept / model   | Not secured                     |
+| --------------- | ----------------- | ------------------------------- |
+| Implementation  | code/ hardware    | Buffer overflow, race condition |
+| Human / Process | Operatoin/ policy |                                 |
