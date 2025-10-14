@@ -98,3 +98,5 @@ Adapted from the paper, the protection of information in computer systems.
 <div></div>
 
 for one, do not rely on security through obscurity, hide details of the implementation to prevent compromising analysis. 
+![[Pasted image 20251014142945.png]]
+
