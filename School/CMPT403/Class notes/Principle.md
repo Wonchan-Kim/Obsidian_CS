@@ -83,3 +83,4 @@ Escalation of Privilege - Integrity, Confidentiality
 Security should be considered starting from the design phase. 즉 보안은 소프트웨어의 기능적 속성이 아니라 구조적 제약으로 취급되어야 한다. 
 
 왜 보안 설계가 늦게 등장했는가 - 초기 인터넷 (Arpanet)은 기능 우선 설계 - 보안은 패치 형태의 사후 대응으로 덧붙여짐
+![[Pasted image 20251014133441.png]]
