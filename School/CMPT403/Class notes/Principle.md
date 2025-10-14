@@ -52,4 +52,7 @@ Availability (System is usable) - legitimate user can access to the service
 ![[Pasted image 20251011155706.png]]
 Dos attack - Availability was violated. If the passwords were leaked, the Confidentiality was also violated.
 
-Money stolen from an online exchange - Integrity assures the data is trustworthy and has not been modified by unauthorized persons, 
+Money stolen from an online exchange the owner was forced to shutdown the service - Integrity assures the data is trustworthy and has not been modified by unauthorized persons, confidentiality from the hot wallet key theft
+
+It turns out the administrator opened a fake update file : Integrity + availability 
+관리자가 악성 업데이트 실행(integrity), 시스템이 감염 후 중단(availablity)
