@@ -117,4 +117,6 @@ Given enough eyeballs, all bugs are shallow -> big scale does not guarantee the 
    
    The system that relies on human perfection is an insecure system. 
    ![[Pasted image 20251014154556.png]]
-4) 
+3) ![[Pasted image 20251014154903.png]]
+4) ![[Pasted image 20251014155034.png]]
+5) ![[Pasted image 20251014155051.png]]
