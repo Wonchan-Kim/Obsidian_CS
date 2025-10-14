@@ -56,3 +56,10 @@ Money stolen from an online exchange the owner was forced to shutdown the servic
 
 It turns out the administrator opened a fake update file : Integrity + availability 
 관리자가 악성 업데이트 실행(integrity), 시스템이 감염 후 중단(availablity)
+
+
+
+### How to violate these properties?
+
+Every violation of CIA originates from a vulnerability - and every vulnerability originates from a wrong assumption : 보안은 기술적 실패가 아니라 사고의 실패에서 출발한다.
+![[Pasted image 20251014115037.png]]
