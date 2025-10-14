@@ -68,3 +68,12 @@ Every violation of CIA originates from a vulnerability - and every vulnerability
 | --------------- | ----------------- | ------------------------------- |
 | Implementation  | code/ hardware    | Buffer overflow, race condition |
 | Human / Process | Operatoin/ policy |                                 |
+
+----
+![[Pasted image 20251014121250.png]]
+Spoofing - Confidentiality, Integrity ( Credential theft, phishing)
+Tampering - Integrity (DB modification, firmware patch)
+Repudiation - Integrity (False denial)
+Information Disclosure - Confidentiality (SQLi,)
+Denial of service - Availability (Flooding, resource exhaustion)
+Escalation of Privilege - Integrity, Confidentiality 
