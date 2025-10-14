@@ -84,3 +84,6 @@ Security should be considered starting from the design phase. 즉 보안은 소�
 
 왜 보안 설계가 늦게 등장했는가 - 초기 인터넷 (Arpanet)은 기능 우선 설계 - 보안은 패치 형태의 사후 대응으로 덧붙여짐
 ![[Pasted image 20251014133441.png]]
+
+![[Pasted image 20251014141350.png]]
+Internet was closed network among credential users, however, internet environment these days don't allow this model. The fundamental reason of the security threat is the collapse of the threat model.
