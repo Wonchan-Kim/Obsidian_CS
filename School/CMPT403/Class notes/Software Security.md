@@ -35,3 +35,10 @@ Heartbleed -> attacker changing payload length temporarily, server returning 64K
 ---
 # Defence?
 ![[Pasted image 20251014191449.png]]
+
+----
+# Attack
+
+![[Pasted image 20251014193210.png]]
+![[Pasted image 20251014193401.png]]
+![[Pasted image 20251014193604.png]]
