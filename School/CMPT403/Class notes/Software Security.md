@@ -27,4 +27,7 @@ Heartbleed -> attacker changing payload length temporarily, server returning 64K
 
 1. Adjacent chunk data overwrite 
    ![[Pasted image 20251014184310.png]]
-2. 
+2. ![[Pasted image 20251014185500.png]]
+3.   ![[Pasted image 20251014185548.png]]
+4. ![[Pasted image 20251014185617.png]]![[Pasted image 20251014185657.png]]
+5.  
