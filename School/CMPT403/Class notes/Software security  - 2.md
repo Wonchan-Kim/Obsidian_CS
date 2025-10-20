@@ -126,4 +126,17 @@ PKI, public key infrastructure delivers the right public key to the users.
 
 1. SSH: Used for connecting to remote machine
     TOFU(Trust on first use): when connecting for the first time, the server shows the public key, and user is asked if trusting the  public key. If yes, never asked again until it gets changed, if no disconnected. 
+2. PGP (Pretty good privacy)
+   Web of trust, trust is transitive, Alice can trust bob directly like Tofu, alice can trust carol indirectly - if alice trusts bob, and bob trusts carol, then bob signs carol's key and alice verifies bob's signature.
+3. SSL/TLS (Secure Sockets Layer/transpost layer security)
+   Used in HTTPS, Most widely used crypto tech.
+   By default, browsers will trust a set of CA(certificate authorities).
+   CA can sign any website's public key, the CA's signature is called certificate. The website presents the certificate when you connect it. Verify the websites cert. Certs can be transitive. 
 
+   
+   <li><ol>
+   1. server sends the public verification key to the root CA</ol>
+   2. Root CA checkes that person really owns the server
+   3. Root CA signs the web server public verification key and sends it back.
+   </li>
+   
