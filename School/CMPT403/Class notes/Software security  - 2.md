@@ -125,4 +125,5 @@ How do we trust Alice?
 PKI, public key infrastructure delivers the right public key to the users. 
 
 1. SSH: Used for connecting to remote machine
-2. TOFU(Trust on first use): when connecting for the first time, the ser
+    TOFU(Trust on first use): when connecting for the first time, the server shows the public key, and user is asked if trusting the  public key. If yes, never asked again until it gets changed, if no disconnected. 
+
