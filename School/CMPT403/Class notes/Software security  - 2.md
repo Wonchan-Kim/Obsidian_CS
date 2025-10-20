@@ -67,3 +67,13 @@ Block Cipher
 
 Block cipher DES,AES(current standard), Camelia(Europe, Japan), SM4(China) -> Stream ciphers are usually faster
 
+## PKE (asymmetric encryption)
+![[Pasted image 20251020000817.png]]
+Alice is the only one who can read the message. 
+![[Pasted image 20251020001133.png]]
+If leaked, attacker can decrypt every message, including the past.
+Attacker can also behave as Alice. 
+![[Pasted image 20251020001422.png]]
+RSA is the first PKE, 
+![[Pasted image 20251020001057.png]]
+
