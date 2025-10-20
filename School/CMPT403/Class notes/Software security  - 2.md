@@ -96,3 +96,15 @@ Properties:
 - colliision resistance(not able to find any m1, m2 such that h(m1) = h(m2))
 - output is small, fixed size
 
+Using cryptographic hash, never store the P directly. 
+Attacker can precompute the hash table, to prevent this add a random salt to the password. 
+
+<font color="red">Good against unintentional, random errors, however, MitM attacker can change both file and hash. Need to check the Authencity </font>
+
+### Mac 
+A MAC is attached to messages for authentication:
+The two parties both need to have the secret key
+An attacker can't forge a MAC
+Authenticates the message. 
+Can be built from the hash (can be called as HMAC)
+
