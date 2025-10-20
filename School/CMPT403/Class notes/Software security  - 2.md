@@ -123,3 +123,6 @@ Public verification key(verifies the message)
 How do we trust Alice?
 
 PKI, public key infrastructure delivers the right public key to the users. 
+
+1. SSH: Used for connecting to remote machine
+2. TOFU(Trust on first use): when connecting for the first time, the ser
