@@ -77,3 +77,22 @@ Attacker can also behave as Alice.
 RSA is the first PKE, 
 ![[Pasted image 20251020001057.png]]
 
+----
+Now we also care about integrity and authenticity
+- Confidentiality: The message is secret
+- Integrity: The message is not tampered
+- Authenticity: The sender/receiver's identity is correct
+For this purpose,
+- Cryptography hash
+- Message Authentication Code
+- Digital Signature
+
+### Hash
+Irreversible one way functions:
+
+Properties:
+- Preimage resistance(not able to recover m from h(m))
+- Second-preimage resistence (not able to find m' such that h(m) = h(m'))
+- colliision resistance(not able to find any m1, m2 such that h(m1) = h(m2))
+- output is small, fixed size
+
