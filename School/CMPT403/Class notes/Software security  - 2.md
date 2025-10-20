@@ -106,5 +106,20 @@ A MAC is attached to messages for authentication:
 The two parties both need to have the secret key
 An attacker can't forge a MAC
 Authenticates the message. 
-Can be built from the hash (can be called as HMAC)
+Can be built from the hash (can be called as HMAC) h(K||M)
 
+Scenario : Resistance against MitM:
+Eve who doesn't have a key, can't produce HMac. Specifically, if Eve changes M to M', he can't also replace HMAC, becasue K is unknown. 
+
+### Signatures
+Reverse the usage of public and private key, 
+Only owner signs while everyone can verify the signature. 
+Private signing key(signs the message)
+Public verification key(verifies the message)
+
+<font color=red>In practice, sign/verify keys are long lasting while encrypt/decrypt keys are short lived. It is because if leaked, fake signature vs all decrypted. Sign-verify for integrity, while enc-dec is for confidentiality</font>
+
+---
+How do we trust Alice?
+
+PKI, public key infrastructure delivers the right public key to the users. 
