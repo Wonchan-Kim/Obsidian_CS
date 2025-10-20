@@ -44,3 +44,10 @@ TCP initial sequence number, size of packets, timing, port knocking
 sending information via blinking printer
 
 
+
+
+Stream Cipher
+> Generates keystream of any length from random seed
+> Keystream is pseudorandom
+> Seed and Nonce are used only once
+> ENC(seed, Nonce)M = Keystream(seed, Nonce) xor M
