@@ -15,4 +15,33 @@ Superfish installs its own root certificate into the local trusted certificates 
 
 Two time pad is created when the same encryption key is reused to encrypt two different plaintexts, resulting in two ciphertexts. 
 
-First step 
+First step is to XOR the two ciphertexts together. This cancels out the reused key leaving  with the XOR of two plaintexts. 
+C1​=P1​⊕K
+C2​=P2​⊕K
+C1​⊕C2​=(P1​⊕K)⊕(P2​⊕K)=P1​⊕P2​
+
+Crib is a piece of text that you guess or know is part of one of the plaintexts. We can drag this crib across the Xor text by XORing at every possible position. When the crib is aligned a the correct position, the output of the XOR operation will reveal the corresponding part of the other plaintext. 
+
+The hint was given on the question, "Padding "s are used if the length of the plaintext was shorter than 650 bytes. 
+
+I could try entering several Padding 
+resulting of "__nd of the buffer."
+
+This gave me a great hint to find the article about the buffer. 
+Testing more Paddings as a crib, I could get 'at produces more data could cause it to write past the end of the buffer.'
+This was the description about the buffer overflow.
+
+I searched up the article of buffer overflow in wikiepdia. 
+Could find the corresponding paragraph
+"In programming and information security, a buffer overflow or buffer overrun is an anomaly whereby a program writes data to a buffer beyond the buffer's allocated memory, overwriting adjacent memory locations.
+
+Buffers are areas of memory set aside to hold data, often while moving it from one section of a program to another, or between programs. Buffer overflows can often be triggered by malformed inputs; if one assumes all inputs will be smaller than a certain size and the buffer is created to be that size, then an anomalous transaction that produces more data could cause it to write past the end of the buffer."
+
+Using this paragraph, it was possible to find the another plaintext, which was the paragraph of Vigenere-cipher article. 
+
+"The very first well-documented description of a polyalphabetic cipher was by Leon Battista Alberti around 1467 and used a metal cipher disk to switch between cipher alphabets. Alberti's system only switched alphabets after several words, and switches were indicated by writing the letter of the corresponding alphabet in the ciphertext. Later, Johannes Trithemius, in his work Polygraphia (which was completed in manuscript form in 1508 but first published in 1518),[6] invented the tabula recta, a critical component of the Vigenere cipher.[7]
+"
+These were two plain texts.
+
+## Q4
+
