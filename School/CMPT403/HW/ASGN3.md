@@ -9,4 +9,10 @@ Superfish installs its own root certificate into the local trusted certificates 
 3. Careful users could detect in several ways; when clicking the padlock icon on the browser, the user can check the details of certificate. The user would then notice the certificate for the specific website was issued by the Superfish. Also user would be able to check installed certificates in the browser's certificate manager. The user would be able to find the root certificate named Superfish. 
 
 
+<div class="page-break" style="page-break-before: always;"></div>
 
+## Q3
+
+Two time pad is created when the same encryption key is reused to encrypt two different plaintexts, resulting in two ciphertexts. 
+
+First step 
