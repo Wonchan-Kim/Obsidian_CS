@@ -49,5 +49,8 @@ These were two plain texts included with "Padding "s used as the Padding.
 
 Following the instruction step by step was enough to generate the working code. 
 
-The only function that was not described in detail was to decrypt the entire text part. However, since having the 
+The only function that was not described in detail was to decrypt the entire text part. However, since having the other function completed,
+
+Taking the full IV||ciphertext, chops it into 16byte blocks, and then recovers the message one block at a time by calling the block recovery function on each adjacent pair (previous and target). It collects the recovered plaintext blocks in order, making into the complete plaintext. 
+The important part is removing the padding bytes to return the original message. 
 
