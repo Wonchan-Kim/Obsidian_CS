@@ -49,4 +49,5 @@ These were two plain texts included with "Padding "s used as the Padding.
 
 Following the instruction step by step was enough to generate the working code. 
 
+The only function that was not described in detail was to decrypt the entire text part. However, since having the 
 
