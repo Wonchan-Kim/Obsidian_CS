@@ -1,4 +1,4 @@
-## 9.1 The memory hierarchy
+# 9.1 The memory hierarchy
 ![[Pasted image 20250911163211.png]]
 At top, we have primary storage which consists of cache and main memory providing very fast access to the data. Then comes the secondary storage, which consists of slower devices such as magnetic disks. Tertiary storage is the slowest class of storage devices, such as tapes. 
 
