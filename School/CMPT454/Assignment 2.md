@@ -35,9 +35,10 @@ The Hash Join algorithm consists of two phases: the partition phase and the prob
 2. The B+tree index on (A,B) reduces I/O by avoiding the full file scan on R. 
    For Q1, the index has a matching predicate on A>=7. The query optimizer will traverse the B+tree to find the first leaf entry where A>=7. For each of the index entries satisfying the first condition, the B>=6 is then checked. For entries that match the both, it uses the rid to fetch the data record, faster than reading all 1000 pages of R. 
    For Q2, the index has matching predicates on A=7 and B>=6. First it will traverse the tree to find the first leaf entry matching A=7 and B=6. It then scans the leaf sequentially applying B filter. This is a very narrow search. 
-3. Firstly, the cost of a file scan is the baseline : 1000I/Os.
-   Entire record size is 4x, while index entry size is 2x. 
-   Hence, the entire page number is 10000/20 = 500.
+3. Entire record size is 4x, while index entry size is 2x (x = 10)   Hence, the entire page number is 10000/20 = 500.
    Since the leaf page is 500, the B+tree height can be 3 (Assume the fanout is somewhere around 100~200).
+   
+   For Query 1 (A ≥ 7 AND B ≥ 6), the matching predicate for an index on (A, B)is only the condition $A \ge 7$ . The condition $B \ge 6$ must be checked for every entry retrieved by the first condition. The I/O cost for scanning the index entries is calculated as the tree height plus the number of leaf pages accessed, giving $3 + (500 \times 0.1) = 53$ I/Os. The I/O cost for fetching the matching data records is the total number of records multiplied by both reduction factors, resulting in $10{,}000 \times 0.1 \times 0.1 = 100$ I/Os. Therefore, the total cost of the query is $53 + 100 = 153$ I/Os.
+   For Query 2 (A = 7 AND B ≥ 6), the matching predicate that defines the range of the index scan is $A = 7$. Even though this is an equality condition, all index entries where $A = 7$ must still be scanned to evaluate the range condition $B \ge 6$. The I/O cost for scanning the index entries is again the tree height plus the number of relevant leaf pages, computed as $3 + (500 \times 0.1) = 53$ I/Os. The I/O cost for retrieving data records that satisfy both conditions is $10{,}000 \times 0.1 \times 0.1 = 100$ I/Os. Thus, the total cost of this query is also $53 + 100 = 153$ I/Os.
    
    
