@@ -29,16 +29,31 @@ The Hash Join algorithm consists of two phases: the partition phase and the prob
 ---
 ## Q2
 
-1. Best single index choice would be B_ tree as hash is bad for ranges. Search key would be (A,B), for Q1, the index can use A>=7 as a matching predicate to find the start of the range. For Q2, the index can use both A=7 and B >=6 as matching predicates to find the exact starting point. An index on (B,A) would be much less efficient for Q2, as it could only match B>=6. 
+1. Best single index choice would be B+tree as hash is bad for ranges. Search key would be (A,B), for Q1, the index can use A>=7 as a matching predicate to find the start of the range. For Q2, the index can use both A=7 and B >=6 as matching predicates to find the exact starting point. An index on (B,A) would be much less efficient for Q2, as it could only match B>=6. 
    It should be unclustered. A clustered index means the data rows are physically sorted by the index key. However, the data is already sorted on C. Since a table can have only one physical sort order, the index on (A,B) should be unclustered.
-   Data alternative should be (key,rid). Alternative one can be used for clustered. 
+   Data alternative should be (key,rid)-Alt2. Alternative1 can be used for clustered. 
 2. The B+tree index on (A,B) reduces I/O by avoiding the full file scan on R. 
    For Q1, the index has a matching predicate on A>=7. The query optimizer will traverse the B+tree to find the first leaf entry where A>=7. For each of the index entries satisfying the first condition, the B>=6 is then checked. For entries that match the both, it uses the rid to fetch the data record, faster than reading all 1000 pages of R. 
    For Q2, the index has matching predicates on A=7 and B>=6. First it will traverse the tree to find the first leaf entry matching A=7 and B=6. It then scans the leaf sequentially applying B filter. This is a very narrow search. 
 3. Entire record size is 4x, while index entry size is 2x (x = 10)   Hence, the entire page number is 10000/20 = 500.
    Since the leaf page is 500, the B+tree height can be 3 (Assume the fanout is somewhere around 100~200).
-   
-   For Query 1 (A ≥ 7 AND B ≥ 6), the matching predicate for an index on (A, B)is only the condition $A \ge 7$ . The condition $B \ge 6$ must be checked for every entry retrieved by the first condition. The I/O cost for scanning the index entries is calculated as the tree height plus the number of leaf pages accessed, giving $3 + (500 \times 0.1) = 53$ I/Os. The I/O cost for fetching the matching data records is the total number of records multiplied by both reduction factors, resulting in $10{,}000 \times 0.1 \times 0.1 = 100$ I/Os. Therefore, the total cost of the query is $53 + 100 = 153$ I/Os.
-   For Query 2 (A = 7 AND B ≥ 6), the matching predicate that defines the range of the index scan is $A = 7$. Even though this is an equality condition, all index entries where $A = 7$ must still be scanned to evaluate the range condition $B \ge 6$. The I/O cost for scanning the index entries is again the tree height plus the number of relevant leaf pages, computed as $3 + (500 \times 0.1) = 53$ I/Os. The I/O cost for retrieving data records that satisfy both conditions is $10{,}000 \times 0.1 \times 0.1 = 100$ I/Os. Thus, the total cost of this query is also $53 + 100 = 153$ I/Os.
-   
-   
+   For Query 1 ($A \ge 7$ AND $B \ge 6$), the matching predicate for an index on $(A, B)$ is only the condition $A \ge 7$. The condition $B \ge 6$ must be checked for every entry retrieved by the first condition. The I/O cost for scanning the index entries is calculated as the tree height plus the number of leaf pages accessed, giving $3 + (500 \times 0.1) = 53$ I/Os. The I/O cost for fetching the matching data records is the total number of records multiplied by both reduction factors, resulting in $10{,}000 \times 0.1 \times 0.1 = 100$ I/Os. Therefore, the total cost of the query is $53 + 100 = 153$ I/Os.
+   For Query 2 ($A = 7$ AND $B \ge 6$), a B+ tree index with the search key $(A, B)$ is used. In this case, both predicates are matching: the equality condition on $A$ fixes the first key value, and the range condition on $B$ specifies the starting point within that $A$ value. Therefore, the index scan only needs to traverse the leaf segment corresponding to $A = 7$ and $B \ge 6$, which is approximately 1% of the index entries. Given that $R$ has $10{,}000$ records and each condition reduces the search space by 10%, the number of qualifying records is $10{,}000 \times 0.1 \times 0.1 = 100$. Assuming there are $500$ leaf pages in the index and the tree height is $3$, the I/O cost for scanning the index is calculated as the tree height plus the number of relevant leaf pages: $3 + (500 \times 0.01) = 8$ I/Os. Because data records in $R$ are ordered by $C$, the $(A, B)$ index is unclustered, which means fetching each matching record likely requires one data-page I/O. Hence, the total I/O cost of the query is $8 + 100 = 108$ I/Os.
+
+
+---
+## Q3
+1. The data entries (k, rid) are sorted by the search key k. The actual data records r are also physically sorted by the search key k on disk.
+    
+2. The data entries (k, rid) are sorted by the search key k. However, the actual data records r are not sorted by the search key k.
+    
+3. The leaf nodes directly store the actual data records. Therefore, the data records are sorted by the search key k.
+    
+4. The leaf nodes store data entries of the form (k, rid), and these entries are sorted by the search key k. The data records are not sorted by k.
+    
+5. Only possible if the data records are sorted by k. The leaf nodes store entries (k, rid) for only a subset of the total data records. These entries are sorted by k.
+    
+6. All data entries are sorted by k, and each k value is unique. This property does not specify whether the data records r themselves are sorted by k or not.
+
+---
+## Q4
