@@ -25,9 +25,13 @@
 
    
 2. Sort-Merge join 
-   SMJ first sorts both R and S on the join key sid using external sorting. Then follows the single merge pass, scanning both sorted relations and joining match tuples. 
-   
-   Cost = sort R + sort S + one merge pass.
-   
-   
-   
+The Sort-Merge Join algorithm first sorts both relations $R$ and $S$ on their join attributes using an external sort, and then performs a merge phase to join matching tuples. In the sort phase, each relation is divided into sorted runs during Pass 0, where each run is up to $B$ pages in length. 
+The total sort cost for each relation $N \in {|R|, |S|}$ is $2N(\lceil \log_{B-1}(N/B) + 1 \rceil)$, accounting for both reading and writing in each pass.
+After sorting both relations, the merge phase scans the sorted outputs once and produces the joined tuples whenever $r_i = s_j$. Hence, in SMJ, there is no concept of inner or outer relation; it is treated symmetrically. The cost of this merge phase is $|R| + |S|$, since each relation is read once sequentially. Thus, the overall cost of the Sort-Merge Join can be expressed as  
+$\text{Cost}_{\text{SMJ}} = 2|R|\lceil \log_{B-1}(|R|/B) + 1 \rceil + 2|S|\lceil \log_{B-1}(|S|/B) + 1 \rceil + (|R| + |S|)$.
+When replacement selection is used, each run generated in Pass 0 can be up to $2B$ pages long, which halves the number of runs. After Pass 0, each relation has approximately $\lceil N / (2B) \rceil$ runs. If the available buffer size $B$ is large enough such that $B \ge \sqrt{L}$, where $L = \max(|R|, |S|)$, all runs can be merged in a single pass. In that case, the total cost simplifies to $2(|R| + |S|) + (|R| + |S|) = 3(|R| + |S|)$, representing the cost of reading and writing during Pass 0 plus one final read for the merge.
+As the buffer size $B$ increases, the number of merge passes $\lceil \log_{B-1}(N/B) \rceil$ decreases, reducing the total I/O cost. Larger $B$ also allows more efficient merging because it increases both the number of runs merged per pass and the size of each run. When $B \ge \sqrt{L}$, only two passes (Pass 0 and a single merge) are needed, giving the near-optimal cost of approximately $3(|R| + |S|)$. If $B$ is large enough to hold an entire relation in memory ($B \ge N$), then the sort can be performed entirely in memory with almost linear cost relative to the size of the relation.
+3. Hash Join
+Hash join divided into two phases; partition phase & probe phase. First hash both R and S into K partitions using the same hash function on sid. k is chosen as B - 1 here. For each partition i, build in memory hash table on the smaller partition and stream the larger partition (R) to probe for matches.
+Memory allocation is as follows; in partition phase, 1 page for input B -1  pages for output buffer. In probe phase, B - 2 pages to build the hash table on S 1 page for input from R 1 for output. 
+Inner outer choice matters in probe phase. Small relation should be the inner to build the in-memory hash table, in order to have partition to fit in memory. 
