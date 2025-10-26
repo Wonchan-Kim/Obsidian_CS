@@ -1,37 +1,27 @@
-<div><center><h1>Assignment 2</h1></center></div>
-<div><center><h3>Wonchan Kim 301449586</h2></center></div>
+<div><center><h1>Assignment 2</h1></center></div> <div><center><h3>Wonchan Kim 301449586</h3></center></div>
 
+---
 
 ## Q1
-1. BNL(block nested loops) Join
-   BNL join reads a block of outer relation, then scans the entire inner relation for matches, repeating for every block of outer relation. 
-   
-   Allocating as much as memory possible to the block of outer relation to minimize the number of blocks. Using B - 2 pages for outer relation's block, 1 page as an input buffer for the inner relation and one page as output buffer. 
-   
-   With B buffers, we can hold (B-2) pages of the outer at the once and scan the inner per chunk. 
-   Cost if S is outer(need to choose S as outer since |S| <|R|), 
-   $I/O \approx |S| + \left\lceil \frac{|S|}{B - 2} \right\rceil \cdot |R|$
-   If R is outer, the multiplier becomes large, making I/O larger. 
-   As B increases, the size of outer block(B-2) increases, which decreases the number of outer blocks (multiplier). Since this indicates how much times we must scan the entire inner relation R, a larger B reduces the dominant term of I/O costs. 
-   $\left\lceil \frac{|S|}{B - 2} \right\rceil \cdot |R|$
-1.  INL(index nested loops) join
-   INL scans the outer relation. For each tuple in outer relation, uses the index on the inner relation to find matching tuples.
-   Since the index is on R, R must be inner relation and S should be outer. 
-   Make S the outer to scan S once, probing the index on R.sid per S tuple.
-   Now we can use B-2 pages as an input buffer for S to read it in large chunks. 
-   Remaining two pages are used for traversing index on R and fetching data pages from R.    
-   $\text{Cost} \approx |R| + |R| \cdot p_R \cdot (\text{probing cost})$.
-   Larger B allows for a larger input buffer for S, making the scan efficient. Also the extra memory is used to cache pages of the B+ trees index on R. If B is large enough to hold all non-leaf pages of the index, the I/O cost for each probe will drop. This reduces the second term of the cost. 
 
-   
-2. Sort-Merge join 
-The Sort-Merge Join algorithm first sorts both relations $R$ and $S$ on their join attributes using an external sort, and then performs a merge phase to join matching tuples. In the sort phase, each relation is divided into sorted runs during Pass 0, where each run is up to $B$ pages in length. 
-The total sort cost for each relation $N \in {|R|, |S|}$ is $2N(\lceil \log_{B-1}(N/B) + 1 \rceil)$, accounting for both reading and writing in each pass.
-After sorting both relations, the merge phase scans the sorted outputs once and produces the joined tuples whenever $r_i = s_j$. Hence, in SMJ, there is no concept of inner or outer relation; it is treated symmetrically. The cost of this merge phase is $|R| + |S|$, since each relation is read once sequentially. Thus, the overall cost of the Sort-Merge Join can be expressed as  
-$\text{Cost}_{\text{SMJ}} = 2|R|\lceil \log_{B-1}(|R|/B) + 1 \rceil + 2|S|\lceil \log_{B-1}(|S|/B) + 1 \rceil + (|R| + |S|)$.
-When replacement selection is used, each run generated in Pass 0 can be up to $2B$ pages long, which halves the number of runs. After Pass 0, each relation has approximately $\lceil N / (2B) \rceil$ runs. If the available buffer size $B$ is large enough such that $B \ge \sqrt{L}$, where $L = \max(|R|, |S|)$, all runs can be merged in a single pass. In that case, the total cost simplifies to $2(|R| + |S|) + (|R| + |S|) = 3(|R| + |S|)$, representing the cost of reading and writing during Pass 0 plus one final read for the merge.
-As the buffer size $B$ increases, the number of merge passes $\lceil \log_{B-1}(N/B) \rceil$ decreases, reducing the total I/O cost. Larger $B$ also allows more efficient merging because it increases both the number of runs merged per pass and the size of each run. When $B \ge \sqrt{L}$, only two passes (Pass 0 and a single merge) are needed, giving the near-optimal cost of approximately $3(|R| + |S|)$. If $B$ is large enough to hold an entire relation in memory ($B \ge N$), then the sort can be performed entirely in memory with almost linear cost relative to the size of the relation.
-3. Hash Join
-Hash join divided into two phases; partition phase & probe phase. First hash both R and S into K partitions using the same hash function on sid. k is chosen as B - 1 here. For each partition i, build in memory hash table on the smaller partition and stream the larger partition (R) to probe for matches.
-Memory allocation is as follows; in partition phase, 1 page for input B -1  pages for output buffer. In probe phase, B - 2 pages to build the hash table on S 1 page for input from R 1 for output. 
-Inner outer choice matters in probe phase. Small relation should be the inner to build the in-memory hash table, in order to have partition to fit in memory. 
+### 1. Block Nested Loops (BNL) Join
+
+The BNL join reads a block of the outer relation and then scans the entire inner relation to find matches, repeating this process for every block of the outer relation. To minimize the number of outer blocks, as much memory as possible should be allocated to the outer relation. Specifically, $(B - 2)$ pages are used for the outer relation’s block, one page is used as the input buffer for the inner relation, and one page is used as the output buffer. With $B$ buffer pages, $(B - 2)$ pages of the outer relation can be held in memory at once, allowing the inner relation to be scanned per chunk. When $S$ is chosen as the outer relation (since $|S| < |R|$), the estimated I/O cost is $I/O \approx |S| + \left\lceil \frac{|S|}{B - 2} \right\rceil \cdot |R|$. If $R$ were used as the outer relation, the multiplier would increase, resulting in a higher I/O cost. As $B$ increases, the outer block size $(B - 2)$ grows, reducing the number of outer blocks. Since this term determines how many times the entire inner relation $R$ must be scanned, a larger buffer size $B$ reduces the dominant component of the I/O cost $\left\lceil \frac{|S|}{B - 2} \right\rceil \cdot |R|$.
+
+---
+
+### 2. Index Nested Loops (INL) Join
+
+In an INL join, the algorithm scans the outer relation and, for each tuple, uses an index on the inner relation to locate matching tuples efficiently. Since the index is built on $R$, $R$ must be the inner relation, and $S$ should serve as the outer relation. By scanning $S$ once and probing the index on $R.sid$ for each tuple in $S$, the algorithm utilizes $(B - 2)$ pages as the input buffer for reading $S$ in large chunks. The remaining two pages are used for traversing the index on $R$ and fetching data pages from $R$. The estimated I/O cost is $\text{Cost} \approx |R| + |R| \cdot p_R \cdot (\text{probing cost})$. A larger buffer $B$ improves performance by increasing the input buffer size for $S$, thereby reducing I/O during the scan. Additionally, the extra memory can be used to cache the non-leaf pages of the B+ tree index on $R$. If $B$ is large enough to hold all non-leaf pages of the index, the I/O cost per probe decreases, reducing the overall second term of the cost expression.
+
+---
+
+### 3. Sort-Merge Join (SMJ)
+
+The Sort-Merge Join algorithm first sorts both relations $R$ and $S$ on their join attributes using an external sort, and then performs a merge phase to combine matching tuples. In the sort phase, each relation is divided into sorted runs during Pass 0, with each run up to $B$ pages in length. The total sort cost for each relation $N \in {|R|, |S|}$ is $2N\left(\left\lceil \log_{B-1}\left(\frac{N}{B}\right) + 1 \right\rceil\right)$, accounting for both reading and writing during each pass. After sorting both relations, the merge phase scans the sorted outputs once and produces joined tuples whenever $r_i = s_j$. As SMJ treats both relations symmetrically, there is no distinction between inner and outer relations. The merge phase has a cost of $|R| + |S|$, since each relation is read once sequentially. Thus, the overall cost of SMJ can be expressed as $\text{Cost}_{\text{SMJ}} = 2|R|\left\lceil \log_{B-1}\left(\frac{|R|}{B}\right) + 1 \right\rceil + 2|S|\left\lceil \log_{B-1}\left(\frac{|S|}{B}\right) + 1 \right\rceil + (|R| + |S|)$. When replacement selection is used, each run generated in Pass 0 can be up to $2B$ pages long, effectively halving the number of runs. After Pass 0, each relation has approximately $\lceil N / (2B) \rceil$ runs. If the available buffer size $B$ is sufficiently large such that $B \ge \sqrt{L}$, where $L = \max(|R|, |S|)$, all runs can be merged in a single pass. In that case, the total cost simplifies to $2(|R| + |S|) + (|R| + |S|) = 3(|R| + |S|)$, representing the cost of reading and writing during Pass 0 plus one final read for the merge. As the buffer size $B$ increases, the number of merge passes $\lceil \log_{B-1}(N/B) \rceil$ decreases, reducing the total I/O cost. Larger $B$ also improves merge efficiency by increasing both the number of runs merged per pass and the size of each run. When $B \ge \sqrt{L}$, only two passes (Pass 0 and a single merge) are required, yielding a near-optimal cost of approximately $3(|R| + |S|)$. If $B$ is large enough to hold an entire relation in memory ($B \ge N$), the sort can be performed entirely in memory with an almost linear cost relative to the size of the relation.
+
+---
+
+### 4. Hash Join
+
+The Hash Join algorithm consists of two phases: the partition phase and the probe phase. In the partition phase, both $R$ and $S$ are partitioned into $(B - 1)$ buckets using the same hash function on the join attribute (e.g., `sid`). Memory allocation is as follows: one page is used as the input buffer, and $(B - 1)$ pages are used as output buffers for the partitions. In the probe phase, $(B - 2)$ pages are allocated to build an in-memory hash table for the smaller partition ($S_i$), one page is used for input from $R_i$, and one page for output. The smaller partition should always be chosen as the inner relation to ensure that it fits entirely in memory during probing. Each partition pair $(R_i, S_i)$ is then read back. The smaller partition $S_i$ is loaded into memory, and a hash table is built. The larger partition $R_i$ is scanned, and for each tuple, the algorithm probes the hash table to find matches. If $\min{|R_i|, |S_i|} \le B - 2$, the join for that partition can be done in a single scan, as the smaller partition fits entirely in memory. Assuming equal-sized partitions, $|R_i| = |R| / (B - 1)$ and $|S_i| = |S| / (B - 1)$. Thus, the condition $\min{|R_i|, |S_i|} \le B - 2$ simplifies to $B \ge \sqrt{\min(|R|, |S|)}$. If this condition holds, all partitions can be joined in one pass, and the total cost becomes $2(|R| + |S|) + (|R| + |S|) = 3(|R| + |S|)$. If $B < \sqrt{\min(|R|, |S|)}$, some partitions may still be too large to fit into memory. In this case, the algorithm applies recursive partitioning, performing additional hash joins on oversized partition pairs until they become small enough to fit. Increasing $B$ therefore has a significant effect on reducing I/O cost by lowering the number of partitions and recursive passes required.
