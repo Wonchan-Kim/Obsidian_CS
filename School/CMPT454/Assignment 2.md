@@ -15,9 +15,15 @@
    As B increases, the size of outer block(B-2) increases, which decreases the number of outer blocks (multiplier). Since this indicates how much times we must scan the entire inner relation R, a larger B reduces the dominant term of I/O costs. 
    $\left\lceil \frac{|S|}{B - 2} \right\rceil \cdot |R|$
 1.  INL(index nested loops) join
-   Make S the outer to scan S once, probing the index on R.sid per S tuple. 
+   INL scans the outer relation. For each tuple in outer relation, uses the index on the inner relation to find matching tuples.
+   Since the index is on R, R must be inner relation and S should be outer. 
+   Make S the outer to scan S once, probing the index on R.sid per S tuple.
+   Now we can use B-2 pages as an input buffer for S to read it in large chunks. 
+   Remaining two pages are used for traversing index on R and fetching data pages from R. 
+   
    $\text{Cost} \approx |S| (\text{to read } S) + |S| \cdot (\text{index probe} + \text{matching-record fetches})$.
    INL doesn't use much working memory, but larger B improves caching; the B+tree root/upper levels and hot data pages tend to stay resident, cutting random I/Os.
    
+   If R's index is clustered, matching R tuples lie close together. If unclustered, it may incur many random page fetches. 
    
-2. 
+3. 
