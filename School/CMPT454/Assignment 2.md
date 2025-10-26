@@ -66,3 +66,7 @@ For Pass 1, we read the $400{,}000$ pages from Pass 0. We remove 20% duplicates 
 For Pass 2, the final merge, we read the $320{,}000$ pages from Pass 1. We remove the final 20% of duplicates and write the final result of $0.8 \times 320{,}000 = 256{,}000$ pages. The I/O cost for Pass 2 is $320{,}000$ (read) $+$ $256{,}000$ (write) $=$ $576{,}000$ I/Os.
 
 Therefore, the final totals are: Pass 0: $1{,}400{,}000$ I/Os, Pass 1: $720{,}000$ I/Os, and Pass 2: $576{,}000$ I/Os, for a total of $2{,}696{,}000$ I/Os. The final output size is $256{,}000$ pages.
+
+---
+## Q5
+There is no need to touch the full page relation R, as we can get the answer by only reading the B+tree index. The query needs only A and B, and the index key (A,B,C) already has the data. Since the index is sorted by (A,B,C), all the identical (A,B) pairs are already next to each other, which makes handling the 'DISTINCT' trivial. To find the cost, we can just calculate the size of the index's leaf pages. The original records are 4 attributes, and the index entires are 3 attributes. Since all attributes are the same size, the index 
