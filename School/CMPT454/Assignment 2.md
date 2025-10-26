@@ -19,11 +19,15 @@
    Since the index is on R, R must be inner relation and S should be outer. 
    Make S the outer to scan S once, probing the index on R.sid per S tuple.
    Now we can use B-2 pages as an input buffer for S to read it in large chunks. 
-   Remaining two pages are used for traversing index on R and fetching data pages from R. 
+   Remaining two pages are used for traversing index on R and fetching data pages from R.    
+   $\text{Cost} \approx |R| + |R| \cdot p_R \cdot (\text{probing cost})$.
+   Larger B allows for a larger input buffer for S, making the scan efficient. Also the extra memory is used to cache pages of the B+ trees index on R. If B is large enough to hold all non-leaf pages of the index, the I/O cost for each probe will drop. This reduces the second term of the cost. 
+
    
-   $\text{Cost} \approx |S| (\text{to read } S) + |S| \cdot (\text{index probe} + \text{matching-record fetches})$.
-   INL doesn't use much working memory, but larger B improves caching; the B+tree root/upper levels and hot data pages tend to stay resident, cutting random I/Os.
+2. Sort-Merge join 
+   SMJ first sorts both R and S on the join key sid using external sorting. Then follows the single merge pass, scanning both sorted relations and joining match tuples. 
    
-   If R's index is clustered, matching R tuples lie close together. If unclustered, it may incur many random page fetches. 
+   Cost = sort R + sort S + one merge pass.
    
-3. 
+   
+   
