@@ -57,3 +57,12 @@ The Hash Join algorithm consists of two phases: the partition phase and the prob
 
 ---
 ## Q4
+Projecting from four attributes to two halves the data size. Within each pass, duplicates are removed, reducing the run size by 20% (output size = $0.8 \times$ input size).
+
+For Pass 0, we read the full $1{,}000{,}000$ pages of $R$. After projection to $(A, B)$, the size halves to $500{,}000$ pages. We then remove 20% duplicates, writing $0.8 \times 500{,}000 = 400{,}000$ pages. The I/O cost for Pass 0 is $1{,}000{,}000$ (read) $+$ $400{,}000$ (write) $=$ $1{,}400{,}000$ I/Os.
+
+For Pass 1, we read the $400{,}000$ pages from Pass 0. We remove 20% duplicates during the merge, writing $0.8 \times 400{,}000 = 320{,}000$ pages. The I/O cost for Pass 1 is $400{,}000$ (read) $+$ $320{,}000$ (write) $=$ $720{,}000$ I/Os.
+
+For Pass 2, the final merge, we read the $320{,}000$ pages from Pass 1. We remove the final 20% of duplicates and write the final result of $0.8 \times 320{,}000 = 256{,}000$ pages. The I/O cost for Pass 2 is $320{,}000$ (read) $+$ $256{,}000$ (write) $=$ $576{,}000$ I/Os.
+
+Therefore, the final totals are: Pass 0: $1{,}400{,}000$ I/Os, Pass 1: $720{,}000$ I/Os, and Pass 2: $576{,}000$ I/Os, for a total of $2{,}696{,}000$ I/Os. The final output size is $256{,}000$ pages.
