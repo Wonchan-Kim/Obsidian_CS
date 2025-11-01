@@ -1,0 +1,6 @@
+- [ ] Get 100% in Stat 271 midterm2 
+- [ ] Spend one hour on COMPTIA security + (Take an exam during the break)
+- [ ] Do one CTF every day
+- [ ] DreamHack one hour
+- [ ] HacktheBox 30 min
+- [ ] 
