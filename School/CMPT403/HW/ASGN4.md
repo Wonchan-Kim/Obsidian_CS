@@ -16,3 +16,4 @@ return ipaddress.IPv4Address(ip_str) in INTERNAL_NET
     ![[Pasted image 20251105125112.png]]
  2. Ping of death
     
+    
