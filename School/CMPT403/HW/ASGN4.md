@@ -20,5 +20,6 @@ return ipaddress.IPv4Address(ip_str) in INTERNAL_NET
 	Using this filter in the Wireshark, the packet above is used for the ping of death attack.
 (c) SYN floods
 	pseudocode is as follows:
+		check src, s-port, dst, dst-port
 		
     
