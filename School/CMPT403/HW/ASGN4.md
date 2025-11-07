@@ -3,22 +3,50 @@
 
 # Written Assignment
 # Q1
-1. {a}  ![[Pasted image 20251107125641.png]]
+1. {a}  
+   asd
+   ![[Pasted image 20251107125641.png]]
    Total amount of advertised bandwidth of relays with the guard flag is 249.635765144 Gbit/s.
    Total amount of advertised bandwidth of relays with Exit flag is 19.30846652Gbits/s.
    
    There is a significant difference between total advertised bandwidth of Guard only relays is much higher. This occurs because Guard relays serve as entry points for most Tor users. Hence the Tor network's health and user experience depends heavily on a reliable and fast first hop, and therefore handles a larger number of incoming circuits, requiring stable, high-capacity connections. 
    
    On the other hand, Exit relays are risker to operate due to its nature, traffic leaving the Tor network can be traced back to the operator, exposing them to legal or abuse complaints. Consequently, fewer operators are willing to run high bandwidth Exit relays, leading to a significantly lower total advertised bandwidth for Exit only relays compared to Guard only relays.
-1. 
-   For a 50KiB file, median download time = 5.315 s
-   => $MDR = 50 \times 1024 \div 5.315 = 9633.11 byte/s$
-   For a 5MiB file, median download time = 28.53s
-   => $MDR = 5 \times 1024^2 \div 28.53 = 183445.77 byte/s$
-   Under the condition provided by the question, 
-   
 2. 
-3. 
+   For a 50 KiB file, the median download time is 5.315 s, giving a median download rate  
+$MDR = \frac{50 \times 1024}{5.315} = 9633.11\ \text{bytes/s}$.  
+For a 5 MiB file, the median download time is 28.53 s, resulting in  
+$MDR = \frac{5 \times 1024^2}{28.53} = 183445.77{bytes/s}$
+
+Under the assumption that both downloads have the same latency $L$ and transfer rate $R$,  
+the total load times can be expressed as  
+$T_{50} = L + \frac{S_{50}}{R}$ and $T_{5M} = L + \frac{S_{5M}}{R}$.
+
+Solving these equations gives  
+$R = \frac{S_{5M} - S_{50}}{T_{5M} - T_{50}} = \frac{5242880 - 51200}{28.53 - 5.315} = 223154\ \text{bytes/s}$,  
+and  
+$L = T_{50} - \frac{S_{50}}{R} = 5.315 - \frac{51200}{223154} = 5.0856\ \text{s}$.
+
+For the 50 KiB file, the latency fraction is  
+$\frac{L}{T_{50}} = \frac{5.0856}{5.315} = 0.957$ (95.7 %), indicating that most of the load time is due to latency.  
+For the 5 MiB file, the latency fraction is  
+$\frac{L}{T_{5M}} = \frac{5.0856}{28.53} = 0.178$ (17.8 %), showing that the larger file’s load time is dominated by data transfer rather than latency.
+
+   
+2. Assume the per-connection latency is identical and total latency scales with the number of connections in the circuit.  
+A 3-node circuit has **4** connections (user→guard, guard→middle, middle→exit, exit→server);  
+a 2-node circuit has **3** connections (user→entry, entry→exit, exit→server).
+
+Using the values from (b), $L_{3}=5.0856\ \text{s}$ and $R=223{,}154\ \text{bytes/s}$.
+
+Thus the 2-node latency is
+$L_{2}=\frac{3}{4}L_{3}=\frac{3}{4}\times 5.0856=3.8142\ \text{s}$.
+
+For a 50 KiB file ($S=50\times1024=51{,}200\ \text{bytes}$), the load time is
+$T_{2}=L_{2}+\frac{S}{R}=3.8142+\frac{51{,}200}{223{,}154}
+=3.8142+0.2294 \approx 4.04\ \text{s}$.
+
+2. 
 # Programming 
 (a)
 192.168.122.0/24.
