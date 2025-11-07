@@ -3,8 +3,7 @@
 
 # Written Assignment
 # Q1
-1. {a} 
-   ![[Pasted image 20251107125641.png]]
+1. {a}  ![[Pasted image 20251107125641.png]]
    Total amount of advertised bandwidth of relays with the guard flag is 249.635765144 Gbit/s.
    Total amount of advertised bandwidth of relays with Exit flag is 19.30846652Gbits/s.
    
@@ -12,7 +11,14 @@
    
    On the other hand, Exit relays are risker to operate due to its nature, traffic leaving the Tor network can be traced back to the operator, exposing them to legal or abuse complaints. Consequently, fewer operators are willing to run high bandwidth Exit relays, leading to a significantly lower total advertised bandwidth for Exit only relays compared to Guard only relays.
 1. 
+   For a 50KiB file, median download time = 5.315 s
+   => $MDR = 50 \times 1024 \div 5.315 = 9633.11 byte/s$
+   For a 5MiB file, median download time = 28.53s
+   => $MDR = 5 \times 1024^2 \div 28.53 = 183445.77 byte/s$
+   Under the condition provided by the question, 
+   
 2. 
+3. 
 # Programming 
 (a)
 192.168.122.0/24.
