@@ -46,7 +46,19 @@ For a 50 KiB file ($S=50\times1024=51{,}200\ \text{bytes}$), the load time is
 $T_{2}=L_{2}+\frac{S}{R}=3.8142+\frac{51{,}200}{223{,}154}
 =3.8142+0.2294 \approx 4.04\ \text{s}$.
 
-2. 
+2. Using 4 nodes instead of 3 would increase the total number of connections in the Tor circuit from 4 to 5  
+(user→node1, node1→node2, node2→node3, node3→node4, node4→server).  
+Assuming each connection has the same latency $L_c$ and all nodes share the same transfer rate $R$,  
+the total latency becomes $L_4 = \frac{5}{4}L_3$ while $R$ remains unchanged.
+
+Therefore, the total load time increases slightly:
+$T_4 = L_4 + \frac{S}{R} = \frac{5}{4}L_3 + \frac{S}{R}$,
+meaning performance (speed) decreases due to the additional hop and higher cumulative latency.
+
+However, privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult.  
+In short, **4 nodes reduce performance slightly but strengthen anonymity** by adding one more layer of relay separation between the user and destination.
+
+
 # Programming 
 (a)
 192.168.122.0/24.
