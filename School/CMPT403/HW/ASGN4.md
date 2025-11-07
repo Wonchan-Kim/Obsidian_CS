@@ -1,6 +1,14 @@
 <center><h1>Assignment 4</h1></center>
 <center>Wonchan Kim 301449586</center>
 
+# Written Assignment
+# Q1
+1. {a} 
+   ![[Pasted image 20251107125641.png]]
+   Total amount of advertised bandwidth of relays with the guard flag is 249.635765144 Gbit/s.
+   Total amount of advertised bandwidth of relays with Exit flag is 19.30846652Gbits/s.
+2. 
+3. 
 # Programming 
 (a)
 192.168.122.0/24.
