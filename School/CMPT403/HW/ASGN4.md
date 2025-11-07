@@ -58,6 +58,25 @@ meaning performance (speed) decreases due to the additional hop and higher cumul
 However, privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult.  
 In short, **4 nodes reduce performance slightly but strengthen anonymity** by adding one more layer of relay separation between the user and destination.
 
+# Q2
+(a) **k-anonymity**  
+k-anonymity is suitable because it allows the company to release a dataset for public use while ensuring that each user’s record is indistinguishable from at least \(k-1\) others based on key identifiers. This prevents contestants from identifying specific individuals while still allowing data analysis for improving algorithms.
+
+---
+
+(b) **differential privacy**  
+Differential privacy is appropriate because it allows the company to collect and analyze movement data while adding calibrated noise, preventing the app from learning any specific individual’s exact location. This keeps aggregate trends accurate but hides personal trajectories.
+
+---
+
+(c) **PIR (Private Information Retrieval)**  
+PIR allows a user to query a database (like checking if a domain name is taken) without revealing which specific entry they are interested in. This prevents the DNS server from inferring your target domain and mitigates cybersquatting risks.
+
+---
+
+(d) **SMPC (Secure Multiparty Computation)**  
+SMPC allows multiple parties (the hospital and residents) to jointly compute whether a match exists (e.g., “someone in my apartment is infected”) without revealing any other private information about either party.
+
 
 # Programming 
 (a)
