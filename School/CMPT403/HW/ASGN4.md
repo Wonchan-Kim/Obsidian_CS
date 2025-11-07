@@ -3,8 +3,7 @@
 
 # Written Assignment
 # Q1
-1. {a}  
-   asd
+1. Obtaining the data,
    ![[Pasted image 20251107125641.png]]
    Total amount of advertised bandwidth of relays with the guard flag is 249.635765144 Gbit/s.
    Total amount of advertised bandwidth of relays with Exit flag is 19.30846652Gbits/s.
