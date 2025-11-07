@@ -8,9 +8,9 @@
    Total amount of advertised bandwidth of relays with the guard flag is 249.635765144 Gbit/s.
    Total amount of advertised bandwidth of relays with Exit flag is 19.30846652Gbits/s.
    
-   There is a significant difference between total advertised bandwidth of Guard only relays is much higher. This occurs because Guard relays serve as entry points for most Tor users, and therefore handles a larger number of incoming circuits, requiring stable, high-capacity connections. 
+   There is a significant difference between total advertised bandwidth of Guard only relays is much higher. This occurs because Guard relays serve as entry points for most Tor users. Hence the Tor network's health and user experience depends heavily on a reliable and fast first hop, and therefore handles a larger number of incoming circuits, requiring stable, high-capacity connections. 
    
-   On the other hand, Exit relays are risker to operate due to its nature, traffic leaving 
+   On the other hand, Exit relays are risker to operate due to its nature, traffic leaving the Tor network can be traced back to the operator, exposing them to legal or abuse complaints. Consequently, fewer operators are willing to run high bandwidth Exit relays, leading to a significantly lower total advertised bandwidth for Exit only relays compared to Guard only relays.
 1. 
 2. 
 # Programming 
