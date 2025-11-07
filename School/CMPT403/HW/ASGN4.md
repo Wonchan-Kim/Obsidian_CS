@@ -48,7 +48,7 @@
    $$  
    showing that the larger file’s load time is dominated by data transfer rather than latency.
 
-3. **2-node vs 3-node (50 KiB)**  
+3.   
    Assume the per-connection latency is identical and total latency scales with the number of connections in the circuit.
 
    - A 3-node circuit has **4** connections (user → guard → middle → exit → server).  
@@ -66,7 +66,7 @@
    T_2 = L_2 + \frac{S}{R} = 3.8142 + \frac{51{,}200}{223{,}154} = 3.8142 + 0.2294 \approx 4.04\ \text{s}.
    $$
 
-4. **4-node vs 3-node: performance and privacy**  
+4. 
    Using 4 nodes instead of 3 increases the circuit connections from 4 to 5 (user → node1 → node2 → node3 → node4 → server). Assuming each connection has the same latency $L_c$ and all nodes share the same transfer rate $R$, the total latency becomes $L_4 = \tfrac{5}{4}L_3$ while $R$ remains unchanged.
 
    Therefore,
@@ -75,18 +75,11 @@
    $$
    so performance (speed) decreases slightly due to the additional hop and higher cumulative latency.
 
-   Privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult. In short, **4 nodes reduce performance slightly but strengthen anonymity** by adding another layer of relay separation between the user and destination.
+   Privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult. In short, 4 nodes reduce performance slightly but strengthen anonymity by adding another layer of relay separation between the user and destination.
 
 ---
 
 ## Q2
-
-We have four data privacy techniques (alphabetized):
-
-- Differential privacy  
-- k-anonymity  
-- PIR (Private Information Retrieval)  
-- SMPC (Secure Multiparty Computation)
 
 **(a)** **k-anonymity**  
 k-anonymity is suitable because it allows the company to release a dataset for public use while ensuring that each user’s record is indistinguishable from at least $k-1$ others based on key identifiers. This prevents contestants from identifying specific individuals while still allowing data analysis for improving algorithms.
@@ -98,13 +91,13 @@ Differential privacy is appropriate because it allows the company to collect and
 
 ---
 
-**(c)** **PIR (Private Information Retrieval)**  
-PIR allows a user to query a database (like checking if a domain name is taken) without revealing which specific entry they are interested in. This prevents the DNS server from inferring your target domain and mitigates cybersquatting risks.
+**(c)** PIR 
+PIR allows a user to query a database without revealing which specific entry they are interested in. This prevents the DNS server from inferring your target domain and mitigates cybersquatting risks.
 
 ---
 
-**(d)** **SMPC (Secure Multiparty Computation)**  
-SMPC allows multiple parties (the hospital and residents) to jointly compute whether a match exists (e.g., “someone in my apartment is infected”) without revealing any other private information about either party.
+**(d)** SMPC
+SMPC allows multiple parties to jointly compute whether a match exists without revealing any other private information about either party.
 
 ---
 
@@ -112,12 +105,13 @@ SMPC allows multiple parties (the hospital and residents) to jointly compute whe
 
 **(a)**  
 Subnet: `192.168.122.0/24`.  
-Note that the subnet mask is 24, which denotes that the first 24 bits are the network portion; the remaining 8 bits provide 256 addresses in the subnet. To check if an address is inside the internal subnet you can use:
+Note that the subnet mask is 24, which denotes that the first 24 bits are the network portion; the remaining 8 bits provide 256 addresses in the subnet. To check if an address is inside the internal subnet we can use:
 
 ```python
 return ipaddress.IPv4Address(ip_str) in INTERNAL_NET
 ```
 
+Then only allow packet with condition; IP source is subnet & IP destination is not in subnet and vice versa.
 **(b)**  
 Two notable attacks (alphabetized):
 
@@ -126,7 +120,7 @@ Two notable attacks (alphabetized):
    ![[Pasted image 20251105190709.png]]
 
 2. **Smurf attack**  
-   A Smurf attack: an attacker sends ICMP Echo Requests with a spoofed source IP (victim) and destination set to the network broadcast address. Hosts on the broadcast network reply to the spoofed source (victim), amplifying traffic toward the victim and potentially overwhelming it. The example below shows typical Smurf-style traffic.  
+   A Smurf attack: an attacker sends ICMP Echo Requests with a spoofed source IP (victim) and destination set to the network broadcast address. Hosts on the broadcast network reply to the spoofed source (victim), amplifying traffic toward the victim and potentially overwhelming it. The packets highlighted below shows typical Smurf-style traffic.  
    ![[Pasted image 20251105125112.png]]
 
 **(c)** **SYN floods (outline)**  
