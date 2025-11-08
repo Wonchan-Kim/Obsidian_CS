@@ -5,7 +5,7 @@
 
 ## Q1
 
-1.  
+(a)
    ![[Pasted image 20251107125641.png]]  
    Total amount of advertised bandwidth of relays with the guard flag is **249.635765144 Gbit/s**.  
    Total amount of advertised bandwidth of relays with Exit flag is **19.30846652 Gbit/s**.
@@ -13,8 +13,8 @@
    There is a significant difference: the total advertised bandwidth of Guard-only relays is much higher. This occurs because Guard relays serve as entry points for most Tor users. Hence the Tor network's health and user experience depends heavily on a reliable and fast first hop, and therefore guards tend to have stable, high-capacity connections.
 
    Exit relays are riskier to operate because traffic leaving the Tor network can be traced back to the operator, exposing them to legal or abuse complaints. Consequently, fewer operators are willing to run high-bandwidth Exit relays, producing a significantly lower total advertised bandwidth for Exit-only relays compared to Guard-only relays.
-
-2. 
+--- 
+(b)
    For a 50 KiB file, the median download time is 5.315 s, giving a median download rate  
    $$
    \text{MDR} = \frac{50 \times 1024}{5.315} = 9633.11\ \text{bytes/s}.
@@ -48,7 +48,9 @@
    $$  
    showing that the larger file’s load time is dominated by data transfer rather than latency.
 
-3.   
+---
+
+(c)
    Assume the per-connection latency is identical and total latency scales with the number of connections in the circuit.
 
    - A 3-node circuit has **4** connections (user → guard → middle → exit → server).  
@@ -65,8 +67,9 @@
    $$
    T_2 = L_2 + \frac{S}{R} = 3.8142 + \frac{51{,}200}{223{,}154} = 3.8142 + 0.2294 \approx 4.04\ \text{s}.
    $$
+---
 
-4. 
+(d)
    Using 4 nodes instead of 3 increases the circuit connections from 4 to 5 (user → node1 → node2 → node3 → node4 → server). Assuming each connection has the same latency $L_c$ and all nodes share the same transfer rate $R$, the total latency becomes $L_4 = \tfrac{5}{4}L_3$ while $R$ remains unchanged.
 
    Therefore,
@@ -122,16 +125,21 @@ return ipaddress.IPv4Address(ip_str) in INTERNAL_NET
 ```
 
 Then only allow packet with condition; IP source is subnet & IP destination is not in subnet and vice versa.
+
+---
+
 **(b)**  
 Two notable attacks (alphabetized):
 
 1. **Ping of death**  
-   Ping of death uses ICMP Echo Request with manipulated fragmented packets. The IPv4 total length field (header + payload) has a maximum value of 65535. If fragments are constructed such that the reassembled packet would exceed 65535 bytes, some implementations historically overflowed buffers, causing crashes or other undefined behaviour. The packet below was identified as part of a ping-of-death sequence.  
+   Ping of death uses ICMP Echo Request with manipulated fragmented packets. The IPv4 total length field (header + payload) has a maximum value of 65535. If fragments are constructed such that the reassembled packet would exceed 65535 bytes, overflowing buffers, causing crashes or other undefined behaviour. The packet below was identified as part of a ping-of-death sequence.  
    ![[Pasted image 20251105190709.png]]
 
 2. **Smurf attack**  
-   A Smurf attack: an attacker sends ICMP Echo Requests with a spoofed source IP (victim) and destination set to the network broadcast address. Hosts on the broadcast network reply to the spoofed source (victim), amplifying traffic toward the victim and potentially overwhelming it. The packets highlighted below shows typical Smurf-style traffic.  
+   A Smurf attack: an attacker sends ICMP Echo Requests with a spoofed source IP and destination set to the network broadcast address. Hosts on the broadcast network reply to the victim, amplifying traffic toward the victim and potentially overwhelming it. The packets highlighted below shows the packets that should be dropped.   
    ![[Pasted image 20251105125112.png]]
+
+---
 
 **(c)** SYN floods
 Using two data structures, conn_state and half_open, which each tracks TCP connection states and counting current half open connections per inter destination. 
@@ -141,6 +149,11 @@ When an external client sends a SYN to an internal host, if the internal host al
 On receiving SYN+ACK or ACK, the connection state is updated and the half open count is decreased once the handshake completes. 
 FIN or RST packets remove the connection from the tracking table. 
 
+ <div class="page-break" style="page-break-before: always;"></div>
 
----
+# LLM Usage
+
+For writing part 
+
+
 
