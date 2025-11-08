@@ -73,9 +73,9 @@
    $$
    T_4 = L_4 + \frac{S}{R} = \frac{5}{4}L_3 + \frac{S}{R},
    $$
-   so performance (speed) decreases slightly due to the additional hop and higher cumulative latency.
+   so performance decreases slightly due to the additional hop and higher cumulative latency.
 
-   Privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult. In short, 4 nodes reduce performance slightly but strengthen anonymity by adding another layer of relay separation between the user and destination.
+   Privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult.
 
 ---
 
@@ -84,20 +84,30 @@
 **(a)** **k-anonymity**  
 k-anonymity is suitable because it allows the company to release a dataset for public use while ensuring that each user’s record is indistinguishable from at least $k-1$ others based on key identifiers. This prevents contestants from identifying specific individuals while still allowing data analysis for improving algorithms.
 
+SMPC secures multiparty computation protects data during joint computation between parties without sharing raw data, but it is not designed for releasing large static datasets to the public. It would be too complex and inefficient for a public competition scenario.
+
+
 ---
 
 **(b)** **differential privacy**  
 Differential privacy is appropriate because it allows the company to collect and analyze movement data while adding calibrated noise, preventing the app from learning any specific individual’s exact location. This keeps aggregate trends accurate but hides personal trajectories.
+
+PIR protects the user’s query from the server, not the server’s collection of continuous user data like location tracking. It cannot prevent the device from knowing real-time movements.
+
 
 ---
 
 **(c)** PIR 
 PIR allows a user to query a database without revealing which specific entry they are interested in. This prevents the DNS server from inferring your target domain and mitigates cybersquatting risks.
 
+k-anonymity provides anonymity in shared datasets but does not hide which query user sent. It cannot protect the specific domain name being checked from the DNS operator.
+
 ---
 
 **(d)** SMPC
 SMPC allows multiple parties to jointly compute whether a match exists without revealing any other private information about either party.
+
+Differential privacy adds noise to protect aggregate statistics, not to enable exact private matches. It would fail to provide the precise yes/no answer needed in this scenario.
 
 ---
 
