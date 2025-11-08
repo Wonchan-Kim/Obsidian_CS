@@ -123,9 +123,14 @@ Two notable attacks (alphabetized):
    A Smurf attack: an attacker sends ICMP Echo Requests with a spoofed source IP (victim) and destination set to the network broadcast address. Hosts on the broadcast network reply to the spoofed source (victim), amplifying traffic toward the victim and potentially overwhelming it. The packets highlighted below shows typical Smurf-style traffic.  
    ![[Pasted image 20251105125112.png]]
 
-**(c)** **SYN floods (outline)**  
-Pseudocode idea: parse packets, check `src`, `src-port`, `dst`, `dst-port`, maintain half-open counters per outside-ip → victim-port, and drop further SYNs when an outside IP exceeds a threshold (e.g., 10 half-open connections) until the count drops.
+**(c)** SYN floods
+Using two data structures, conn_state and half_open, which each tracks TCP connection states and counting current half open connections per inter destination. 
+
+When an external client sends a SYN to an internal host, if the internal host already has or more half_open connections, the SYN is dropped. Otherwise the connection is marked as SYN_SENT and allowed. 
+
+On receiving SYN+ACK or ACK, the connection state is updated and the half open count is decreased once the handshake completes. 
+FIN or RST packets remove the connection from the tracking table. 
+
 
 ---
 
-End of document.
