@@ -156,7 +156,7 @@ FIN or RST packets remove the connection from the tracking table.
 
 For writing part I used LLM for fixing the grammar, and verification of my answers.
 
-For programming part, I had to use LLM to get the correct syntax of python for some of the codes. Main idea and logic was written by myself. I was not familiar with the dictionary 
+For programming part, I had to use LLM to get the correct syntax of python for some of the codes. Main idea and logic was written by myself. To be specific, I was not familiar with the dictionary syntax. 
 
 
 
