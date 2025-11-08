@@ -130,8 +130,6 @@ Then only allow packet with condition; IP source is subnet & IP destination is n
 ---
 
 **(b)**  
-Two notable attacks (alphabetized):
-
 1. **Ping of death**  
    Ping of death uses ICMP Echo Request with manipulated fragmented packets. The IPv4 total length field (header + payload) has a maximum value of 65535. If fragments are constructed such that the reassembled packet would exceed 65535 bytes, overflowing buffers, causing crashes or other undefined behaviour. The packet below was identified as part of a ping-of-death sequence.  
    ![[Pasted image 20251105190709.png]]
