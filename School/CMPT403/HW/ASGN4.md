@@ -77,6 +77,7 @@
    T_4 = L_4 + \frac{S}{R} = \frac{5}{4}L_3 + \frac{S}{R},
    $$
    so performance decreases slightly due to the additional hop and higher cumulative latency.
+   Moreover, each relay includes the encryption and traffic forwarding, leading to higher bandwidth overhead, also contributing to the lwoer performance.
 
    Privacy improves because an extra relay increases path diversity and makes end-to-end correlation attacks more difficult.
 
@@ -153,7 +154,10 @@ FIN or RST packets remove the connection from the tracking table.
 
 # LLM Usage
 
-For writing part 
+For writing part I used LLM for fixing the grammar, and verification of my answers.
+
+For programming part, I had to use LLM to get the correct syntax of python 
+
 
 
 
