@@ -1,4 +1,4 @@
-<div><center><h1>Assignment 3</h1></center></div> <p><strong>Question 1</strong></p>
+<div><center><h1>Assignment 3</h1></center></div> <div><center><h3>Wonchan Kim 301449586</h2></center></div><p><strong>Question 1</strong></p>
 
 <p><strong>1.</strong><br>
 P1: Value = 1, PageLSN = 10. P1 was updated by T1 at LSN 10 and marked as steal, meaning it was flushed to disk at that moment. Subsequent updates to P1 were kept in memory but were not stolen.<br><br>
@@ -184,15 +184,12 @@ Question 3
     Note: log records of T3 (LSN 50 and the commit at LSN 80) never enter ToUndo, because T3 is a committed (winner) transaction. Therefore they are not processed during the undo phase.
     
 - Values after the Undo Phase
-    
     - P1: 0
-        
     - P2: 0
-        
     - P3: 1
         
-    
     All effects of loser transactions T1 and T2 have been undone, while the committed update of T3 on P3 is preserved. Thus, the final database state reflects exactly the committed transactions only, as required by ARIES.
+    
 <div class="page-break" style="page-break-before: always;"></div>
 
 <p><strong>Question 5</strong></p>
@@ -216,6 +213,9 @@ Schedule: <code>R1(X), R2(X), W1(X), W2(X), C1, C2</code></p>
 </ul>
 <p><strong>3. Value produced by the schedule in (1):</strong></p>
 <ul>
-  <li>The final value is <strong>900</strong>, because T2 writes 900 last, ignoring T1’s +10% update.</li>
+  <li>The final value is 900 because T2 writes 900 last, ignoring T1’s +10% update.</li>
 </ul>
 <div class="page-break" style="page-break-before: always;"></div>
+
+Question 4
+![[Pasted image 20251122223258.png]]
