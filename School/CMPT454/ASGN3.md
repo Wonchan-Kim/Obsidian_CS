@@ -22,4 +22,4 @@ Q1.
    P1: value = 0, P2: value = 0, P3: value = 1. 
    This result is correct as T3 committed while T1 and T2 aborted.
 8. T3 will be considered a loser transaction and will be undone. Since the commit record (LSN80) is lost, the system does not know T3 committed.
-9. 
+9. They are the updates that never happened from the perspective of the recovered log. Since the records are missing, the Redo phase will not reapply. The undo phase will only undo changes recorded in the available log up to LSN 70. Essentially, these future updates are lost and naturally undone by not being redone. 
