@@ -46,7 +46,8 @@ LSN 80: No action on data pages
 LSN 90: Redo. page P3(current LSN=50) < 90. Result: P3 becomes 2, LSN set to 90.
 LSN 100: Redo, page P1(current lsn = 60) < 100 Result : P1 becomes 3, LSN set to 100
 
-Redo is skipped if pageLSN saved on disk >= Log Record LSN. Indicating the update is already present on the page. 
+Condition for skipping the redo. 
+During the Redo phase, an update log record with LSN i on page P is skipped if P is absent from the Dirty Page Table, if i is lower than the page's RecLSN, or if the on-disk PageLSN is greater than or equal to i; otherwise, the system performs the Redo to re-apply the update and set the PageLSN to i.
 
 Content of the disk pages after each step
 
