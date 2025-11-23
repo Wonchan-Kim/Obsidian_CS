@@ -7,4 +7,5 @@ Q1.
    
    P3: Value = 0, PageLSN = 0: P3 was updated at LSN 50 and 90 but was never stolen, so the disk retains the initial value.
    
-   No, the state is incorrect, as the database is in an inconsistent state. T3 committed LSN 80, so P3 should reflect T3's update but the disk has value 0. 
+   No, the state is incorrect, as the database is in an inconsistent state. T3 committed LSN 80, so P3 should reflect T3's update but the disk has value 0. T1 and T2 are uncommitted but their partial updates are on the disk due to the steal. 
+2. 
