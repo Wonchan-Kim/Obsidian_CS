@@ -37,4 +37,21 @@ Question 2
 
 Steps performed by Redo phase
 (Starting at smallest recLSN = 20)
-LSN20 : Skip
+LSN20 : Skip. Page P2(DiskLSN=70) >= 20
+LSN40: Skip, page P2(DiskLSN=70) >= 40
+LSN50: Redo. page P3(Disk LSN = 0) < 50. Result : P3 becomes 1, LSN set to 50
+LSN60: Redo. page P1(Disk LSN = 10) < 60. Result: P1 becomes 2, LSN set to 60
+LSN70: Skip. page P2(Disk LSN=70) >= 70
+LSN 80: No action on data pages
+LSN 90: Redo. page P3(current LSN=50) < 90. Result: P3 becomes 2, LSN set to 90.
+LSN 100: Redo, page P1(current lsn = 60) < 100 Result : P1 becomes 3, LSN set to 100
+
+Redo is skipped if pageLSN saved on disk >= Log Record LSN. Indicating the update is already present on the page. 
+
+Content of the disk pages after each step
+
+Initial state: P1 = 1 (LSN 10) P2 = 3 (LSN70), P3=0 (LSN0)
+After LSN 50: P3 becomes 1 (LSN50)
+After LSN 60: P1 becomes 2 (LSN 60)
+After LSN 90: P3 becomes 2(LSN 90)
+After LSN 100: P1 becomes 3(LSN100)
