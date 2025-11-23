@@ -10,4 +10,15 @@ Q1.
    No, the state is incorrect, as the database is in an inconsistent state. T3 committed LSN 80, so P3 should reflect T3's update but the disk has value 0. T1 and T2 are uncommitted but their partial updates are on the disk due to the steal. 
    
 2. DPT = {(P2, recLSN = 20)}, at P1 had been stolen at LSN 10 so it is clean, and P2 was updated at LSN 20.
-3.  DPT at crash time : {(P3, recLSN = 50), (P1, recLSN = 60)}
+3.  DPT at crash time : {(P3, recLSN = 50), (P1, recLSN = 60)} represents the dirty pages in the buffer pool right before the crash. P3 was dirtied at 50, P1 was dirtied again at 60. P2 was flushed at 70 and not updated subsequently, so it was clean at the crash time. 
+4. DPT at the end of Analysis phase: {(P2, recLSN = 20), (P3, recLSN = 50), (P1, recLSN = 60)}:
+   Analysis starts with the checkpoint DPT P2. It scans the log forward. It adds P3 at LSN50 and P1 at LSN 60. 
+5. The reason why DPT is different: The analysis phase reconstructs the table based on the log records. It can't guarantee that the DPT is identical because the log does not explicitly record when a clean page is written to disk. The analysis phase conservatively assumes P2 is still dirty, whereas the actual memory knew it was clean. 
+6. After redo: 
+   P1: value = 3, pageLSN = 100
+   P2: value =3 , pageLSN = 70
+   P3: value = 2, pageLSN = 90
+7. Undo:
+   P1: value = 0, P2: value = 0, P3: value = 1. 
+   This result is correct as T3 committed while T1 and T2 aborted.
+8. 
