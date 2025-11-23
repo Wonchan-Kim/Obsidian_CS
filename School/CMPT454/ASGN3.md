@@ -1,33 +1,51 @@
-<div><center><h1>Assignment 3</h1></center></div> <div><center><h3>Wonchan Kim 301449586</h3></center></div>
-Q1 
-1. 
-   P1: Value = 1, PageLSN = 10 : P1 was updated by T1 at LSN 10 and marked as steal, meaning it was flushed to disk at that moment. Subsequent updates were in the memory but not stolen. 
-   
-   P2: Value = 3, PageLSN = 70: P2 was updated by T2 at LSN 70 and marked as steal, flushing the value 3 to the disk.
-   
-   P3: Value = 0, PageLSN = 0: P3 was updated at LSN 50 and 90 but was never stolen, so the disk retains the initial value.
-   
-   No, the state is incorrect, as the database is in an inconsistent state. T3 committed LSN 80, so P3 should reflect T3's update but the disk has value 0. T1 and T2 are uncommitted but their partial updates are on the disk due to the steal. It contains uncommitted updates from T1 and T2, violating Atomicity. It also misses the committed update form T3, violating durability. 
-   
-   The correct state should only reflect the effects of the committed transactions. T1 and T2 must be aborted, reverting their changes to the initial value. 
-   P1: Value = 0 (initial value, T1 aborted)
-   P2: Value = 0 (Initial value, T2 aborted)
-   P3: Value = 1(Initial Value 0 + T3's update at LSN 50, T3 was committed)
-   
-2. DPT = {(P2, recLSN = 20)}, at P1 had been stolen at LSN 10 so it is clean, and P2 was updated at LSN 20.
-3.  DPT at crash time : {(P3, recLSN = 50), (P1, recLSN = 60)} represents the dirty pages in the buffer pool right before the crash. P3 was dirtied at 50, P1 was dirtied again at 60. P2 was flushed at 70 and not updated subsequently, so it was clean at the crash time. 
-4. DPT at the end of Analysis phase: {(P2, recLSN = 20), (P3, recLSN = 50), (P1, recLSN = 60)}:
-   Analysis starts with the checkpoint DPT P2. It scans the log forward. It adds P3 at LSN50 and P1 at LSN 60. 
-5. The reason why DPT is different: The analysis phase reconstructs the table based on the log records. It can't guarantee that the DPT is identical because the log does not explicitly record when a clean page is written to disk. The analysis phase conservatively assumes P2 is still dirty, whereas the actual memory knew it was clean. 
-6. After redo: 
-   P1: value = 3, pageLSN = 100
-   P2: value =3 , pageLSN = 70
-   P3: value = 2, pageLSN = 90
-7. Undo:
-   P1: value = 0, P2: value = 0, P3: value = 1. 
-   This result is correct as T3 committed while T1 and T2 aborted.
-8. T3 will be considered a loser transaction and will be undone. Since the commit record (LSN80) is lost, the system does not know T3 committed.
-9. They are the updates that never happened from the perspective of the recovered log. Since the records are missing, the Redo phase will not reapply. The undo phase will only undo changes recorded in the available log up to LSN 70. Essentially, these future updates are lost and naturally undone by not being redone. 
+<div><center><h1>Assignment 3</h1></center></div> <p><strong>Question 1</strong></p>
+
+<p><strong>1.</strong><br>
+P1: Value = 1, PageLSN = 10. P1 was updated by T1 at LSN 10 and marked as steal, meaning it was flushed to disk at that moment. Subsequent updates to P1 were kept in memory but were not stolen.<br><br>
+
+P2: Value = 3, PageLSN = 70. P2 was updated by T2 at LSN 70 and marked as steal, flushing the value 3 to disk.<br><br>
+
+P3: Value = 0, PageLSN = 0. P3 was updated at LSN 50 and 90 but was never stolen, so the disk retains the initial value 0.<br><br>
+
+This crash-time state is not the correct final database state from a transactional point of view. T3 committed at LSN 80, so P3 should reflect T3’s update, but the disk still has value 0. T1 and T2 are uncommitted, but their partial updates are already on disk due to steal. Thus the state contains uncommitted updates from T1 and T2, violating Atomicity, and it misses the committed update from T3, violating Durability.<br><br>
+
+The correct state should only reflect the effects of committed transactions. T1 and T2 must be aborted, reverting their changes to the initial values, and T3’s committed update on P3 should be preserved:<br>
+&nbsp;&nbsp;P1: Value = 0 (initial value, T1 aborted)<br>
+&nbsp;&nbsp;P2: Value = 0 (initial value, T2 aborted)<br>
+&nbsp;&nbsp;P3: Value = 1 (initial value 0 plus T3’s update at LSN 50, T3 committed)</p>
+
+<p><strong>2.</strong><br>
+DPT at the checkpoint: { (P2, recLSN = 20) }. P1 had been stolen at LSN 10, so it was clean at the checkpoint. P2 was first updated at LSN 20, so recLSN(P2) = 20.</p>
+
+<p><strong>3.</strong><br>
+DPT at crash time: { (P3, recLSN = 50), (P1, recLSN = 60) }. This set represents the dirty pages in the buffer pool right before the crash. P3 became dirty at LSN 50, and P1 became dirty again at LSN 60. P2 was flushed at LSN 70 and not updated afterwards, so it was clean at the crash time.</p>
+
+<p><strong>4.</strong><br>
+DPT at the end of the Analysis phase: { (P2, recLSN = 20), (P3, recLSN = 50), (P1, recLSN = 60) }. Analysis starts from the checkpoint DPT, which initially contains P2. It then scans the log forward: it adds P3 when it sees the update at LSN 50 and adds P1 when it sees the update at LSN 60. Because the log does not indicate that P2 was later flushed and became clean, Analysis conservatively keeps P2 in the DPT.</p>
+
+<p><strong>5.</strong><br>
+The DPT at crash time and the DPT after Analysis are different because the Analysis phase reconstructs the DPT using only the log records and the checkpoint. The log does not explicitly record when a page becomes clean on disk, so Analysis cannot know that P2 was flushed at LSN 70 and became clean. It therefore conservatively assumes that P2 is still dirty, whereas the actual in-memory DPT at crash time knew that P2 was clean and no longer needed to be in the DPT.</p>
+
+<p><strong>6.</strong><br>
+After the Redo phase, the disk page contents are:<br>
+&nbsp;&nbsp;P1: Value = 3, PageLSN = 100<br>
+&nbsp;&nbsp;P2: Value = 3, PageLSN = 70<br>
+&nbsp;&nbsp;P3: Value = 2, PageLSN = 90<br>
+Redo re-applies only those updates whose effects may be missing on disk (based on the DPT and PageLSN checks). This causes the latest updates to P1 and P3 to be repeated, while P2 already reflects its latest update at LSN 70 and is not modified further.</p>
+
+<p><strong>7.</strong><br>
+After the Undo phase, the final page contents are:<br>
+&nbsp;&nbsp;P1: Value = 0<br>
+&nbsp;&nbsp;P2: Value = 0<br>
+&nbsp;&nbsp;P3: Value = 1<br>
+This result is correct because T3 committed, so its update to P3 must remain, while T1 and T2 are losers and must be completely undone. Undo rolls back all updates from T1 and T2, restoring P1 and P2 to their initial values and leaving only T3’s committed update on P3.</p>
+
+<p><strong>8.</strong><br>
+If the log records 80–100 are only in the log tail and are lost at crash time, then T3 will be considered a loser transaction and will be undone. Since the commit record at LSN 80 is not present in the persisted log, the recovery process has no evidence that T3 ever committed, so it cannot treat T3 as a winner.</p>
+
+<p><strong>9.</strong><br>
+In that scenario, the updates at LSN 90 and 100 are treated as updates that never happened from the perspective of recovery. Because these log records are missing from the stable log, the Redo phase will never see them and therefore will not reapply them. Due to WAL, these updates also cannot have been safely flushed to disk before their log records were written. The Undo phase will only undo changes recorded in the available log up to LSN 70. Thus, the effects of the missing updates at LSN 90 and 100 are effectively lost and “undone” simply by not being redone.</p>
+
 
 <div class="page-break" style="page-break-before: always;"></div>
 
@@ -56,3 +74,122 @@ After LSN 50: P3 becomes 1 (LSN50)
 After LSN 60: P1 becomes 2 (LSN 60)
 After LSN 90: P3 becomes 2(LSN 90)
 After LSN 100: P1 becomes 3(LSN100)
+
+<div class="page-break" style="page-break-before: always;"></div>
+
+Question 3
+- Transactions that are undone
+    
+    - Losers: T1 and T2.  
+        At crash time, both T1 and T2 are still active (no commit/abort log record), so they are loser transactions.
+
+    - T3 is not undone.  
+        T3 has a commit record at LSN 80, so it is a winner transaction and is excluded from the undo phase.
+        
+- Undo steps (using ToUndo, starting from log tail LSN 100)
+    
+    After the redo phase, the disk pages are:
+    
+    - P1 = 3 (PageLSN = 100)
+        
+    - P2 = 3 (PageLSN = 70)
+        
+    - P3 = 2 (PageLSN = 90)
+        
+    
+    Initial ToUndo set (from the TT at the end of analysis):
+    
+    - ToUndo = { 100 (T1), 90 (T2) }
+        
+    
+    ARIES undo always takes the largest LSN from ToUndo, undoes that record, writes a CLR, and then follows the prevLSN chain of the same transaction.
+    
+    Step 1 – LSN 100 (T1, P1)
+    
+    - Action: undo update of P1 at LSN 100  
+        P1: 3 → 2
+        
+    - ToUndo: remove 100, add T1’s prevLSN = 60  
+        ToUndo = { 90 (T2), 60 (T1) }
+        
+    - Log: write a CLR describing the undo of LSN 100
+        
+    
+    Step 2 – LSN 90 (T2, P3)
+    
+    - Action: undo update of P3 at LSN 90  
+        P3: 2 → 1
+        
+    - ToUndo: remove 90, add T2’s prevLSN = 70  
+        ToUndo = { 70 (T2), 60 (T1) }
+        
+    - Log: write a CLR describing the undo of LSN 90
+        
+    
+    Step 3 – LSN 70 (T2, P2)
+    
+    - Action: undo update of P2 at LSN 70  
+        P2: 3 → 2
+        
+    - ToUndo: remove 70, add T2’s prevLSN = 40  
+        ToUndo = { 60 (T1), 40 (T2) }
+        
+    - Log: write a CLR describing the undo of LSN 70
+        
+    
+    Step 4 – LSN 60 (T1, P1)
+    
+    - Action: undo update of P1 at LSN 60  
+        P1: 2 → 1
+        
+    - ToUndo: remove 60, add T1’s prevLSN = 10  
+        ToUndo = { 40 (T2), 10 (T1) }
+        
+    - Log: write a CLR describing the undo of LSN 60
+        
+    
+    Step 5 – LSN 40 (T2, P2)
+    
+    - Action: undo update of P2 at LSN 40  
+        P2: 2 → 1
+        
+    - ToUndo: remove 40, add T2’s prevLSN = 20  
+        ToUndo = { 20 (T2), 10 (T1) }
+        
+    - Log: write a CLR describing the undo of LSN 40
+        
+    
+    Step 6 – LSN 20 (T2, P2)
+    
+    - Action: undo update of P2 at LSN 20  
+        P2: 1 → 0
+        
+    - ToUndo: remove 20; T2 has no earlier LSN, so T2 is fully undone  
+        ToUndo = { 10 (T1) }
+        
+    - Log: write a CLR describing the undo of LSN 20
+        
+    
+    Step 7 – LSN 10 (T1, P1)
+    
+    - Action: undo update of P1 at LSN 10  
+        P1: 1 → 0
+        
+    - ToUndo: remove 10; T1 has no earlier LSN, so T1 is fully undone  
+        ToUndo = ∅, so the undo phase terminates
+        
+    - Log: write a CLR describing the undo of LSN 10
+        
+    
+    Note: log records of T3 (LSN 50 and the commit at LSN 80) never enter ToUndo, because T3 is a committed (winner) transaction. Therefore they are not processed during the undo phase.
+    
+- Values after the Undo Phase
+    
+    - P1: 0
+        
+    - P2: 0
+        
+    - P3: 1
+        
+    
+    All effects of loser transactions T1 and T2 have been undone, while the committed update of T3 on P3 is preserved. Thus, the final database state reflects exactly the committed transactions only, as required by ARIES.
