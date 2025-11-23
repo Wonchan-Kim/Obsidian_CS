@@ -193,3 +193,29 @@ Question 3
         
     
     All effects of loser transactions T1 and T2 have been undone, while the committed update of T3 on P3 is preserved. Thus, the final database state reflects exactly the committed transactions only, as required by ARIES.
+<div class="page-break" style="page-break-before: always;"></div>
+
+<p><strong>Question 5</strong></p>
+
+<p><strong>1. Concurrent execution (Lost Update Problem):</strong><br>
+Schedule: <code>R1(X), R2(X), W1(X), W2(X), C1, C2</code></p>
+<ul>
+  <li>T1 reads X = 1000.</li>
+  <li>T2 reads X = 1000.</li>
+  <li>T1 computes 10% increase and writes X = 1100.</li>
+  <li>T2 computes 10% decrease based on the old value 1000 and writes X = 900, overwriting T1’s update.</li>
+</ul>
+<ul>
+  <li>This schedule exhibits a Lost Update anomaly. T2 overwrites the update made by T1 because it read X before T1 wrote the new value. T2 is unaware of T1’s change, so T1’s +10% increase is lost in the final result.</li>
+</ul>
+<p><strong>2. Correct values:</strong></p>
+<ul>
+  <li>Starting from X = 1000, applying a 10% increase and then a 10% decrease (in either order) gives:<br>
+      1000 × 1.10 × 0.90 = 990.</li>
+  <li>Therefore, the correct final value of X is <strong>990</strong>.</li>
+</ul>
+<p><strong>3. Value produced by the schedule in (1):</strong></p>
+<ul>
+  <li>The final value is <strong>900</strong>, because T2 writes 900 last, ignoring T1’s +10% update.</li>
+</ul>
+<div class="page-break" style="page-break-before: always;"></div>
