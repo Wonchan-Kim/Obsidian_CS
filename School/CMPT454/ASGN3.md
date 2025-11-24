@@ -194,8 +194,8 @@ Question 3
 
 <p><strong>Question 5</strong></p>
 
-<p><strong>1. Concurrent execution (Lost Update Problem):</strong><br>
-Schedule: <code>R1(X), R2(X), W1(X), W2(X), C1, C2</code></p>
+<p>1. Concurrent execution<br>
+Schedule: R1(X), R2(X), W1(X), W2(X), C1, C2</p>
 <ul>
   <li>T1 reads X = 1000.</li>
   <li>T2 reads X = 1000.</li>
@@ -205,13 +205,13 @@ Schedule: <code>R1(X), R2(X), W1(X), W2(X), C1, C2</code></p>
 <ul>
   <li>This schedule exhibits a Lost Update anomaly. T2 overwrites the update made by T1 because it read X before T1 wrote the new value. T2 is unaware of T1’s change, so T1’s +10% increase is lost in the final result.</li>
 </ul>
-<p><strong>2. Correct values:</strong></p>
+<p>2. Correct values</p>
 <ul>
   <li>Starting from X = 1000, applying a 10% increase and then a 10% decrease (in either order) gives:<br>
       1000 × 1.10 × 0.90 = 990.</li>
   <li>Therefore, the correct final value of X is <strong>990</strong>.</li>
 </ul>
-<p><strong>3. Value produced by the schedule in (1):</strong></p>
+<p>3. Value produced by the schedule in (1):</p>
 <ul>
   <li>The final value is 900 because T2 writes 900 last, ignoring T1’s +10% update.</li>
 </ul>
