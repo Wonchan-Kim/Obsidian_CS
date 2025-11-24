@@ -217,5 +217,5 @@ Schedule: <code>R1(X), R2(X), W1(X), W2(X), C1, C2</code></p>
 </ul>
 <div class="page-break" style="page-break-before: always;"></div>
 
-Question 4
+Question 6
 ![[Pasted image 20251122223258.png]]
