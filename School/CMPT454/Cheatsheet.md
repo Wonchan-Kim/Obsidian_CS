@@ -122,8 +122,100 @@ WAL(Write ahead logging)
 1. Steal time: flush log records in log tail to log(disk) before writing dirty pages to disk for UNDO. - ATOMICITY(incomplete can always be reset)
 2. Commit time: flush log records in log tail to log before committing a Xact for REDO. - DURABILITY 
 
-| Execution   | Result                   |
-| ----------- | ------------------------ |
-| T1 update A | T1 update A, old 0 new 1 |
-| T2 update C | T2 update C, old 0 new 1 |
-| T1 update A |                          |
+| Execution          | Result                           |
+| ------------------ | -------------------------------- |
+| T1 update A        | T1 update A, old 0 new 1         |
+| T2 update C        | T2 update C, old 0 new 1         |
+| T1 update A(steal) | T1 update A, old 1, new 2        |
+|                    | FLUSH TO LOG                     |
+| T1 update B        | T1 update B, old 0, new 1        |
+| T2 update C        | T2 update C, old 1 new 2         |
+| T2 commit          | T2 commit                        |
+|                    | Flush to LOG                     |
+| T3 update C        | T2 update C, old 2 new 3         |
+| Crash, restart     | Crash                            |
+| At crash           | A 2 B 0 C0                       |
+| After restart      | A 0 B 0 C 2(C was only commited) |
+
+| Execution                   | Result                   |
+| --------------------------- | ------------------------ |
+| T1 update A                 | T1 update A old 0 new 1  |
+| T2 update C                 | T2 update C old 0 new 1  |
+| T1 update A steal           | T1 update A old 1 new 2  |
+|                             | Flush to log             |
+| T1 update B                 | T1 update B old 0 new 1  |
+| T2 update C                 | T2 update C old 1 new 2  |
+| T2 commit                   | T2 commit                |
+|                             | Flush to log             |
+| T3 update C steal           | T3 update C, old 2 new 3 |
+|                             | Flush to log             |
+| crash restart               | crash                    |
+| At crash (steal focus)      | A 2 B 0 C 3              |
+| After restart(Commit focus) | A 0 B 0 C 2              |
+Each log has a unique LSN, always increasing, each disk page contains pageLSN(LSN of most recent update to that page for REDO). 
+
+| prevLSN | XID | type | pageID | length | offset | before image | after image |
+| ------- | --- | ---- | ------ | ------ | ------ | ------------ | ----------- |
+prevLSN for backward link per transaction, pid~after image update records only. 
+Type: update, commit, abort, end(completed transaction), compensation log records(CLR for logging undo), checkpoint
+
+Transaction Table 
+
+| XactID | Status | lastLSN                        |
+| ------ | ------ | ------------------------------ |
+|        | R/C/A  | LSN of last log record of Xact |
+Dirty page table
+
+| PageID | recLSN                            |
+| ------ | --------------------------------- |
+|        | First caused the page to be dirty |
+
+| LSN | execution         |
+| --- | ----------------- |
+| 100 | T1 update A       |
+| 110 | T1 update A       |
+| 120 | T2 update B       |
+| 125 | T1 update A steal |
+| 130 | T1 update A       |
+| 140 | T1 commit         |
+| 150 | T1 end            |
+| 160 | T2 update A steal |
+
+| Xact | status | lastLSN |
+| ---- | ------ | ------- |
+| T1   | C      | 140     |
+| T2   | R      | 160     |
+(~130 status of T1 is R at 150, T1 is removed from TT)
+(T2 first R at 120, updated at 160)
+
+| pageID | recLSN |
+| ------ | ------ |
+| A      | 100    |
+| B      | 120    |
+At 125, A is removed from DPT. At 130, added again. At 160 removed by steal. 
+Checkpoint: save TT and DPT to disk. begin_checkpoint: indicates when checkpoint begins, end_checkpoint: contains TT and DPT accurate of begin_checkpoint, write LSN of last checkpoint record in a safe place; master record. 
+
+Transaction commits: Flush all log records up to T commit to log, not required to force dirty pages to disk. Release all locks held by T(strict 2PL), add T end record to log (become inactive remove T from TT).
+Transaction aborts: Undo updates on disk. add T abort on Log. get T's lastLSN from TT. Undo update to disk and write clr to log, set pageLSN to CLR's LSN. ![[Pasted image 20251209111658.png]]
+Normal execution:
+– A series of reads & writes, followed by commit , abort, CLR,
+checkpoint, end records.
+– Strict 2PL, STEAL, NO-FORCE are in force, with Write-Ahead
+Logging.
+ Crash: Everything in memory, including log tail, TT and
+DPT, is lost; log, master record, and data pages survive.
+ Recovery: On restart, REDO all active Xacts, and UNDO
+all uncommitted Xacts, via master record and log.
+ Repeated crashes: during recovery, another crash may
+occur, must be able to handle this correctly.![[Pasted image 20251209111836.png]]
+Analysis: Reproduce TT and DPT lost at crash
+time.
+– Locate saved TT and DPT via master
+record and end_checkpoint record.
+– Scan log forward from begin_checkpoint.
+ End record: Remove Xact from TT.
+ All records: update lastLSN in TT and change
+status on commit.
+ Update or CLR: update recLSN in DPT.
+![[Pasted image 20251209112005.png]]
+![[Pasted image 20251209112036.png]]
