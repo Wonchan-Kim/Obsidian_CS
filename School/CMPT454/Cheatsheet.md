@@ -37,4 +37,20 @@ At 40: page in DPT, rec_lsn=20, lsn = 40, pageLSN > lsn skip
 At 50: P3 in dpt, rec_lsn=50, lsn = 50, pageLSN < lsn -> Redo P3 is now (1, 50)
 At 60: P1 in DPT, rec_lsn=10, lsn=60, pageLSN < lsn -> Redo P1 is now (2, 60)
 At 70: P2 in DPT, rec_lsn = 20, lsn = 70, pageLSN > lsn, skip
-At 90: P3 in DPT, rec_lsn = 0, lsn = 90, pageLsn < lsn, RedoP3 ()
+At 90: P3 in DPT, rec_lsn = 0, lsn = 90, pageLsn < lsn, RedoP3 (3, 90)
+At 100: P1 in DPT, rec_lsn = 60, lsn = 100, pageLSN < lsn Redo P1(3,100)
+Q7. Undo Phase:
+TT table (T1, R), (T2, R), (T3, C), T1 and T2 are losers (still running). ToUndo={100,90}
+120: Undo100, record "CLR T1 undoLSN=100, undoNextLSN=60", (P1=2, pageLSN=120), toUn={60,90}
+130: Undo90,T2 undo LSN = 90 and undoNextLSN = 70”, (P3=1,130), ToUndo ={60,70}
+Undo 70 and add record “140: CLR T2 undo LSN = 70 and undoNextLSN = 40”, (P2=2,140), ToUndo ={60,40}.
+Undo 60 and add record “150: CLR T1 undo LSN =60, undoNextLSN = 10”, (P1=1,150), ToUndo ={10,40}.
+Undo 40 and add “160: CLR T2 undo LSN = 40, undoNextLSN = 20”, (P2=1, 160), ToUndo = {10,20}.
+Undo 20 and add “170: CLR T2 undo LSN = 20, undoNextLSN = nil”, (P2=0, 170), ToUndo = {10}.
+Add record “180: T2 End”
+Undo 10 and add record “190: CLR T1 undo LSN = 10, undoNextLSN = nil”, (P1=0,190), ToUndo=empty
+Add record “200: T1 End” (End should have separate log record with updated LSN)
+After Undo Phase: (P1=0,190), (P2=0, 170), (P3=1, 130). 
+These values are correct because only T3 committed. 
+Q8. if log records 80-100 are in the log tail but not in the log at the crash time, what happens to T3 after restart and why?
+
