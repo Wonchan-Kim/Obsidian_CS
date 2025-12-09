@@ -37,4 +37,4 @@ At 40: page in DPT, rec_lsn=20, lsn = 40, pageLSN > lsn skip
 At 50: P3 in dpt, rec_lsn=50, lsn = 50, pageLSN < lsn -> Redo P3 is now (1, 50)
 At 60: P1 in DPT, rec_lsn=10, lsn=60, pageLSN < lsn -> Redo P1 is now (2, 60)
 At 70: P2 in DPT, rec_lsn = 20, lsn = 70, pageLSN > lsn, skip
-At 90: P3 in DPT, rec_lsn = -, lsn
+At 90: P3 in DPT, rec_lsn = 0, lsn = 90, pageLsn < lsn, RedoP3 ()
