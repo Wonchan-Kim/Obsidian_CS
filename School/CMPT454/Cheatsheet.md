@@ -88,6 +88,42 @@ Q6.
 4. T1:R(X), T2:W(X), T1:W(X), T2:R(Y), T2:W(X), T2:Commit
    Serializable? T1T2 is same. Y
    Conflict serializable? T2->T1(WW), T1->T2(WW) N
-   Recoverable? 
+   Recoverable? T1->T2, T2 commits first. N, if not recoverable not ACA.
+5. T1:R(X), T2:W(X), T1:W(Y), T2:Commit, T1:W(X), T1:Commit, T3:R(Y), T3:R(X), T3:Commit
+   Serializable? T2 commits first, while T1 should read before T2 writes. Not serializable. 
+   Conflict-serializable? T1->T2->T1 cycle formed. N
+   Recoverable? ignoring RW, T2->T1->T3. T1 commits only after T2 commits. T3 commits after both T1 and T2. Y
+   ACA: no dependency is formed before commit. Y
+6. T1:R(X), T2:W(X), T1:W(X), T2:W(Y), T3:R(X), T3:W(X), T1:Commit, T2:Commit, T3:Commit
+   Serializable? T1T2T3 not same as T3 should read updated value by T1. Not serializable
+   CR? T1->T2->T1 N
+   Recoverable? ignoring RW, T2->T1, T2->T3, T1->T3, however T1 commits first. N same for ACA. 
 
+----
 
+Consistency and Isolation is guaranteed by strict 2PL. Atomicity and Duration is done by logging & recovery. 
+Xact may abort (user cancels, system error-division by zero etc, Transaction may be killed due to deadlock, system crash)
+![[Pasted image 20251209103607.png]]
+
+If T4 aborts, its effect should be rolled back, while its effect should not be seen by T1, T2, T3, T5 enforced by strict 2PL. DBMS might crash(RAM is lost, disk survives).
+
+![[Pasted image 20251209103737.png]]
+
+committed T1,T2,T3 should be durable. Uncommitted T4, T5 should be rolled back due to atomicity. 
+Assumption: strict 2PL->conflict serializability + ACA. Updates happening to buffer pool. 
+Steal/No force policy: Steal: write dirty page to disk page P, if aborts, UNDO the write to P by logging old value of P at steal time. 
+No force: if system crashes, dirty pages by committed Xact may not been made to disk page P. On restart, must REDO dirty pages to disk pages. Done by logging new value of P at commit time. 
+T4 and T5 must UNDO all changes to disk changes. Strict 2PL ensures these changes not seen by other Xacts. T1,T2,T3 must REDO all dirty pages to disk pages. 
+
+Logging: For every W(P) write log record to log. Appending only file, diff info. Log record <XID, pageID, offset, length, old data, new data>. Log tail: the memory buffer for log. Will be lost when system crashes. 
+Diff information example (T1, P1, 100, 3, "123", "456"). Multiple log records fit into a single log page, support REDO/UNDO. 
+
+WAL(Write ahead logging)
+1. Steal time: flush log records in log tail to log(disk) before writing dirty pages to disk for UNDO. - ATOMICITY(incomplete can always be reset)
+2. Commit time: flush log records in log tail to log before committing a Xact for REDO. - DURABILITY 
+
+| Execution   | Result                   |
+| ----------- | ------------------------ |
+| T1 update A | T1 update A, old 0 new 1 |
+| T2 update C | T2 update C, old 0 new 1 |
+| T1 update A |                          |
