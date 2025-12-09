@@ -79,3 +79,15 @@ Q6.
    Conflict Serializable? T1->T2(WR, T2 depends on T1), T2->T1(RW), cycle.
    Recoverable? Ignore RW! T1->T2, T1 commits first. Y
    ACA? T2 first depends on T1 after first write. Commit is after second write. N
+2. T1:W(X), T2:R(X), T1:W(Y), T1:W(X), T2:W(X), T1:Commit, T2:Abort
+   Serializable? Note that T2 is abort. For serializability questions, aborted transactions will be ignored, only the remaining transactions will be considered. Hence, only T1 serializable. 
+   Recoverable: aborted still checked. Y, ACA N
+3. T1:R(X), T2:W(X), T3:R(X), T1:W(X), T2:Abort, T1:Commit
+   Serializable? note that T2 is aborted. consider T1 only. Y Y
+   recoverable? ignore RW, however, while T1->T2, T2 aborts first. no. If not recoverable, not ACA. 
+4. T1:R(X), T2:W(X), T1:W(X), T2:R(Y), T2:W(X), T2:Commit
+   Serializable? T1T2 is same. Y
+   Conflict serializable? T2->T1(WW), T1->T2(WW) N
+   Recoverable? 
+
+
