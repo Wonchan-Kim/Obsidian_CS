@@ -32,4 +32,6 @@ for log_record in Logs_from_RedoLSN_to_End:
     # 위 3가지를 다 통과해야만 실행
     EXECUTE REDO (Apply Log)
 ```
-At 20: page in DPT, rec_lsn= lsn=20, 
+At 20: page in DPT, rec_lsn= lsn=20, P2.pageLSN=70 > lsn(20) skip P2 is still (3,70)
+At 40: page in DPT, rec_lsn=20, lsn = 40, pageLSN > lsn skip
+At 50: P3 in dpt, rec_lsn=50, lsn = 50, pageLSN < lsn -> Redo P3 is now (1, )
