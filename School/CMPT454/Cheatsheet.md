@@ -52,5 +52,17 @@ Undo 10 and add record “190: CLR T1 undo LSN = 10, undoNextLSN = nil”, (P1=0
 Add record “200: T1 End” (End should have separate log record with updated LSN)
 After Undo Phase: (P1=0,190), (P2=0, 170), (P3=1, 130). 
 These values are correct because only T3 committed. 
-Q8. if log records 80-100 are in the log tail but not in the log at the crash time, what happens to T3 after restart and why?
+Q8. if log records 80-100 are in the log tail but not in the log at the crash time, what happens to T3 after restart and why? T3 will be undone after restart as commit record is not found in the log, therefore is uncommitted at the crash time
+재시작해서 **디스크 로그**만 읽어 보면 T3 관련 로그는:
+- 50: T3 updates P3
+- (80: T3 commits) ❌ **없음** ← log tail 이라서 사라짐
+그러면 Analysis Phase에서 TT를 만들 때:
+- T3는 **commit 레코드가 없으므로** “아직 끝나지 않은 트랜잭션”으로 보임  
+    → loser 트랜잭션.
+- Undo Phase에서 T3의 lastLSN = 50 으로 보고 **LSN 50 의 update 를 undo** 하려고 한다.
+즉, _원래는_ commit 했던 T3지만,  
+commit 로그가 날아갔기 때문에 시스템 관점에서는
+> “T3는 crash 시점에 uncommitted 상태였다 → 다른 loser들과 똑같이 undo 대상”
 
+이 되는 거고, 그래서 답에 **“T3 will be undone”** 이라고 되어 있는 거야.
+Q9. if the log records 80-100 are in the log tail but not in the log at the crash time, how are the updates on P3 and P1 at LSN 90 and 100 being undone? No undo is needed for the updates because their log records were not written to the log, which means these updates have not been written to disk pages due to WAL. 
