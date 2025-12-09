@@ -68,3 +68,12 @@ commit 로그가 날아갔기 때문에 시스템 관점에서는
 Q9. if the log records 80-100 are in the log tail but not in the log at the crash time, how are the updates on P3 and P1 at LSN 90 and 100 being undone? No undo is needed for the updates because their log records were not written to the log, which means these updates have not been written to disk pages due to WAL. 디스크는 **LSN 80, 90, 100 이 반영된 페이지를 한 번도 flush 할 수 없다.** 즉, 90 100의 변경은 버퍼 안에만 있었고 사라짐, crash 자체가undo. 
 Q4. suppose after adding three CLR records to the log during UNDO phase, system crashes again.
 1) TT and DPT after Analysis: TT: TT: (T2,140,R), (T1, 120, R), (T3, 80, C), DPt is empty all redo and undo are applied to disk pages. 
+2) Nothing is done during the redo Phase DPT is empty
+3) first UNDO step, TT losers are T1 and T2, toUndo={140,120}, Undo 140: CLR record, add 40 to ToUndo {40,120}
+
+Q5. T1 R,W increase the salary by 10%, T2 R,W decrease the salary by 10%. 
+Concurrent execution fail to produce correct X value: R R W W (W can be mixed and the effects are different, given X is 1000 in the initial value, can be either 1100 or 900 as one W is ignored)
+Q6. 
+1. T1:W(X), T2:R(X), T1:W(Y), T1:W(X), T2:W(X), T1:Commit, T2:Commit
+   Serializable? No, T2 reads the first write, so T2 should be run after T1, but if T1T2, second Wx will change the first read X of T2. 
+   Conflict Serializable? T1->T2(WR, T2 depends on T1), T2->T1(RW), cycle.
