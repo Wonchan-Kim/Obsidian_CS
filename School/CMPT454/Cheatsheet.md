@@ -77,3 +77,5 @@ Q6.
 1. T1:W(X), T2:R(X), T1:W(Y), T1:W(X), T2:W(X), T1:Commit, T2:Commit
    Serializable? No, T2 reads the first write, so T2 should be run after T1, but if T1T2, second Wx will change the first read X of T2. 
    Conflict Serializable? T1->T2(WR, T2 depends on T1), T2->T1(RW), cycle.
+   Recoverable? Ignore RW! T1->T2, T1 commits first. Y
+   ACA? T2 first depends on T1 after first write. Commit is after second write. N
