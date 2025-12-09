@@ -65,4 +65,6 @@ commit 로그가 날아갔기 때문에 시스템 관점에서는
 > “T3는 crash 시점에 uncommitted 상태였다 → 다른 loser들과 똑같이 undo 대상”
 
 이 되는 거고, 그래서 답에 **“T3 will be undone”** 이라고 되어 있는 거야.
-Q9. if the log records 80-100 are in the log tail but not in the log at the crash time, how are the updates on P3 and P1 at LSN 90 and 100 being undone? No undo is needed for the updates because their log records were not written to the log, which means these updates have not been written to disk pages due to WAL. 
+Q9. if the log records 80-100 are in the log tail but not in the log at the crash time, how are the updates on P3 and P1 at LSN 90 and 100 being undone? No undo is needed for the updates because their log records were not written to the log, which means these updates have not been written to disk pages due to WAL. 디스크는 **LSN 80, 90, 100 이 반영된 페이지를 한 번도 flush 할 수 없다.** 즉, 90 100의 변경은 버퍼 안에만 있었고 사라짐, crash 자체가undo. 
+Q4. suppose after adding three CLR records to the log during UNDO phase, system crashes again.
+1) TT and DPT after Analysis: TT: TT: (T2,140,R), (T1, 120, R), (T3, 80, C), DPt is empty all redo and undo are applied to disk pages. 
