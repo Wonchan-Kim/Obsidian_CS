@@ -219,3 +219,41 @@ status on commit.
  Update or CLR: update recLSN in DPT.
 ![[Pasted image 20251209112005.png]]
 ![[Pasted image 20251209112036.png]]
+
+Repeat History : Reapply all
+actions (even of aborted Xacts!).
+ Scan forward the log from the
+smallest recLSN in DPT. For each
+CLR/update log record, REDO the
+action:
+– Reapply logged action to disk data
+page and set pageLSN. No
+additional logging!
+![[Pasted image 20251209112548.png]]
+Undo: ToUndo={ l | l is lastLSN of a “loser” Xact,
+i.e., having “R” or “A” status in TT}.
+Repeat:
+Choose largest LSN among ToUndo.
+– Abort record: add prevLSN in ToUndo
+– Update record: undo the update to disk and
+write a CLR to log, set pageLSN to CLR, and
+add prevLSN to ToUndo.
+– CLR record:
+ If undonextLSN != nil, add undonextLSN to
+ToUndo.
+ If undonextLSN=nil, write End record for this
+Xact.
+Until ToUndo is empty. 
+![[Pasted image 20251209112633.png]]
+![[Pasted image 20251209112655.png]]
+![[Pasted image 20251209112733.png]]
+![[Pasted image 20251209112750.png]]
+![[Pasted image 20251209112813.png]]Effect of CLR
+ REDOing a CLR
+– Reapplying the UNDO recorded by the
+CLR, set PageLSN, to avoid repeated
+REDO
+ UNDOing a CLR:
+– If undonextLSN != nil, add undonextLSN
+to ToUndo, to continue UNDOing the next
+record
