@@ -6,7 +6,7 @@ Q2. DPT at checkpoint have one entry, (P2, recLSN=20)
 Q3. DPT at crashtime (P3, recLSN=50) (P1, recLSN=60) P2 gets flushed
 Q4. DPT after analysis (P2, recLSN=20), (P3, recLSN=50), (P1, recLSN=60)
 Q5. LSN70, P2 steal. During analysis however, P2 is not removed because the steal does not tell if steal happened or not during the normal execution. Log record should be flushed to the log before the steal happens (WAL), no guarantee if the steal will happen successfully when writing the log record to the log. 
-Q6. state of pages after the redo phase: 
+Q6. state of pages after the redo phase: (Redo starts from smallest num in DPT)
 TT: (T1, 100, R), (T2, 90, R), (T3, 80, C)
 DPT: (p2, recLSN=20), (P3,50), (P1,60)
 disk state:  (P1=3, pageLSN = 10), (P2=3, pageLSN=70), (P3=0, -)
@@ -34,4 +34,7 @@ for log_record in Logs_from_RedoLSN_to_End:
 ```
 At 20: page in DPT, rec_lsn= lsn=20, P2.pageLSN=70 > lsn(20) skip P2 is still (3,70)
 At 40: page in DPT, rec_lsn=20, lsn = 40, pageLSN > lsn skip
-At 50: P3 in dpt, rec_lsn=50, lsn = 50, pageLSN < lsn -> Redo P3 is now (1, )
+At 50: P3 in dpt, rec_lsn=50, lsn = 50, pageLSN < lsn -> Redo P3 is now (1, 50)
+At 60: P1 in DPT, rec_lsn=10, lsn=60, pageLSN < lsn -> Redo P1 is now (2, 60)
+At 70: P2 in DPT, rec_lsn = 20, lsn = 70, pageLSN > lsn, skip
+At 90: P3 in DPT, rec_lsn = -, lsn
