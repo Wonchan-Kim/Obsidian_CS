@@ -10,3 +10,8 @@ L1 cache (l1i, l1d): now dcache port and ichace_port is not directly connected t
 Data went through L1 cache goes to L2 Cache via L2XBar bus(bus plays the role of mediator).
 
 The first model plays as the simulation testing, while the second model is used for architectural simulation. 
+
+
+![[Pasted image 20260116201634.png]]
+
+Assign 8 FU in total.
