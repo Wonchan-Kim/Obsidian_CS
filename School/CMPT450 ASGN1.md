@@ -1,32 +1,20 @@
-# Gem5 Simulation Project: Analysis of CPU Frequency and Memory Subsystem Sensitivity
+# gem5 Basics and Performance Modeling
 
 - **Name:** Wonchan Kim
     
-- **Course:** Computer Architecture
+- **Course:** CMPT450
     
 - **Date:** 2026-01-26
     
 
-### **Q1: What metric should you use to compare the performance...?**
+### **Q1: What metric should you use to compare the performance between different system configurations? Why?**
 
-**추천 답안: IPC (Instructions Per Cycle)**
+ANS: IPC
 
-**Why? (이유)**
+**Why?**
 
-1. **아키텍처 효율성 측정 (Architectural Efficiency):**
-    
-    - 이 실험의 목적은 CPU 모델(Simple vs O3)의 구조적 차이가 성능에 미치는 영향을 보는 것입니다.
-        
-    - **IPC**는 CPU가 한 사이클(Clock) 동안 얼마나 많은 명령어를 처리했는지를 보여주므로, 클럭 속도(Hz)를 배제하고 **"CPU가 얼마나 똑똑하게 설계되었는지"** 혹은 **"메모리 때문에 얼마나 자주 멈췄는지(Stall)"**를 가장 직관적으로 보여줍니다.
-        
-2. **제공된 도구와의 일치:**
-    
-    - 제공된 `scripts.py` 코드를 보면 `df['ipc']`를 계산하고, 그래프 함수 `doplot_benchmarks`에서도 기본적으로 `"ipc"`를 그리도록 설정되어 있습니다. 이는 출제자가 의도한 비교 지표가 IPC임을 암시합니다.
-        
-3. **변수 통제 (Context of Exp 1):**
-    
-    - Experiment 1에서는 CPU의 동작 주파수(Frequency)가 고정되어 있다고 가정합니다. 주파수가 일정할 때, **IPC가 높다는 것은 곧 실행 시간(Execution Time)이 짧다는 것**과 동일한 의미를 가집니다.
-        
+The goal of the experiment is to observe the architectural difference(Simple vs O3) in the performance. IPC is an appropriate metric because it directly measures how many instructions a processor can execute in a single clock cycle. 
+Furthermore, IPC effectively capture architectural efficiency, independent of clock frequency. Since the purpose of this experiment is to compare microarchitectures under the same clock conditions, IPC is appropriate indicator.         
 
 ---
 ### **Q2: Which benchmark was sensitive to CPU choice? Which benchmark was sensitive to memory model choice? Why?**
