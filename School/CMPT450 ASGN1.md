@@ -20,7 +20,7 @@ Furthermore, IPC effectively capture architectural efficiency, independent of cl
 ### **Q2: Which benchmark was sensitive to CPU choice? Which benchmark was sensitive to memory model choice? Why?**
 
 #### **1. CPU Choice에 민감한 벤치마크 (CPU Sensitive)**
-
+![[Pasted image 20260126232618.png]]
 - **답변:** **`EI`** (가장 민감함), **`MI`**
     
 - **근거 (그래프 분석):**
