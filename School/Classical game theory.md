@@ -1,0 +1,1 @@
+ssociate each outcome with pair of numbers (a,b). 
