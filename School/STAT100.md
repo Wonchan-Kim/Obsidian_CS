@@ -10,3 +10,4 @@ Normal curve- completely described by giving its mean and its sd. The mean deter
 68-95-99.7 rule: mean +- 1/2/3 sd. ![[Pasted image 20260303150708.png]]
 
 standard scores - ex) mean is 500, sd is 100. For score 600, can be expressed as the one sd above the mean. Observations expressed in sd above or below the mean of a distribution are called standard scores, often referred to as z-scores. 
+z = x - u / sd
