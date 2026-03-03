@@ -11,3 +11,7 @@ Normal curve- completely described by giving its mean and its sd. The mean deter
 
 standard scores - ex) mean is 500, sd is 100. For score 600, can be expressed as the one sd above the mean. Observations expressed in sd above or below the mean of a distribution are called standard scores, often referred to as z-scores. 
 z = x - u / sd
+
+Exclusively for normal distribution, standard scores translate directly into percentiles. 
+The cth percentile of a distribution is a value such that c percent of the observations lie below it and the rest lie above. 
+The median of any distribution is the 50th percentile, and the quartiles are the 25th and 75th percentiles. In any normal distribution, the point one sd above the mean is the 84th percentile. (50 + 34)
