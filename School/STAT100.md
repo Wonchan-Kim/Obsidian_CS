@@ -18,3 +18,4 @@ The median of any distribution is the 50th percentile, and the quartiles are the
 
 Scatterplot: relationship between two quantitative variables measured on the same individuals. The values of one variable appear on the horizontal axis, and the values of the other variable appear on the vertical axis. Each individual in the data appears as the point in the plot fixed by the values of both variables for that individual. 
 
+Positively associated: above average values of one tend to accompany above average values of the other and below average values tend to occur together. 
