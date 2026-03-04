@@ -15,3 +15,5 @@ z = x - u / sd
 Exclusively for normal distribution, standard scores translate directly into percentiles. 
 The cth percentile of a distribution is a value such that c percent of the observations lie below it and the rest lie above. 
 The median of any distribution is the 50th percentile, and the quartiles are the 25th and 75th percentiles. In any normal distribution, the point one sd above the mean is the 84th percentile. (50 + 34)
+
+Scatterplot: relationship between two quantitative variables measured on the same individuals. The values of one variable appear on the horizontal axis, and the values of the other variable appear on the vertical axis. Each individual in the data appears as the point in the plot fixed by the values of both variables for that individual. 
