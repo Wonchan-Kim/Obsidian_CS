@@ -29,3 +29,4 @@ extrapolation: prediction outside the range
 
 r^2: square of correlation, r^2 is the proportion of the variation in the values of y that is explained by the least squares of y on x. 
 usefulness of the regression line for prediction depends on the strength of the association(correlation). 
+ex) r = 0.994 -> r^2 = 0.998, so the variation along the line accounts 98.8 of all variation. The scatter of the points about the line accounts for only the remaining 1.2 %. Little leftover scatter says that prediction will be accurate. 
