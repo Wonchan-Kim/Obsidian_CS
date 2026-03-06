@@ -32,3 +32,4 @@ usefulness of the regression line for prediction depends on the strength of the 
 ex) r = 0.994 -> r^2 = 0.998, so the variation along the line accounts 98.8 of all variation. The scatter of the points about the line accounts for only the remaining 1.2 %. Little leftover scatter says that prediction will be accurate. 
 
 lurking variable that influence both x and y can create high correlation -> common response: both the explanatory and reponse variable are responding to some lurking variable. 
+![[Pasted image 20260305221953.png]]
