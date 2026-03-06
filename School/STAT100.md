@@ -25,4 +25,7 @@ regression line: straight line describes how a response variable y changes as an
 
 least squares regression line of y on x is the line that makes the sum of the squares of the vertical distances of the data points from the line as small as possible. 
 
-prediction outside
+extrapolation: prediction outside the range
+
+r^2: square of correlation, r^2 is the proportion of the variation in the values of y that is explained by the least squares of y on x. 
+usefulness of the regression line for prediction depends on the strength of the association(correlation). 
