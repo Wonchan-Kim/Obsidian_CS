@@ -22,3 +22,5 @@ Positively associated: above average values of one tend to accompany above avera
 correlation describes the direction and strength of a straight line relationship between two quantitive variables, usually written as r. 
 
 regression line: straight line describes how a response variable y changes as an explanatory variable x changes. Predict y for a given value of x. 
+
+least squares regression line of y on x is the line that makes the sum of the squares of the vertical distances of the data points from the line as small as possible. 
