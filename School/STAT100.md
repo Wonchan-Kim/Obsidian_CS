@@ -16,7 +16,9 @@ Exclusively for normal distribution, standard scores translate directly into per
 The cth percentile of a distribution is a value such that c percent of the observations lie below it and the rest lie above. 
 The median of any distribution is the 50th percentile, and the quartiles are the 25th and 75th percentiles. In any normal distribution, the point one sd above the mean is the 84th percentile. (50 + 34)
 
-Scatterplot: relationship between two quantitative variables measured on the same individuals. The values of one variable appear on the horizontal axis, and the values of the other variable appear on the vertical axis. Each individual in the data appears as the point in the plot fixed by the values of both variables for that individual. 
+Scatterplot: relationship between two quantitative variables measured on the same individuals. The values of one variable appear on the horizontal axis, and the values of the other variable appear on the vertical axis. Each individual in the data appears as the point in the plot fixed by the values of both variables for that individual.  X -> explanatory variable Y -> response variable
 
 Positively associated: above average values of one tend to accompany above average values of the other and below average values tend to occur together. ![[Pasted image 20260303210622.png]]
-correlation describes the direction and strength of a straight line relationship between two quantitive variables, usually written as r. Correlation
+correlation describes the direction and strength of a straight line relationship between two quantitive variables, usually written as r. 
+
+regression line: straight line describes how a response variable y changes as an explanatory 
