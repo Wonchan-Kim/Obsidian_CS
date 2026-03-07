@@ -1,3 +1,10 @@
+bias: consistent, repeated deviation of the sample statistic from the population parameter in the same direction when we take many samples. ->systemic overestimate or underestimate of the population parameter, use SRS 
+
+variability: how the values of the sample statistic will vary when we take many samples. large variability-> result of sampling is not repeatable, use a larger sample. 
+
+margin of error +- 4 % -> if we took many samples using the same method we used to get this one sample, 95% of the sample would give a result within a plus or minus 4 % of the truth about the population. 
+
+
 mean vs median: symmetry vs skewness
 	mean and sd(standard deviations) are strongly affected by outliers or by the long tail of a skewed distribution. 
 	five number summary(min, 3rd quartile, median, 1st quartile, max) is usually better than the mean an dsd for describing a skewed distribution or w outliers. 
