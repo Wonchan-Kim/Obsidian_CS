@@ -42,4 +42,7 @@ Tables headings - median household income. restating all incomes in dollars that
 
 adjusting the buying power: dollars at time B = dollars at time A * CPI at time B / CPI at time A
 
-CPI covers urban consumers-80%. Different households buy different things, so categorize the purchase of huge sample. So market basket is not actually fixed. CPI can't really measure the changes in the cost of living as the buying items change. e
+CPI covers urban consumers-80%. Different households buy different things, so categorize the purchase of huge sample. So market basket is not actually fixed. CPI can't really measure the changes in the cost of living as the buying items change. 
+
+random: individual outcomes are uncertain but there is nonetheless a regular distribution of outcomes in a large number of repetitions. 
+probability: number between 0 and 1 describes the proportions of times that outcome would occur in a very long series of repetitions. 
