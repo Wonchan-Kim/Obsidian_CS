@@ -3,6 +3,10 @@ bias: consistent, repeated deviation of the sample statistic from the population
 variability: how the values of the sample statistic will vary when we take many samples. large variability-> result of sampling is not repeatable, use a larger sample. 
 
 margin of error +- 4 % -> if we took many samples using the same method we used to get this one sample, 95% of the sample would give a result within a plus or minus 4 % of the truth about the population. 
+Margin of error -> 1/size of SRS
+A confidence statement has two parts: a margin of error and a level of confidence. The margin of
+error says how close the sample statistic lies to the population parameter. The level of confidence says
+what percentage of all possible samples satisfy the margin of error.
 
 
 mean vs median: symmetry vs skewness
