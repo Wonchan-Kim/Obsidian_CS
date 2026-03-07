@@ -41,3 +41,5 @@ ex) CPI for October 2018 was 252.9 means that we must spend 252.9 to buy goos an
 Tables headings - median household income. restating all incomes in dollars that will but as much as the dollar would buy in 2017. Term constant dollars and real income/terms. Meaning that all dollar amounts represent the same buying power even though they may describe different years. 
 
 adjusting the buying power: dollars at time B = dollars at time A * CPI at time B / CPI at time A
+
+CPI covers urban consumers-80%. Different households buy different things, so categorize the purchase of huge sample. So market basket is not actually fixed. CPI can't really measure the changes in the cost of living as the buying items change. e
