@@ -46,3 +46,5 @@ CPI covers urban consumers-80%. Different households buy different things, so ca
 
 random: individual outcomes are uncertain but there is nonetheless a regular distribution of outcomes in a large number of repetitions. 
 probability: number between 0 and 1 describes the proportions of times that outcome would occur in a very long series of repetitions. 
+
+a personal probability of an outcome is a number between 0 and 1 that expresses an individual's judgement of how likely the outcome is. 
