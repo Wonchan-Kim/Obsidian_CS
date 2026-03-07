@@ -35,3 +35,9 @@ lurking variable that influence both x and y can create high correlation -> comm
 ![[Pasted image 20260305221953.png]]
 
 index = value * 100 / base
+fixed market basket price index is an index number for the total cost of a fixed collection of goods and services. 
+CPI is a fixed market basket price index with several hundred items that represent all consumer purchases. Holding the market basket fixed allows a legitimate comparison of prices because we compare the prices of the same items at each time. 
+ex) CPI for October 2018 was 252.9 means that we must spend 252.9 to buy goos and services that cost 100 in the 1982 and 1984 base period. 
+Tables headings - median household income. restating all incomes in dollars that will but as much as the dollar would buy in 2017. Term constant dollars and real income/terms. Meaning that all dollar amounts represent the same buying power even though they may describe different years. 
+
+adjusting the buying power: dollars at time B = dollars at time A * CPI at time B / CPI at time A
