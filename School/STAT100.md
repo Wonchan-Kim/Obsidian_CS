@@ -12,6 +12,9 @@ what percentage of all possible samples satisfy the margin of error.
 mean vs median: symmetry vs skewness
 	mean and sd(standard deviations) are strongly affected by outliers or by the long tail of a skewed distribution. 
 	five number summary(min, 3rd quartile, median, 1st quartile, max) is usually better than the mean an dsd for describing a skewed distribution or w outliers. 
+measuring spread -> Q3 - Q1 interquartile range 
+sd : root (sum of deviations from avg ^ 2 / n-1) : deviations always add up to 0
+
 
 ![[Pasted image 20260303145822.png|left|400]]
 ![[Pasted image 20260303150022.png|right|400]]
