@@ -37,6 +37,8 @@ correlation describes the direction and strength of a straight line relationship
 
 regression line: straight line describes how a response variable y changes as an explanatory variable x changes. Predict y for a given value of x.  (y-y^ / sy = r * x - x^/sx)
 y = ax +b with b = r*sy/sx and a = y_ - bx_
+x^ = x_ + rsx (y-y_)/sy
+
 
 least squares regression line of y on x is the line that makes the sum of the squares of the vertical distances of the data points from the line as small as possible. 
 
