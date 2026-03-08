@@ -35,7 +35,8 @@ Scatterplot: relationship between two quantitative variables measured on the sam
 Positively associated: above average values of one tend to accompany above average values of the other and below average values tend to occur together. ![[Pasted image 20260303210622.png]]
 correlation describes the direction and strength of a straight line relationship between two quantitive variables, usually written as r. 
 
-regression line: straight line describes how a response variable y changes as an explanatory variable x changes. Predict y for a given value of x. 
+regression line: straight line describes how a response variable y changes as an explanatory variable x changes. Predict y for a given value of x.  (y-y^ / sy = r * x - x^/sx)
+y = ax +b with b = r*sy/sx and a = y_ - bx_
 
 least squares regression line of y on x is the line that makes the sum of the squares of the vertical distances of the data points from the line as small as possible. 
 
