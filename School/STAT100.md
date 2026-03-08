@@ -36,7 +36,7 @@ Positively associated: above average values of one tend to accompany above avera
 correlation describes the direction and strength of a straight line relationship between two quantitive variables, usually written as r. 
 
 regression line: straight line describes how a response variable y changes as an explanatory variable x changes. Predict y for a given value of x.  (y-y^ / sy = r * x - x^/sx)
-y = ax +b with b = r*sy/sx and a = y_ - bx_
+y = a+bx with b = r*sy/sx and a = y_ - bx_
 x^ = x_ + rsx (y-y_)/sy
 
 
