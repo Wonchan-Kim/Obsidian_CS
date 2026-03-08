@@ -52,6 +52,9 @@ r^2 = 1 - sigma(yi - y^)^2 / sigma(yi-y_)^2
 Sum of squared residuals = (1 − r 2) times sum of squared deviations from average son’s height.
 
 regression to the mean -> ex two midterm avg 70, sd 10, r = 0.5, z predicted y = r*zx
+first midterm 90 -> 2sd -> estimate 0.5** 2 = 1 -> 70 + 10 = 80
+
+
 
 lurking variable that influence both x and y can create high correlation -> common response: both the explanatory and reponse variable are responding to some lurking variable. 
 ![[Pasted image 20260305221953.png]]
