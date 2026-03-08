@@ -42,6 +42,7 @@ x^ = x_ + rsx (y-y_)/sy
 zy^ = rzx
 y^ = y_ +zy^ sy
 
+correlation can be weak even if the slope is steep as a steep line does not guarantee the strong correlation if the points are widely scattered around it. 
 
 
 least squares regression line of y on x is the line that makes the sum of the squares of the vertical distances of the data points from the line as small as possible. 
