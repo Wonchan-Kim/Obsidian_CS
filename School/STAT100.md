@@ -49,7 +49,7 @@ usefulness of the regression line for prediction depends on the strength of the 
 ex) r = 0.994 -> r^2 = 0.998, so the variation along the line accounts 98.8 of all variation. The scatter of the points about the line accounts for only the remaining 1.2 %. Little leftover scatter says that prediction will be accurate. 
 
 1-r^2 -> unexplained variability. residual = actual y - predicted y. 
-sum of squared resuduals: sigma(y_ - y)^2
+sum of squared residuals: sigma(y_ - y)^2
 r^2 = 1 - sigma(yi - y^)^2 / sigma(yi-y_)^2
 Sum of squared residuals = (1 − r 2) times sum of squared deviations from average son’s height.
 
