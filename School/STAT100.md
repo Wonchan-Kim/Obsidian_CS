@@ -75,3 +75,6 @@ random: individual outcomes are uncertain but there is nonetheless a regular dis
 probability: number between 0 and 1 describes the proportions of times that outcome would occur in a very long series of repetitions. 
 
 a personal probability of an outcome is a number between 0 and 1 that expresses an individual's judgement of how likely the outcome is. 
+
+Probabiliyy: p [0,1], odds = p / 1 - p, p = odds / odds + 1 odds [0,inf)
+
