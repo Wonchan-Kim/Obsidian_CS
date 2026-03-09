@@ -1,3 +1,4 @@
+
 bias: consistent, repeated deviation of the sample statistic from the population parameter in the same direction when we take many samples. ->systemic overestimate or underestimate of the population parameter, use SRS 
 
 variability: how the values of the sample statistic will vary when we take many samples. large variability-> result of sampling is not repeatable, use a larger sample. 
@@ -70,7 +71,7 @@ index = value * 100 / base
 fixed market basket price index is an index number for the total cost of a fixed collection of goods and services. 
 CPI is a fixed market basket price index with several hundred items that represent all consumer purchases. Holding the market basket fixed allows a legitimate comparison of prices because we compare the prices of the same items at each time. 
 ex) CPI for October 2018 was 252.9 means that we must spend 252.9 to buy goos and services that cost 100 in the 1982 and 1984 base period. 
-Tables headings - median household income. restating all incomes in dollars that will but as much as the dollar would buy in 2017. Term constant dollars and real income/terms. Meaning that all dollar amounts represent the same buying power even though they may describe different years. 
+Tables headings - median household income. restating all incomes in  that will but as much as the dollar would buy in 2017. Term constant dollars and real income/terms. Meaning that all dollar amounts represent the same buying power even though they may describe different years. 
 
 adjusting the buying power: dollars at time B = dollars at time A * CPI at time B / CPI at time A
 
@@ -83,3 +84,4 @@ a personal probability of an outcome is a number between 0 and 1 that expresses 
 
 Probabiliyy: p [0,1], odds = p / 1 - p, p = odds / odds + 1 odds [0,inf)
 
+</div>
