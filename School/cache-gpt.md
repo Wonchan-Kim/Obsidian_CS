@@ -1233,3 +1233,612 @@ shared-memory multiprocessor에서는 processor와 memory module을 연결하는
 > 한 줄로 끝내면:
 >
 > **Interconnect는 processor와 memory를 연결하는 통신 구조이며, topology에 따라 coherence의 성능, 비용, 확장성이 달라진다.**
+
+
+# Shared Memory Multiprocessors: Memory Hierarchy
+
+> [!summary]
+> 이 슬라이드는 shared-memory multiprocessor에서 **왜 memory hierarchy, 특히 cache hierarchy가 필요한지**를 설명하는 슬라이드다.  
+> 여러 프로세서가 동시에 메모리를 공유하면 memory traffic과 bandwidth 요구가 폭증하므로, 이를 줄이기 위해 **다단계 캐시 계층 구조**가 필요하다.  
+> 그리고 바로 이 캐시들이 **나중에 cache coherence 문제를 만들어내는 직접적인 원인**이 된다.
+
+---
+
+## 1. 이 슬라이드의 역할
+
+이 슬라이드는 shared-memory multiprocessor에서 왜 **memory hierarchy**, 특히 **cache hierarchy**가 필요한지를 설명하는 슬라이드다.
+
+앞 슬라이드까지의 흐름은 이랬다.
+
+- 여러 프로세서가 같은 메모리를 공유한다.
+- 그러려면 interconnect가 필요하다.
+- 그런데 여러 프로세서가 동시에 메모리를 요청하면 memory system에 엄청난 부담이 걸린다.
+- 그래서 그 부담을 줄이기 위해 **캐시(cache)** 가 필요하다.
+
+즉 이 슬라이드는
+
+**왜 shared-memory multiprocessor에서는 캐시가 필수인가?**
+
+를 설명하는 배경 슬라이드다.
+
+> [!important]
+> 이 슬라이드의 핵심은  
+> **캐시는 단순히 빠른 저장소가 아니라, shared memory 시스템이 감당 가능하도록 만들어주는 필수 구조**라는 점이다.
+
+---
+
+## 2. Problem: sharing memory means more than one processor can send requests to memory
+
+이 bullet은 shared memory의 가장 직접적인 하드웨어 문제를 말한다.
+
+의미:
+
+메모리를 공유한다는 것은, 여러 프로세서가 동시에 같은 메모리 시스템에 요청을 보낼 수 있다는 뜻이다.
+
+단일 프로세서 시스템에서는 보통 한 CPU만 memory request를 보낸다.  
+하지만 multiprocessor에서는 다음처럼 될 수 있다.
+
+- `P0`가 load 요청
+- `P1`가 store 요청
+- `P2`가 instruction fetch miss
+- `P3`가 data read miss
+
+이런 요청들이 같은 시점에 몰릴 수 있다.
+
+### 왜 문제인가
+
+메모리는 무한히 빠르지 않다.  
+따라서 여러 프로세서가 동시에 접근하면:
+
+- 메모리 컨트롤러가 바빠짐
+- 대역폭이 부족해짐
+- 지연(latency)이 증가함
+- 병목(bottleneck)이 생김
+
+즉 shared memory의 장점은 크지만,  
+하드웨어 관점에서는 **memory traffic explosion** 문제가 생긴다.
+
+---
+
+## 2.1 High memory bandwidth required
+
+이 서브 bullet은 위 문제의 직접적인 결과다.
+
+의미:
+
+여러 프로세서가 동시에 메모리를 때리므로, 시스템은 매우 높은 **memory bandwidth**를 필요로 한다.
+
+여기서 memory bandwidth는  
+**단위 시간당 메모리가 처리할 수 있는 데이터 양**이다.
+
+예를 들어:
+
+- CPU 하나는 초당 `10GB/s` 정도를 원할 수 있고
+- CPU가 8개면 훨씬 더 많은 총 bandwidth가 필요할 수 있다
+
+즉 processor 수가 늘수록 메모리 대역폭 요구도 커진다.
+
+### 중요한 직관
+
+프로세서가 빨라질수록, 코어가 많아질수록, memory bandwidth 문제는 더 심해진다.
+
+그래서 shared-memory multiprocessor 설계에서는 항상 질문이 생긴다.
+
+**"모든 요청을 DRAM까지 보내면 감당이 가능한가?"**
+
+보통 답은 **아니오**이고, 그래서 캐시를 둔다.
+
+> [!warning]
+> shared memory에서는 모든 코어가 같은 memory system을 두드릴 수 있기 때문에  
+> 문제는 단순한 latency만이 아니라  
+> **총 bandwidth demand 자체가 폭증한다는 것**이다.
+
+---
+
+## 3. To avoid sending lots of memory requests, processors use caches to:
+
+이 bullet은 바로 위 문제의 해결책을 말한다.
+
+즉:
+
+메모리로 가는 요청 수를 줄이기 위해 프로세서들은 **캐시**를 사용한다.
+
+여기서 캐시는 단순히 "조금 빠른 저장소"가 아니라,
+
+- 요청을 걸러내고
+- 평균 접근 시간을 줄이고
+- 메모리 대역폭 소비를 줄이는
+
+핵심 장치다.
+
+---
+
+## 3.1 Filter out many memory requests
+
+이게 캐시의 가장 기본적인 역할이다.
+
+의미:
+
+메모리까지 갈 필요가 없는 요청들을 캐시가 중간에서 처리한다.
+
+예를 들어 어떤 프로세서가 같은 변수 `A`를 계속 읽는다면,  
+매번 DRAM에 갈 필요 없이 `L1/L2/L3` 중 하나에서 해결하면 된다.
+
+즉 캐시는 메모리 입장에서 보면 **request filter** 역할을 한다.
+
+### 왜 중요한가
+
+캐시가 없다면:
+
+- 모든 load/store가 메모리 시스템으로 향함
+- shared memory multiprocessor에서는 메모리 병목이 매우 빨리 발생함
+
+캐시가 있으면:
+
+- 자주 쓰는 데이터는 로컬에 남음
+- 메모리 시스템은 진짜 필요한 miss만 처리하면 됨
+
+즉 캐시는 **traffic reduction device**라고도 볼 수 있다.
+
+> [!note]
+> 캐시의 첫 번째 역할은  
+> "CPU를 빠르게 해주는 것" 이전에  
+> **메모리까지 가는 요청 자체를 줄여주는 것**이다.
+
+---
+
+## 3.2 Reduce average memory latency
+
+캐시는 평균 메모리 접근 시간을 줄인다.
+
+여기서 핵심은 **average**라는 단어다.
+
+DRAM 접근은 느리지만,  
+많은 접근이 캐시에서 hit 나면 평균 접근 시간은 훨씬 낮아진다.
+
+예를 들어:
+
+- `L1 hit`: 매우 빠름
+- `L2 hit`: 조금 느림
+- `L3 hit`: 더 느림
+- `DRAM miss`: 매우 느림
+
+프로그램의 많은 접근이 `L1/L2`에서 해결되면,  
+전체 평균 지연은 DRAM만 썼을 때보다 크게 낮아진다.
+
+### 왜 multiprocessor에서 더 중요하냐
+
+shared memory multiprocessor에서는 DRAM까지 가는 길이 더 복잡할 수 있다.
+
+- interconnect를 건너야 할 수도 있고
+- shared cache를 지나야 할 수도 있고
+- remote memory access일 수도 있다
+
+그래서 캐시 hit의 가치는 단일 프로세서 때보다 더 커질 수 있다.
+
+> [!important]
+> multiprocessor에서는 DRAM access가 단순히 "느린 메모리 접근"이 아니라  
+> **공유 자원 사용 + interconnect 사용 + bandwidth 소비**까지 동반할 수 있다.  
+> 그래서 cache hit의 가치가 더 크다.
+
+---
+
+## 3.3 Reduce memory bandwidth requirements
+
+이건 3.1과 비슷하지만, 조금 다른 관점이다.
+
+- 3.1은 요청 수 자체를 줄인다는 의미
+- 3.3은 메모리 시스템이 실제로 처리해야 할 **bandwidth 부담**을 줄인다는 의미
+
+즉 캐시가 있으면 DRAM 쪽으로 나가는 트래픽이 감소한다.
+
+예:
+
+- 같은 cache line을 여러 번 재사용하면 DRAM은 한 번만 공급
+- write-back 정책이면 매 write마다 DRAM까지 안 감
+- locality가 좋으면 많은 요청이 캐시 내부에서 해결됨
+
+결국 메모리는 더 적은 데이터 이동만 감당하면 된다.
+
+### shared memory와의 연결
+
+멀티프로세서에서는 processor 수가 많아져서 bandwidth 요구가 커지므로,  
+캐시는 단순한 성능 향상 장치가 아니라  
+**시스템 확장성을 가능하게 하는 필수 장치**다.
+
+> [!important]
+> **캐시가 없으면 shared-memory multiprocessor는 memory bandwidth 때문에 쉽게 무너진다.**  
+> 즉 캐시는 luxury가 아니라 necessity다.
+
+---
+
+## 4. Typically more than one level of caches is used
+
+이 bullet은 현대 시스템이 왜 **다단계 캐시 계층 구조(cache hierarchy)** 를 쓰는지를 말한다.
+
+의미:
+
+보통 캐시는 한 단계만 두지 않고, 여러 레벨(`L1`, `L2`, `L3`)로 구성한다.
+
+### 왜 여러 단계가 필요하냐
+
+한 가지 캐시만으로는 두 가지 목표를 동시에 만족시키기 어렵다.
+
+- 아주 빠르게 만들고 싶다
+- 아주 크게 만들고 싶다
+
+하지만 일반적으로:
+
+- 작은 캐시는 빠르게 만들기 쉽다
+- 큰 캐시는 느려지기 쉽다
+
+그래서 설계자는 보통 여러 단계를 둔다.
+
+- 맨 위는 작고 빠름
+- 아래로 갈수록 크고 느림
+
+즉 cache hierarchy는  
+**speed vs. capacity trade-off**를 계층적으로 해결하는 방법이다.
+
+> [!note]
+> 한 줄로 말하면:
+>
+> **작고 빠른 캐시와 크고 느린 캐시를 층층이 쌓아서, 속도와 용량을 동시에 얻으려는 구조**가 cache hierarchy다.
+
+---
+
+## 5. L1 caches: Usually Split I & D caches, small and fast
+
+이 bullet은 `L1` 캐시의 특징을 말한다.
+
+### Split I & D caches
+
+`L1`은 보통 **Instruction cache**와 **Data cache**로 나뉜다.
+
+즉:
+
+- `L1 I-cache`: 명령어 저장
+- `L1 D-cache`: 데이터 저장
+
+### 왜 split하냐
+
+명령어 접근과 데이터 접근을 분리하면 다음 장점이 있다.
+
+- 동시에 instruction fetch와 data access를 처리하기 쉬움
+- 구조가 단순해짐
+- 성능 향상 가능
+
+예를 들어 CPU가 한 cycle에
+
+- 명령어 하나 fetch
+- 데이터 하나 load
+
+를 하려면 I-cache와 D-cache가 나뉘어 있는 게 유리하다.
+
+### Small and fast
+
+`L1`은 가장 CPU에 가깝기 때문에 아주 빠르면서도 작다.
+
+왜 작아야 하냐면:
+
+- 큰 캐시는 access time이 길어짐
+- CPU pipeline의 아주 초기 단계에서 hit 여부를 알아야 함
+- `L1`이 느리면 전체 CPU clock / pipeline에 큰 영향을 줌
+
+그래서 `L1`은 용량보다 속도를 더 우선시한다.
+
+### 핵심 직관
+
+`L1`은
+
+**"가장 자주 쓰는 것만 담는 초고속 캐시"**
+
+라고 생각하면 된다.
+
+> [!important]
+> **L1 = 가장 작고 가장 빠른 캐시**  
+> CPU에 가장 가깝기 때문에 latency가 극도로 중요하다.
+
+---
+
+## 6. L2 caches: Usually on die, composed of SRAM cells
+
+이 bullet은 `L2`의 특징을 설명한다.
+
+### Usually on die
+
+`L2`는 보통 칩 안(**on-die**)에 있다.
+
+즉 프로세서와 같은 실리콘 다이 위에 구현된다.
+
+왜냐하면:
+
+- off-die보다 훨씬 빠르고
+- interconnect 지연이 적고
+- bandwidth 확보가 유리하기 때문이다
+
+### Composed of SRAM cells
+
+`L2`는 보통 **SRAM**으로 만들어진다.
+
+SRAM은:
+
+- 빠르다
+- 면적을 많이 먹는다
+- DRAM보다 비싸다
+
+그래서 캐시는 대체로 SRAM 기반이고,  
+메인 메모리는 DRAM 기반이다.
+
+### L2의 역할
+
+`L2`는 `L1`보다:
+
+- 더 크고
+- 더 느리지만
+- still much faster than DRAM
+
+즉 `L1 miss`를 많이 흡수해서 DRAM까지 가는 빈도를 줄인다.
+
+> [!note]
+> `L2`는 보통  
+> **L1이 놓친 것을 많이 받아주는 두 번째 방어선** 역할을 한다.
+
+---
+
+## 7. L3 caches: On-die or off-die, SRAM or eDRAM cells
+
+이 bullet은 `L3`의 특징을 말한다.
+
+### On-die or off-die
+
+`L3`는 설계에 따라:
+
+- 칩 내부(on-die)에 있을 수도 있고
+- 칩 외부(off-die)에 있을 수도 있다
+
+현대 CPU에선 on-die shared `L3`가 흔하지만,  
+역사적으로나 특정 구조에선 off-die도 가능하다.
+
+### SRAM or eDRAM cells
+
+`L3`는 더 큰 용량이 필요하므로 SRAM만 쓰면 면적/비용 부담이 커질 수 있다.  
+그래서 경우에 따라 **eDRAM**을 쓸 수도 있다.
+
+- SRAM: 빠르지만 면적 큼
+- eDRAM: 더 조밀하지만 상대적으로 복잡/느릴 수 있음
+
+### L3의 역할
+
+`L3`는 보통:
+
+- 여러 코어가 공유하는 cache
+- `L2 miss`를 줄여주는 마지막 on-chip cache
+- coherence에서도 중요한 역할
+
+을 한다.
+
+특히 shared-memory multiprocessor에서는 `L3`가 단순한 캐시가 아니라,  
+**코어 간 데이터 공유와 coherence의 중심점**이 되기도 한다.
+
+> [!important]
+> `L3`는 종종  
+> **마지막 큰 on-chip buffer이자, 여러 코어가 만나는 공유 캐시 계층**으로 동작한다.
+
+---
+
+## 8. 이 슬라이드가 cache coherence와 어떻게 연결되냐
+
+이 슬라이드는 아직 coherence protocol을 직접 설명하는 건 아니지만,  
+coherence를 왜 해야 하는지와 아주 깊게 연결되어 있다.
+
+### 핵심 연결고리
+
+shared-memory multiprocessor는 성능 때문에 캐시를 반드시 써야 한다.
+
+그런데 여러 프로세서가 각자 캐시를 가지면  
+같은 데이터가 여러 캐시에 동시에 복사될 수 있다.
+
+예:
+
+- `P0 L1`에 `X`
+- `P1 L1`에 `X`
+- `P2 L2`나 `L3`에도 관련 line
+
+이제 `P0`가 `X`를 바꾸면,  
+다른 캐시의 `X`는 어떻게 처리할 것인가?
+
+이게 바로 **coherence 문제**다.
+
+즉:
+
+- shared memory → memory traffic 많음
+- traffic 줄이려면 cache hierarchy 필요
+- cache hierarchy를 쓰면 same data copies가 여러 군데 생김
+- 그래서 cache coherence 필요
+
+이 슬라이드는 그 **2번과 3번 사이를 설명하는 다리 역할**을 한다.
+
+> [!danger]
+> 캐시는 문제를 해결하면서 동시에 새로운 문제를 만든다.
+>
+> - 해결하는 문제: latency / bandwidth / traffic
+> - 새로 만드는 문제: **같은 데이터의 여러 사본 관리**, 즉 coherence
+
+---
+
+## 9. 이 슬라이드의 핵심 논리 흐름
+
+이 슬라이드를 문장으로 다시 쓰면 대충 이렇게 된다.
+
+shared memory에서는 여러 프로세서가 동시에 메모리 요청을 보낼 수 있다.
+
+따라서 메모리 bandwidth 요구가 매우 커진다.
+
+이를 줄이기 위해 캐시를 사용한다.
+
+캐시는 memory request를 걸러내고, 평균 지연을 줄이고, bandwidth 요구를 줄인다.
+
+현대 시스템은 보통 하나가 아니라 여러 단계의 cache hierarchy를 사용한다.
+
+각 레벨은 속도와 크기에서 서로 다른 trade-off를 가진다.
+
+> [!summary]
+> 이 슬라이드의 전체 흐름:
+>
+> 1. shared memory에서는 request가 많이 몰린다  
+> 2. 그래서 bandwidth pressure가 생긴다  
+> 3. 이를 줄이려면 cache가 필요하다  
+> 4. cache는 여러 단계로 구성된다  
+> 5. 그런데 여러 cache에 같은 data가 생기므로 coherence가 필요해진다
+
+---
+
+## 10. 단일 프로세서와 비교해서 왜 더 중요하냐
+
+단일 프로세서에서도 캐시는 중요하다.  
+하지만 멀티프로세서에서는 훨씬 더 절박하다.
+
+### 단일 프로세서
+
+캐시는 주로:
+
+- latency hiding
+- locality exploitation
+
+용도다.
+
+### Shared-memory multiprocessor
+
+그것뿐 아니라 다음도 해야 한다.
+
+- 많은 코어가 동시에 DRAM을 때리는 것을 막아야 함
+- bandwidth crisis를 완화해야 함
+- coherence도 관리해야 함
+
+즉 멀티프로세서에서 캐시는 단순 가속 장치가 아니라  
+**시스템이 아예 성립하기 위해 필요한 기본 구조**다.
+
+> [!important]
+> 단일 코어에서는 cache가 "매우 중요"하다면,  
+> 멀티코어 shared memory에서는 cache가 **없으면 시스템이 버티기 어려운 수준으로 필수적**이다.
+
+---
+
+## 11. 시험에서 잡아야 할 포인트
+
+### 포인트 1
+
+shared memory에서는 여러 프로세서가 동시에 메모리를 요청할 수 있기 때문에  
+**bandwidth pressure**가 매우 크다.
+
+### 포인트 2
+
+캐시의 역할은 단순히 "빠른 저장소"가 아니라:
+
+- memory requests filtering
+- average latency reduction
+- bandwidth demand reduction
+
+이다.
+
+### 포인트 3
+
+현대 프로세서는 보통 **다단계 cache hierarchy**를 사용한다.
+
+### 포인트 4
+
+`L1`은 작고 빠르며 보통 instruction/data로 분리된다.
+
+### 포인트 5
+
+`L2`와 `L3`는 더 크고 느리지만, 메모리 트래픽을 크게 줄여준다.
+
+### 포인트 6
+
+이렇게 캐시를 여러 프로세서가 각자 가지게 되면  
+**coherence 문제가 생긴다.**
+
+> [!tip]
+> 시험에서는
+>
+> **"왜 캐시가 필요한가?"** 와  
+> **"왜 캐시가 coherence 문제를 만드는가?"**
+>
+> 를 연결해서 말할 수 있어야 한다.
+
+---
+
+## 12. 아주 짧은 한 줄 정리
+
+### 한 줄 요약
+
+shared-memory multiprocessor에서는 많은 memory request와 높은 bandwidth 요구를 감당하기 위해 **다단계 cache hierarchy**가 필요하며, 이것이 이후 **cache coherence 문제의 직접적인 원인**이 된다.
+
+---
+
+## 13. 앞 슬라이드와의 연결
+
+### 앞 슬라이드
+
+- processor와 memory를 연결하는 interconnect가 필요하다
+
+### 이번 슬라이드
+
+- 그런데 단순히 연결만으로는 부족하고
+- memory traffic 자체가 너무 많으므로
+- cache hierarchy가 필요하다
+
+즉 흐름은 이렇게 이어진다.
+
+- shared memory
+- interconnect 필요
+- memory traffic 많음
+- caches 필요
+- caches 때문에 coherence 필요
+
+> [!summary]
+> 이 장의 흐름은 보통 이렇게 이어진다:
+>
+> **shared memory → interconnect → bandwidth pressure → cache hierarchy → coherence**
+
+---
+
+## 14. 예시로 다시 보기
+
+### 예시 1: 캐시가 없을 때
+
+4개의 프로세서가 모두 배열을 반복적으로 읽는다고 하자.
+
+그러면 매 접근마다 DRAM까지 가야 해서:
+
+- latency 큼
+- bandwidth 요구 큼
+- interconnect 붐빔
+
+### 예시 2: 캐시가 있을 때
+
+처음 한 번만 line을 가져오고, 이후 반복 접근은 `L1/L2/L3`에서 처리된다.
+
+그러면:
+
+- 평균 접근 시간 감소
+- DRAM 요청 감소
+- shared memory system의 부담 감소
+
+### 예시 3: coherence 문제 등장
+
+`P0`와 `P1`이 같은 `counter` 값을 각자 `L1`에 들고 있다가,  
+`P0`가 값을 바꾸면 `P1`의 copy는 **stale**해질 수 있다.
+
+그래서 cache hierarchy가 문제를 해결하는 동시에  
+새로운 문제(**coherence**)도 만든다.
+
+> [!example]
+> 즉 캐시는:
+>
+> - **성능 문제를 해결해주는 도구**
+> - 동시에 **일관성 문제를 만드는 원인**
+>
+> 이라는 두 얼굴을 가진다.
+> 
