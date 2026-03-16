@@ -1841,4 +1841,993 @@ shared-memory multiprocessor에서는 많은 memory request와 높은 bandwidth 
 > - 동시에 **일관성 문제를 만드는 원인**
 >
 > 이라는 두 얼굴을 가진다.
-> 
+
+
+# Cache Coherence
+
+> [!summary]
+> 이 슬라이드 묶음은 이제 본격적으로 **cache coherence가 왜 필요한지**, **무엇을 보장해야 하는지**, 그리고 **어떤 방식으로 구현하는지**를 설명하기 시작하는 부분이다.  
+> 핵심은 shared-memory multiprocessor에서 **같은 데이터의 여러 캐시 복사본**이 생길 때, 이 복사본들이 서로 모순되지 않도록 만드는 것이다.
+
+---
+
+## 1. 이 슬라이드 묶음의 전체 역할
+
+이 슬라이드들은 이제 본격적으로 **cache coherence가 왜 필요한지**,  
+**무엇을 만족해야 하는지**,  
+**어떤 방식으로 구현하는지**를 설명하기 시작하는 부분이다.
+
+앞 슬라이드까지의 흐름은 이랬다.
+
+- shared-memory multiprocessor에서는 여러 프로세서가 같은 메모리를 공유한다.
+- 여러 프로세서가 동시에 메모리를 요청하면 bandwidth pressure가 매우 커진다.
+- 그래서 cache hierarchy가 필요하다.
+- 그런데 캐시를 쓰면 같은 메모리 위치의 복사본이 여러 캐시에 동시에 존재할 수 있다.
+- 이때 한 프로세서가 값을 바꾸면 다른 캐시의 값이 stale해질 수 있다.
+- 따라서 **cache coherence protocol**이 필요하다.
+
+즉 이 슬라이드 묶음은
+
+**캐시를 여러 개 쓰는 shared-memory 시스템에서, "같은 데이터의 여러 복사본" 문제를 어떻게 다룰 것인가?**
+
+를 설명하는 핵심 부분이다.
+
+> [!important]
+> 이제부터는 단순히 "캐시가 왜 필요한가?"가 아니라  
+> **"여러 캐시가 동시에 존재할 때 correctness를 어떻게 보장할 것인가?"** 가 핵심 질문이 된다.
+
+---
+
+## 2. Cache Coherence
+
+---
+
+## 2.1 문제의 핵심
+
+### Problem: Using caches means multiple copies of the same memory location may exist
+
+이 문장은 coherence 문제의 출발점이다.
+
+의미:
+
+캐시를 사용하면 **같은 메모리 위치가 여러 캐시에 동시에 복사될 수 있다.**
+
+예를 들어 메모리 주소 `A`가 있다고 하자.
+
+- Processor 1 cache에도 `A`의 복사본이 있음
+- Processor 2 cache에도 `A`의 복사본이 있음
+
+이건 아주 자연스러운 상황이다.  
+왜냐하면 둘 다 `A`를 읽었을 수 있기 때문이다.
+
+문제는 그 다음이다.
+
+- `P1`이 `A`를 수정하면
+- `P2` cache 안에 남아 있는 `A` 값은 이제 오래된 값(**stale data**)이 될 수 있다.
+
+즉 여러 캐시의 복사본이 **서로 다른 값**을 가지게 될 수 있다.
+
+### Updates to the same location may lead to bugs
+
+같은 위치를 여러 프로세서가 공유하는데, 그 중 하나가 값을 바꾸었을 때 다른 쪽이 그걸 못 보면 프로그램이 잘못 동작할 수 있다.
+
+이건 단순한 성능 문제가 아니라 **정확성(correctness) 문제**다.
+
+예를 들어:
+
+    flag = 1;
+
+를 `P1`이 썼는데, `P2`가 여전히 `flag == 0`이라고 본다면  
+동기화 자체가 깨질 수 있다.
+
+또는
+
+    counter = counter + 1;
+
+같은 공유 데이터 업데이트가 제대로 보이지 않으면  
+병렬 프로그램의 결과가 틀어질 수 있다.
+
+즉 cache coherence는 **"있으면 좋은 최적화"** 가 아니라,  
+공유 메모리 모델이 올바르게 동작하기 위해 반드시 필요한 하드웨어 기능이다.
+
+> [!danger]
+> coherence 문제는 성능 문제가 아니라 **correctness 문제**다.  
+> stale copy를 허용하면 shared memory 프로그래밍 모델 자체가 깨질 수 있다.
+
+---
+
+## 2.2 슬라이드의 예시
+
+슬라이드의 예시는 아주 단순하다.
+
+- Processor 1 reads `A`
+- Processor 2 reads `A`
+- Processor 1 writes to `A`
+
+이 과정을 단계별로 보면:
+
+### Step 1: Processor 1 reads A
+
+`P1`이 `A`를 읽어서 자기 캐시에 가져온다.
+
+### Step 2: Processor 2 reads A
+
+`P2`도 `A`를 읽어서 자기 캐시에 가져온다.
+
+이 시점에서는:
+
+- `P1` cache에도 `A`
+- `P2` cache에도 `A`
+
+둘 다 같은 값을 갖고 있으므로 아직 문제는 없다.
+
+### Step 3: Processor 1 writes to A
+
+`P1`이 `A`를 수정한다.
+
+이제:
+
+- `P1` cache에는 새 값
+- `P2` cache에는 옛날 값
+
+이 될 수 있다.
+
+즉
+
+**Now, processor 2’s cache contains stale data**
+
+가 된다.
+
+> [!example]
+> 읽기만 할 때는 여러 캐시에 같은 copy가 있어도 문제가 없다.  
+> 문제는 **누군가 write하는 순간** 시작된다.
+
+---
+
+## 2.3 결론
+
+### Cache coherence need to be implemented in hardware using a cache coherence protocol
+
+뜻:
+
+이런 문제는 하드웨어 차원에서 **cache coherence protocol**을 구현해서 해결해야 한다.
+
+즉 프로그래머가 매번 직접  
+"저 캐시들 좀 업데이트해줘"  
+라고 할 수는 없고, 하드웨어가 자동으로:
+
+- invalidate 하거나
+- update 하거나
+- ownership을 관리하거나
+- 최신 값을 전달하는
+
+프로토콜을 수행해야 한다.
+
+> [!important]
+> coherence는 소프트웨어가 매번 수동으로 처리하는 것이 아니라,  
+> **하드웨어 프로토콜**이 자동으로 유지해야 한다.
+
+---
+
+## 3. Conditions for Cache Coherence
+
+이 슬라이드는 무엇을 만족하면 coherence가 되는가를 정리한 슬라이드다.
+
+즉 **"coherence protocol은 정확히 어떤 성질을 보장해야 하는가?"** 를 말한다.
+
+세 가지 핵심 조건이 있다.
+
+- Program Order
+- Coherent View of Memory
+- Write Serialization
+
+---
+
+## 3.1 Program Order
+
+슬라이드 문장:
+
+> A read by processor P to location A that follows a write by P to A, with no writes to A by another processor in between, should always return the value of A written by P
+
+이 말은 같은 프로세서 입장에서 아주 상식적인 요구다.
+
+### 뜻
+
+어떤 프로세서 `P`가 자기 자신이 방금 `A`에 쓴 값을,  
+그 다음에 다시 `A`를 읽었을 때,  
+다른 프로세서가 그 사이에 `A`를 바꾸지 않았다면  
+반드시 자기가 쓴 값을 읽어야 한다.
+
+예시:
+
+    A = 10;
+    x = A;
+
+이 코드에서 같은 프로세서가 `A = 10` 한 직후 `A`를 다시 읽었는데  
+`x`가 `10`이 아니라 옛날 값이면 말이 안 된다.
+
+즉:
+
+**내 write 다음에 내 read가 있으면, 중간에 다른 사람이 안 건드린 한 내가 쓴 값이 보여야 한다.**
+
+이건 아주 최소한의 올바름 조건이다.
+
+### 왜 coherence에서 이것을 언급하냐
+
+캐시 구조와 write buffering 같은 최적화 때문에  
+하드웨어 입장에서는 값이 여러 곳에 있을 수 있다.
+
+그렇더라도 적어도 같은 프로세서 자신에게는  
+자기 write가 반영된 것처럼 보여야 한다.
+
+이 조건은 **same-processor self-consistency** 같은 기본 기대를 표현한다.
+
+> [!note]
+> Program Order는  
+> **"적어도 나는 내가 방금 쓴 값을 다시 읽을 수 있어야 한다"**  
+> 는 최소한의 상식을 보장한다.
+
+---
+
+## 3.2 Coherent View of Memory
+
+슬라이드 문장:
+
+> A read by processor P1 to location A that follows a write by another processor P2 to location A should return the written value by P2 if:
+>
+> - The read and write are sufficiently separated in time
+> - No other writes to A by another processor occur between the read and the write
+
+이건 다른 프로세서가 쓴 값을 내가 읽을 때의 조건이다.
+
+### 뜻
+
+`P2`가 `A`에 쓴 뒤 충분한 시간이 지났고,  
+중간에 다른 누군가가 `A`를 다시 쓰지 않았다면,  
+`P1`이 `A`를 읽을 때 `P2`가 쓴 최신 값을 봐야 한다.
+
+### 왜 "sufficiently separated in time"이 들어가나
+
+하드웨어는 실제로 순간이동처럼 동시에 모든 캐시를 바꾸지 못한다.
+
+예를 들어:
+
+- 한 프로세서가 write
+- invalidate 메시지 전달
+- 다른 캐시가 자기 copy 무효화
+- 새 값 fetch
+
+이런 과정에는 시간이 든다.
+
+그래서 coherence는 보통  
+**"즉시 전 우주에 동시에 반영"** 을 요구하는 게 아니라,
+
+**적절한 시간이 지난 뒤에는 모든 프로세서가 일관된 최신 값을 봐야 한다**
+
+는 식으로 표현된다.
+
+예시:
+
+`P2`가
+
+    A = 99;
+
+를 했고, 그 뒤 `P1`이 `A`를 읽었는데  
+중간에 다른 누군가가 `A`를 다시 안 바꿨다면,  
+`P1`은 결국 `99`를 봐야 한다.
+
+이게 **coherent view of memory**다.
+
+### 핵심 직관
+
+같은 메모리 위치 `A`에 대해서는  
+프로세서들이 완전히 제각각의 세계를 보면 안 된다.
+
+즉 시간이 충분히 지나면,  
+모두가 **같은 최신 값을 향해 수렴**해야 한다.
+
+> [!important]
+> coherence는 "즉시 동시 반영"까지는 요구하지 않더라도,  
+> **충분한 시간이 지나면 모두가 같은 최신 값을 봐야 한다**는 것을 요구한다.
+
+---
+
+## 3.3 Write Serialization
+
+슬라이드 문장:
+
+> Writes to the same location are serialized: Two writes to the same location by any two processors are seen in the same order by all processors
+
+이건 coherence 조건 중에서도 가장 중요하다.
+
+### 뜻
+
+같은 메모리 위치 `A`에 대해 여러 프로세서가 write를 하면,  
+그 write들은 어떤 하나의 **전역적인 순서**로 정렬되어야 하고,  
+모든 프로세서가 그 순서를 같게 봐야 한다.
+
+즉 write들이 뒤죽박죽 다른 순서로 보이면 안 된다.
+
+예시:
+
+- `P1` writes `A = 1`
+- `P2` writes `A = 2`
+
+이 두 write가 일어났다고 하자.
+
+그러면 모든 프로세서는 이 둘을 같은 순서로 봐야 한다.
+
+예를 들어 시스템이  
+"먼저 `A = 1`, 그 다음 `A = 2`"  
+라고 정했다면
+
+- `P3`도 그 순서로 봐야 하고
+- `P4`도 그 순서로 봐야 한다.
+
+어떤 프로세서는 `2`가 먼저, 어떤 프로세서는 `1`이 먼저처럼 보면 안 된다.
+
+### 왜 중요한가
+
+같은 주소에 대한 write 순서가 프로세서마다 다르게 보이면  
+메모리에 대한 공통된 현실(shared reality)이 사라진다.
+
+coherence는 적어도 **한 주소에 대해서는**  
+모두가 같은 write history를 보게 해야 한다.
+
+> [!danger]
+> 같은 주소에 대한 write 순서를 프로세서마다 다르게 보면  
+> shared memory는 더 이상 "공유된 하나의 값"처럼 동작하지 않는다.
+
+---
+
+## 3.4 이 세 조건의 의미 정리
+
+### Program Order
+
+같은 프로세서는 자기 write 뒤의 자기 read에서 자기 값을 봐야 한다.
+
+### Coherent View of Memory
+
+한 프로세서가 쓴 값은 시간이 지나면 다른 프로세서도 볼 수 있어야 한다.
+
+### Write Serialization
+
+같은 주소에 대한 여러 write는 모든 프로세서에게 같은 순서로 보여야 한다.
+
+---
+
+## 3.5 매우 중요한 구분
+
+이 슬라이드는 **cache coherence의 조건**을 말하는 것이다.  
+즉 **한 memory location에 대한 조건**이다.
+
+여기서 아직 말하고 있는 것은:
+
+- 주소 `A` 하나에 대한 동작
+- 같은 location에 대한 read/write
+
+이지, 여러 주소 간의 순서 전체는 아니다.
+
+그건 다음 슬라이드의 **memory consistency models**와 비교해서 나온다.
+
+> [!important]
+> **Coherence = one location**  
+> **Consistency = multiple locations ordering**
+>
+> 이 구분은 시험에서 매우 자주 중요하다.
+
+---
+
+## 4. Cache Coherence Protocol Classification
+
+이 슬라이드는 coherence와 consistency를 구분하고,  
+coherence protocol의 큰 분류를 소개한다.
+
+---
+
+## 4.1 Cache coherence defines behavior of reads and writes to the same memory location
+
+이 문장은 coherence의 범위를 정확히 정의한다.
+
+뜻:
+
+cache coherence는 **같은 메모리 위치**에 대한 read/write의 동작을 정의한다.
+
+즉 coherence는 주소 `A`에 대해:
+
+- 누가 썼는지
+- 누가 최신 값을 봐야 하는지
+- write 순서가 어떻게 보여야 하는지
+
+를 말한다.
+
+---
+
+## 4.2 Compared to: Memory consistency models define the behavior of reads and writes with respect to accesses to other memory locations
+
+이 문장은 coherence와 consistency의 차이를 말한다.
+
+### coherence
+
+같은 주소에 대한 규칙
+
+예:
+
+- `A`에 대한 두 write는 어떤 순서인가?
+- `A`를 읽으면 어떤 값을 봐야 하나?
+
+### consistency
+
+서로 다른 주소들 사이의 순서에 대한 규칙
+
+예:
+
+    A = 1;
+    flag = 1;
+
+이 순서가 다른 프로세서에게도 꼭 그 순서로 보여야 하나?
+
+즉 `A`와 `B` 같은 **다른 주소들 사이의 ordering**을 어떻게 해석할 것인가를 다룬다.
+
+### 아주 쉽게 구분
+
+- **Coherence = one location problem**
+- **Consistency = many locations ordering problem**
+
+즉 coherence가 먼저 해결해야 하는 더 기본 문제고,  
+consistency는 그 위에 얹히는 더 넓은 의미의 메모리 모델 문제다.
+
+> [!note]
+> coherence는  
+> **"주소 A 하나에 대해 모두가 같은 현실을 보게 할 것인가?"**
+>
+> consistency는  
+> **"주소 A와 B 사이의 순서를 어떻게 보게 할 것인가?"**
+>
+> 를 다룬다.
+
+---
+
+## 4.3 Two main types of cache coherence protocols
+
+슬라이드는 두 가지 큰 부류를 제시한다.
+
+- Snooping
+- Directory
+
+이건 이후 강의의 핵심 축이다.
+
+---
+
+## 4.4 Snooping
+
+슬라이드 bullet:
+
+- Caches keep track of the sharing status of all blocks
+- No centralized state is kept
+- Cache controllers snoop shared interconnect (typically shared bus) to track when a requested block exists in the cache
+
+뜻:
+
+snooping은 모든 캐시가 **공유 interconnect를 감시(snoop)** 하면서 coherence를 맞추는 방식이다.
+
+즉 어떤 캐시가 bus에 요청을 올리면,  
+다른 캐시들도 그걸 다 보고:
+
+- "나 그 block 가지고 있나?"
+- "invalidate 해야 하나?"
+- "최신 데이터를 내가 제공해야 하나?"
+
+를 판단한다.
+
+### 핵심 특징 1: No centralized state is kept
+
+어디 한 군데에서 모든 block의 sharer 정보를 중앙집중적으로 관리하지 않는다.
+
+즉 중앙 디렉터리 같은 게 없다.
+
+대신 각 캐시가 자기 block 상태를 들고 있고,  
+공유 bus/interconnect를 계속 본다.
+
+### 핵심 특징 2: snoop shared interconnect
+
+bus 같은 공유 interconnect가 있어야 모든 캐시가 같은 요청을 관찰할 수 있다.
+
+그래서 snooping은 대개:
+
+- shared bus
+- broadcast 가능한 interconnect
+
+와 잘 맞는다.
+
+### 장점
+
+- 구조가 직관적
+- 작은 시스템에 적합
+- 중앙 상태 관리가 필요 없음
+
+### 단점
+
+- broadcast 기반이라 scalability가 나쁨
+- 코어 수가 많아지면 bus/interconnect 부담이 커짐
+
+> [!important]
+> **snooping = 모두가 bus를 같이 보고 판단하는 방식**  
+> 간단하고 직관적이지만, 큰 시스템으로 가면 broadcast 부담이 커진다.
+
+---
+
+## 4.5 Directory
+
+슬라이드 bullet:
+
+- Sharing status of any block in memory is kept in one location
+
+뜻:
+
+directory 방식에서는 어떤 메모리 블록을 누가 가지고 있는지 정보를  
+한 곳(**directory entry**)에 저장해 둔다.
+
+즉 중앙 혹은 분산된 디렉터리 구조가 있어서:
+
+- sharer가 누구인지
+- owner가 누구인지
+- dirty인지 clean인지
+
+를 추적한다.
+
+### 왜 필요하냐
+
+큰 시스템에서는 snooping처럼 모든 요청을 broadcast하는 것이 너무 비싸다.
+
+그래서 directory는 필요한 대상에게만 메시지를 보낸다.
+
+예:
+
+이 블록을 가진 캐시가 `P1`, `P3`뿐이면
+
+- invalidate도 `P1`, `P3`에게만 보냄
+
+즉 더 scalable하다.
+
+### 장점
+
+- broadcast 줄일 수 있음
+- 대규모 시스템에 적합
+- NUMA나 distributed memory와 잘 맞음
+
+### 단점
+
+- directory 저장 비용 필요
+- 프로토콜이 더 복잡함
+- 추가 메시지와 상태 관리 필요
+
+> [!important]
+> **directory = 누가 그 block을 가지고 있는지 한 곳에서 추적하는 방식**  
+> 복잡하지만 large-scale system에 더 적합하다.
+
+---
+
+## 5. Cache Coherence Example
+
+이 슬라이드는 coherence가 없으면 무슨 일이 생기는지 표로 보여주는 예제다.
+
+---
+
+## 5.1 표 해석
+
+### 초기 상태 (time 0)
+
+- Memory location `X = 1`
+- `A` cache 없음
+- `B` cache 없음
+
+### Time 1: Processor A reads X
+
+`A`가 `X`를 읽는다.
+
+결과:
+
+- `A` cache: `1`
+- `B` cache: 없음
+- Memory: `1`
+
+### Time 2: Processor B reads X
+
+`B`도 `X`를 읽는다.
+
+결과:
+
+- `A` cache: `1`
+- `B` cache: `1`
+- Memory: `1`
+
+즉 같은 데이터 `X = 1`이 `A` cache와 `B` cache 양쪽에 복사되었다.
+
+### Time 3: Processor A stores 0 into X
+
+`A`가 `X`를 `0`으로 바꾼다.
+
+결과 표에서는:
+
+- `A` cache: `0`
+- `B` cache: `1`
+- Memory: `0` 또는 시스템에 따라 write-back 전까지 old일 수 있지만, 슬라이드의 요지는 `B`가 stale하다는 점
+
+핵심은:
+
+- `A`의 복사본은 새 값
+- `B`의 복사본은 여전히 옛날 값 `1`
+
+즉 `B` cache가 **stale data**를 가지고 있게 된다.
+
+---
+
+## 5.2 슬라이드의 결론
+
+### Without cache coherence, Processor B’s cache has stale data
+
+이게 coherence 문제의 본질이다.
+
+즉 coherence가 없으면  
+각 캐시는 자기 마음대로 값이 달라질 수 있고,  
+그러면 shared memory라는 프로그래밍 모델이 깨진다.
+
+---
+
+## 5.3 How to enforce coherence?
+
+슬라이드는 두 가지 방법을 소개한다.
+
+- `B`’s cache line is invalidated (**write-invalidate protocols**)
+- `B`’s cache line is updated by `A`’s write (**write-update protocols**)
+
+이게 바로 다음 슬라이드 내용과 연결된다.
+
+> [!summary]
+> stale copy를 처리하는 큰 전략은 두 가지다:
+>
+> - **Invalidate**: 다른 copy를 못 쓰게 만든다
+> - **Update**: 다른 copy도 최신 값으로 바꾼다
+
+---
+
+## 6. Invalidate vs. Update Protocols
+
+이 슬라이드는 coherence를 유지하는 두 가지 큰 전략을 비교한다.
+
+---
+
+## 6.1 Write-invalidate protocols
+
+이 방식에서는 어떤 프로세서가 write하려고 하면,  
+다른 캐시가 가지고 있는 복사본들을 **무효화(invalidate)** 한다.
+
+### Guarantees only one writer has a valid copy of a block
+
+이 문장이 핵심이다.
+
+뜻:
+
+어떤 블록에 대해 write하려는 순간,  
+유효한 복사본을 가진 writer는 하나뿐이어야 한다.
+
+즉 write를 하려는 프로세서는 그 블록의 **exclusive ownership**을 가져야 하고,  
+다른 캐시들은 그 복사본을 버려야 한다.
+
+### Read requests issue a "Get Shared" (GetS) request
+
+읽고 싶을 때는 보통 `Get Shared (GetS)`를 보낸다.
+
+뜻:
+
+- "이 블록 읽고 싶다"
+- "공유 가능한 copy 하나 달라"
+
+그래서 읽기는 여러 캐시가 **shared 상태**로 같이 가질 수 있다.
+
+### When a processor wants to write to a cache block, it issues a "Get Exclusive" (GetX) request
+
+쓰고 싶을 때는 보통 `Get Exclusive (GetX)`를 보낸다.
+
+뜻:
+
+- "이 블록에 쓰고 싶다"
+- "나만 유효한 copy를 갖게 해라"
+
+그래서 다른 캐시들은 자기 copy를 invalidate해야 한다.
+
+### Subsequent writes from the same processor are done locally in the cache
+
+이건 write-invalidate의 큰 장점이다.
+
+한 번 `GetX`로 ownership을 얻고 나면,  
+그 이후 같은 프로세서의 연속 write는 로컬 캐시 안에서 처리하면 된다.
+
+즉:
+
+- 첫 write 때만 비싸고
+- 그 다음 write들은 싸다
+
+> [!important]
+> **write-invalidate의 핵심 철학:**  
+> "다른 애들 copy는 지워. 내가 혼자 쓸게."
+
+---
+
+## 6.2 Write-update protocols
+
+이 방식에서는 어떤 프로세서가 write할 때,  
+다른 캐시들이 가진 valid copy도 같이 **업데이트**해 준다.
+
+슬라이드 문장:
+
+> When a processor writes to a block, it sends data to all other processors with valid copies
+
+즉 invalidate하지 않고,  
+다른 캐시에도 새 값을 push한다.
+
+> [!important]
+> **write-update의 핵심 철학:**  
+> "내가 값을 바꿨으니, 너희 copy도 전부 새 값으로 고쳐."
+
+---
+
+## 6.3 두 방식의 직관적 차이
+
+### Write-invalidate
+
+**"너희 copy는 버려. 나 혼자 쓸게."**
+
+### Write-update
+
+**"내가 값 바꿨으니까 너희 copy도 새 값으로 고쳐."**
+
+---
+
+## 7. Invalidate vs Update의 장단점
+
+슬라이드에는 `Pros and cons?`만 적혀 있고 자세한 설명은 안 적혀 있으니까, 여기서 상세히 정리한다.
+
+---
+
+## 7.1 Write-invalidate의 장점
+
+### 장점 1: repeated writes에 강함
+
+한 프로세서가 같은 block을 여러 번 연속으로 쓰면,  
+처음 한 번 ownership만 얻으면 그 뒤는 로컬에서 계속 write 가능하다.
+
+즉 write-heavy 패턴에 유리하다.
+
+### 장점 2: 불필요한 데이터 전송이 적음
+
+다른 프로세서가 당장 그 값을 읽지 않을 수도 있는데,  
+write-update는 어쨌든 다 보내야 한다.
+
+invalidate는 그냥 "버려"만 보내므로 traffic이 적을 수 있다.
+
+### 장점 3: 현대 시스템에서 더 일반적
+
+실제 상용 프로토콜 대부분은 write-invalidate 계열이다.
+
+---
+
+## 7.2 Write-invalidate의 단점
+
+### 단점 1: 이후 다른 프로세서가 read하면 miss 발생
+
+다른 캐시들은 invalidate되었으므로,  
+나중에 다시 읽으려면 miss가 난다.
+
+### 단점 2: ping-pong 가능
+
+둘 이상의 프로세서가 번갈아 같은 block에 write하면  
+ownership이 계속 왔다 갔다 하면서 traffic이 커질 수 있다.
+
+---
+
+## 7.3 Write-update의 장점
+
+### 장점 1: readers가 많은 경우 miss를 줄일 수 있음
+
+write 후에 다른 프로세서들이 곧바로 그 값을 읽는다면,  
+이미 업데이트된 copy를 갖고 있으므로 read miss를 줄일 수 있다.
+
+### 장점 2: stale copy 문제를 직접적으로 해결
+
+모든 valid copy를 즉시 최신 값으로 바꾸므로,  
+읽는 쪽은 계속 유효한 copy를 들고 있다.
+
+---
+
+## 7.4 Write-update의 단점
+
+### 단점 1: traffic가 매우 커질 수 있음
+
+write할 때마다 모든 sharer에게 새 데이터를 보내야 한다.
+
+shared copy가 많으면 bandwidth 낭비가 심하다.
+
+### 단점 2: reader가 실제로 그 값을 안 쓸 수도 있음
+
+다른 프로세서가 그 block을 다시 곧바로 읽지 않을 수도 있는데,  
+업데이트는 미리 다 보내므로 낭비가 생길 수 있다.
+
+### 단점 3: repeated writes에 비효율적
+
+한 writer가 같은 값을 여러 번 바꿀 때마다 계속 남들에게 push해야 하므로 비효율적이다.
+
+> [!summary]
+> 보통은:
+>
+> - **invalidate** = write-heavy에 유리
+> - **update** = readers가 매우 많고 곧바로 읽는 경우 유리할 수 있음
+>
+> 그래서 실제 시스템은 대체로 **write-invalidate**를 더 많이 쓴다.
+
+---
+
+## 8. 슬라이드 묶음 전체의 큰 흐름
+
+이 5장 슬라이드를 하나의 논리로 묶으면 이렇게 된다.
+
+### 8.1 왜 coherence가 필요하냐
+
+여러 캐시가 같은 memory location의 복사본을 동시에 가질 수 있기 때문이다.
+
+### 8.2 coherence는 무엇을 보장해야 하냐
+
+적어도 같은 location에 대해:
+
+- 같은 프로세서는 자기 write 뒤에 자기 값을 읽어야 하고
+- 다른 프로세서도 충분한 시간 뒤엔 최신 값을 봐야 하며
+- 같은 location에 대한 write 순서는 모두에게 같아야 한다
+
+### 8.3 coherence와 consistency는 어떻게 다르냐
+
+- coherence는 같은 주소
+- consistency는 다른 주소들 사이의 순서
+
+### 8.4 coherence protocol은 어떻게 나뉘냐
+
+- **Snooping**: 모두가 shared interconnect를 감시
+- **Directory**: 블록 상태 정보를 한 위치에 저장
+
+### 8.5 stale copy는 어떻게 해결하냐
+
+두 가지 큰 전략이 있다.
+
+- **Invalidate**: 다른 copy를 무효화
+- **Update**: 다른 copy를 새 값으로 갱신
+
+그리고 실제로는 **write-invalidate가 훨씬 더 흔하다.**
+
+---
+
+## 9. 매우 중요한 시험용 정리
+
+### 9.1 Cache coherence의 정의
+
+cache coherence는 **같은 memory location**에 대한 read/write 동작이 프로세서들 사이에서 일관되게 보이도록 보장하는 하드웨어 메커니즘이다.
+
+### 9.2 세 가지 coherence 조건
+
+- **Program Order**: 같은 프로세서의 write 후 read는 자기 값을 봐야 함
+- **Coherent View of Memory**: 다른 프로세서의 write도 시간이 지나면 보여야 함
+- **Write Serialization**: 같은 location에 대한 write 순서는 모두에게 같아야 함
+
+### 9.3 Coherence vs Consistency
+
+- **Coherence**: one location
+- **Consistency**: ordering across multiple locations
+
+### 9.4 Snooping vs Directory
+
+- **Snooping**: 중앙 상태 없음, shared interconnect 감시
+- **Directory**: sharing 정보를 한 곳에서 관리
+
+### 9.5 Invalidate vs Update
+
+- **Invalidate**: 다른 copy를 버리게 함, repeated writes에 유리
+- **Update**: 다른 copy를 최신 값으로 갱신, sharer가 많으면 traffic 증가
+
+> [!tip]
+> 시험에서는 이 다섯 묶음을 연결해서 말할 수 있어야 한다:
+>
+> **왜 coherence 필요? → coherence가 보장할 조건 → coherence vs consistency → snooping vs directory → invalidate vs update**
+
+---
+
+## 10. 예시 코드로 다시 보기
+
+### 예시 1: stale copy 문제
+
+초기 상태:
+
+    # Initially: X = 1
+
+`P1`:
+
+    r1 = X   # gets 1 into P1 cache
+
+`P2`:
+
+    r2 = X   # gets 1 into P2 cache
+
+그 다음 `P1`:
+
+    X = 0    # P1 cache now has 0
+
+이 상태에서 coherence가 없으면 `P2`는 여전히 `1`을 갖고 있을 수 있다.
+
+---
+
+### 예시 2: invalidate 방식
+
+    P1 wants to write X
+    -> send GetX
+    -> invalidate P2's copy
+    -> P1 becomes exclusive owner
+    -> write locally
+
+---
+
+### 예시 3: update 방식
+
+    P1 writes X = 0
+    -> send new value to all caches with valid copies
+    -> P2's cached copy of X becomes 0 too
+
+---
+
+## 11. 직관으로 이해하기
+
+### invalidate
+
+칠판에 여러 사람이 같은 메모를 복사해 들고 있는데,  
+한 사람이 내용을 고치려고 한다.
+
+그러면:
+
+**"다른 사람들 메모는 다 찢어. 내가 최신본 들고 있을게."**
+
+이게 invalidate다.
+
+### update
+
+반대로:
+
+**"내가 내용을 바꿨으니, 너희 메모도 전부 이 새 내용으로 고쳐."**
+
+이게 update다.
+
+> [!example]
+> 그래서 직관적으로:
+>
+> - **invalidate = 독점권을 얻는 방식**
+> - **update = 복사본들을 계속 동기화하는 방식**
+>
+> 이라고 생각하면 된다.
+
+---
+
+## 12. 다음 내용과의 연결
+
+이 슬라이드 묶음 다음에는 보통:
+
+- write-invalidate 프로토콜이 실제로 어떻게 동작하는지
+- MSI / MESI / MOESI 같은 상태 전이
+- snooping / directory 구현
+- true sharing / false sharing
+- coherence miss
+
+같은 내용으로 이어진다.
+
+즉 지금 이 슬라이드들은 그 뒤의 **구체적인 프로토콜을 배우기 위한 개념적 기초**다.
+
+> [!summary]
+> 한 줄로 끝내면:
+>
+> **Cache coherence는 여러 캐시에 존재하는 같은 데이터의 복사본들이 서로 모순되지 않도록 보장하는 하드웨어 메커니즘이며, 이를 위해 snooping/directory 및 invalidate/update 같은 전략이 사용된다.**
+>
