@@ -2830,4 +2830,7 @@ cache coherence는 **같은 memory location**에 대한 read/write 동작이 프
 > 한 줄로 끝내면:
 >
 > **Cache coherence는 여러 캐시에 존재하는 같은 데이터의 복사본들이 서로 모순되지 않도록 보장하는 하드웨어 메커니즘이며, 이를 위해 snooping/directory 및 invalidate/update 같은 전략이 사용된다.**
->
+
+
+
+![[Pasted image 20260316183159.png]]
