@@ -1229,4 +1229,346 @@ I am 96.5% confident that the true probability is between 0.0557 and 0.1143.
 3. find \(z^*\) from confidence level  
 4. do \(\hat p \pm z^*SE\)  
 5. write sentence in context
+
+
+---
+
+# Past final examples / patterns
+
+## 1. Cluster sample vs stratified sample
+- divide into groups, then random sample from **each** group  
+  → **stratified random sampling**
+- randomly choose some whole classes / groups, then survey everyone there  
+  → **cluster sampling**
+
+Quick memory:
+- stratified = sample from **every** group
+- cluster = choose **some** groups
+
+---
+
+## 2. Observational study + probability sample
+If people are randomly selected but **no treatment is imposed**, then this is
+
+- an **observational study**
+- based on a **probability sample**
+
+---
+
+## 3. Bigger sample size does what?
+Increasing the size of a probability sample:
+
+- **decreases variability**
+- does **not** automatically reduce bias
+
+Also, rough 95% margin of error for a proportion:
+$$
+MOE \approx \frac{1}{\sqrt{n}}
+$$
+
+---
+
+## 4. Confounding / lurking variable examples
+Always ask whether a third variable explains the association.
+
+Examples:
+- coffee and lung cancer → possible confounder: **smoking**
+- tortilla chip sales and TV sales → possible confounder: **store size**
+- women not working during pregnancy and healthier babies → possible confounder: **income**
+- CO\(_2\) emissions and life expectancy → possible confounder: **national income / wealth**
+
+---
+
+## 5. Regression by standardization example
+Given:
+- correlation \(r=0.77\)
+- explanatory z-score \(z_x=2.4\)
+
+Predicted response z-score:
+$$
+\hat z_y = r z_x = 0.77(2.4)=1.848
+$$
+
+So the predicted standard score is about
+$$
+1.85
+$$
+
+Rule:
+$$
+\hat z_y = r z_x
+$$
+
+---
+
+## 6. Slope of a regression line example
+Given:
+- \(r=0.77\)
+- \(s_y=30.39\)
+- \(s_x=22.26\)
+
+The slope is
+$$
+b=r\frac{s_y}{s_x}
+=0.77\cdot\frac{30.39}{22.26}
+\approx 1.05
+$$
+
+Rule:
+$$
+b=r\frac{s_y}{s_x}
+$$
+
+---
+
+## 7. Normal approximation from one cutoff
+Suppose adult heights have mean \(166\) cm and SD \(10\) cm.  
+Find the fraction under \(180\) cm.
+
+Convert to z-score:
+$$
+z=\frac{180-166}{10}=1.4
+$$
+
+From the normal table:
+$$
+P(Z<1.4)\approx 0.9192
+$$
+
+So about
+$$
+91.9\%
+$$
+are under 180 cm.
+
+Pattern:
+- below one cutoff → convert to z, use left-tail area
+
+---
+
+## 8. Normal approximation between two cutoffs
+Suppose BMI has mean \(22.02\) and SD \(3.132\).  
+Find the fraction between 18 and 25.
+
+Convert both cutoffs:
+$$
+z_{25}=\frac{25-22.02}{3.132}\approx 0.951
+$$
+
+$$
+z_{18}=\frac{18-22.02}{3.132}\approx -1.28
+$$
+
+Use table and subtract:
+$$
+P(18<X<25)=P(Z<0.951)-P(Z<-1.28)
+$$
+
+Approximate answer:
+about \(70\%\) to \(74\%\), depending on table rounding.
+
+Pattern:
+- between two cutoffs → convert both, subtract left-tail areas
+
+---
+
+## 9. Percentile from z-score example
+A student has weight z-score
+$$
+z=1.646
+$$
+
+From the normal table, this is about the
+$$
+95\text{th percentile}
+$$
+
+Pattern:
+- convert value to z-score
+- use normal table to get percentile
+
+---
+
+## 10. Confidence interval for a proportion example
+Suppose \(n=400\) trials give \(x=34\) successes.
+
+Estimate:
+$$
+\hat p=\frac{34}{400}=0.085
+$$
+
+Estimated standard error:
+$$
+SE=\sqrt{\frac{\hat p(1-\hat p)}{n}}
+=\sqrt{\frac{0.085(0.915)}{400}}
+\approx 0.0139
+$$
+
+For 96.5% confidence:
+$$
+z^*\approx 2.1
+$$
+
+Confidence interval:
+$$
+\hat p \pm z^*SE
+=0.085\pm 2.1(0.0139)
+$$
+
+$$
+(0.0557,\ 0.1143)
+$$
+
+Interpretation:
+I am 96.5% confident that the true probability is between 0.0557 and 0.1143.
+
+Pattern:
+1. compute \(\hat p=x/n\)
+2. compute \(SE=\sqrt{\hat p(1-\hat p)/n}\)
+3. find \(z^*\)
+4. do \(\hat p\pm z^*SE\)
+5. write sentence in context
+
+---
+
+## 11. Hypothesis test for a proportion example
+If a deck is fair, the chance of a Heart is
+$$
+p_0=\frac14=0.25
+$$
+
+Suppose 1600 draws give 450 Hearts.
+
+Hypotheses:
+$$
+H_0:p=0.25
+$$
+
+$$
+H_a:p\ne 0.25
+$$
+
+Estimate:
+$$
+\hat p=\frac{450}{1600}=0.28125
+$$
+
+Standard error under \(H_0\):
+$$
+SE=\sqrt{\frac{0.25(0.75)}{1600}}=0.0108
+$$
+
+Test statistic:
+$$
+z=\frac{0.28125-0.25}{0.0108}\approx 2.89
+$$
+
+Two-sided P-value:
+one tail at \(z\approx 2.9\) is about \(0.19\%\), so
+$$
+P\text{-value}\approx 2(0.19\%)=0.38\%
+$$
+
+Conclusion:
+The P-value is very small, so there is very strong evidence that the probability is not \(1/4\).
+
+Pattern:
+- for tests of a proportion, use
+$$
+SE=\sqrt{\frac{p_0(1-p_0)}{n}}
+$$
+not \(\hat p\)
+
+---
+
+## 12. Confidence interval for a mean example
+Suppose:
+- \(n=1174\)
+- \(\bar x=3386.7\)
+- \(s=519.6\)
+
+Standard error:
+$$
+SE=\frac{s}{\sqrt n}=\frac{519.6}{\sqrt{1174}}\approx 15.16
+$$
+
+For confidence level \(0.8064\), left-tail area is
+$$
+0.8064+\frac{1-0.8064}{2}=0.9032
+$$
+
+So
+$$
+z^*\approx 1.30
+$$
+
+Interval:
+$$
+\bar x \pm z^*SE
+=3386.7\pm 1.3(15.16)
+$$
+
+$$
+(3366.98,\ 3406.41)
+$$
+
+Interpretation:
+I am 80.64% confident that the true mean is between 3366.98 and 3406.41.
+
+---
+
+## 13. Odds against example
+If odds against an event are \(25:5\), then
+
+$$
+P(\text{event})=\frac{5}{25+5}=\frac16\approx 0.1667
+$$
+
+Rule:
+If odds against are \(a:b\), then
+$$
+P(\text{event})=\frac{b}{a+b}
+$$
+
+---
+
+## 14. Mean / median / mode in a skewed density
+For a **left-skewed** density:
+$$
+\text{mean} < \text{median} < \text{mode}
+$$
+
+For a **right-skewed** density:
+$$
+\text{mode} < \text{median} < \text{mean}
+$$
+
+Reason:
+the long tail pulls the mean farther into the tail.
+
+---
+
+## 15. Range restriction lowers correlation
+If you cut off one side of a scatterplot and reduce the spread in the \(x\)-direction, the correlation \(r\) usually gets **smaller**.
+
+Example pattern:
+- select only students above some SAT cutoff
+- then correlation between SAT and GPA tends to be **lower**
+
+---
+
+## 16. Regression to the mean
+If first-year GPA and second-year GPA have positive correlation, students who are extremely high in year 1 are predicted to still be above average in year 2, but usually **less far above average**.
+
+Why?
+$$
+\hat z = rz
+$$
+and usually
+$$
+|r|<1
+$$
+
+So extreme observations are predicted to be less extreme next time.
+
 </div>
