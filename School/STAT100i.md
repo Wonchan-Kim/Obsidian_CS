@@ -261,3 +261,24 @@ cssclasses:
 - CI or hypothesis test?
 - One-sided or two-sided?
 - Did I write the final sentence in context?
+---
+19. **Extra notes from Jan 05–Feb 25 solutions**
+- **Population** = actual group of people/objects of interest; **population size** = number in that group. Do not say “the population is 270”; 270 is the size, not the population.
+- **Target sample** = people you tried to survey; **respondents** = people who actually answered. If asked for the intended sample, do not give only the respondents.
+- **Census** = attempt to survey the entire population. Even with nonresponse, it can still be a census attempt, just incomplete.
+- **Frame** = list/system used to identify who can be sampled. **Undercoverage** = people in population missing from frame. **Overcoverage** = people in frame who are not in population. Both can happen at the same time and do not cancel out.
+- **Response bias can have direction**: estimates can be **biased down** or **biased up**. Example: self-reported weight may be biased down if people underreport weight or heavier people skip the question.
+- Write estimates as estimates: better to say **“We estimate the percentage to be 61%”** than **“61% of Canadian adults think...”**
+- Quick 95% rule for a proportion: $MOE \approx \frac{1}{\sqrt{n}}$, so rough CI is $\hat p \pm MOE$. Example: if $n=1000$, $\hat p=0.61$, then $MOE\approx0.0316\approx3.2\%$, so CI $\approx 61\%\pm3.2\%=(57.8\%,64.2\%)$.
+- If a change estimate and its standard error are given, a rough 95% CI is **estimate $\pm 2(SE)$**. Example: estimate $=-1800$, $SE=5700$, so CI $\approx -1800\pm11400=(-13200,9600)$.
+- **Experiment** = researcher manipulates at least one explanatory variable. Even if the design is bad, it is still an experiment if the treatment was controlled. If nothing is imposed, it is observational.
+- To explain **confounding** well, do not just name a confounder; explain how it is related to both the explanatory/treatment variable and the response variable.
+- Better criticism of causal claims from correlation: do not just write **“correlation is not causation”**; name likely lurking variables such as **ability**, **study habits**, **background preparation**, **income**, **store size**, etc.
+- **Histogram endpoint rule**: if bins include the lower limit but not the upper limit, boundary values go into the bar on the **right**.
+- A graph can be misleading if different series use **different vertical scales**.
+- Quartiles of a Normal distribution can be approximated using z-scores: $Q1\approx z=-0.7$, median $=z=0$, $Q3\approx z=0.7$, then convert back using $x=\mu+z\sigma$.
+- If you **truncate** data by removing large values above a cutoff, both the **mean** and the **SD** usually decrease.
+- Reverse regression is different from ordinary regression. Predicting $y$ from $x$: $b=r\frac{s_y}{s_x}$. Predicting $x$ from $y$: $b=r\frac{s_x}{s_y}$. Do not reuse the wrong slope.
+- If $r=0.5$, then $R^2=r^2=0.25$, so **25% of the variation in $y$ is explained by the regression on $x$**.
+- Regression example: if mean entrance score $=72$, SD $=12$, mean GPA $=2.8$, SD $=0.4$, $r=0.5$, and score $=90$, then $z_x=\frac{90-72}{12}=1.5$, $\hat z_y=0.5(1.5)=0.75$, and predicted GPA is $\hat y=2.8+0.75(0.4)=3.1$.
+- Reverse prediction example: if explanatory mean $=19.4$, SD $=4.3$, response mean $=25$, SD $=6.8$, $r=0.62$, and explanatory score $=27$, then $z_x=\frac{27-19.4}{4.3}=1.77$, $\hat z_y=0.62(1.77)\approx1.10$, and predicted response is $\hat y=25+1.10(6.8)\approx32.45$. Reversing from final score $32.45$: $z_y=\frac{32.45-25}{6.8}\approx1.096$, $\hat z_x=0.62(1.096)\approx0.679$, so $\hat x=19.4+4.3(0.679)\approx22.3$. Do not just go back to the original 27.
