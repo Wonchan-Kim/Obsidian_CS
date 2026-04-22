@@ -308,3 +308,10 @@ cssclasses:
 - If confidence level is $C$: middle area $=C$, total outside area $=1-C$, each tail area $=\frac{1-C}{2}$, left cumulative area for Table B $=1-\frac{1-C}{2}=\frac{1+C}{2}$; use this left cumulative area to find the critical value $z^*$.
 - Common examples: 90% confidence $\to$ left cumulative area $=0.95$ $\to$ $z^*\approx1.645$; 95% confidence $\to$ left cumulative area $=0.975$ $\to$ $z^*\approx1.96$; 99% confidence $\to$ left cumulative area $=0.995$ $\to$ $z^*\approx2.58$.
 - Exact 95% CI for a proportion: $\hat p \pm 1.96\sqrt{\frac{\hat p(1-\hat p)}{n}}$; rough 95% MOE rule: $MOE\approx\frac{1}{\sqrt n}$. Why the rough rule works: $1.96\approx2$ and if $\hat p$ is near $0.5$, then $\sqrt{\hat p(1-\hat p)}\approx0.5$, so $1.96\sqrt{\frac{\hat p(1-\hat p)}{n}}\approx2\sqrt{\frac{0.25}{n}}=\frac{1}{\sqrt n}$. Works best when $\hat p$ is between about $0.4$ and $0.6$; if $\hat p$ is far from $0.5$, the exact SE using $\hat p(1-\hat p)$ is better. The rough rule $\frac{1}{\sqrt n}$ is conservative, so it usually gives a slightly wider interval than the exact 95% proportion CI.
+
+## Ecological fallacy / regression fallacy
+- Ecological fallacy: making a claim about individuals using only group-level data; a relationship seen for groups does not have to hold for individuals.
+- Example: if cities with higher income have higher crime rates, it does not follow that richer individuals commit more crime.
+- Regression fallacy: incorrectly explaining regression to the mean as a real causal change.
+- Regression to the mean: if correlation is imperfect ($|r|<1$), an extreme first measurement is usually followed by a less extreme second measurement.
+- Example: students with very low first scores often improve next time partly because of regression to the mean, not necessarily because of a special treatment. Regression to the mean prediction: Step 1: standardize first score: $z_1=\frac{x_1-\mu_1}{\sigma_1}$ Step 2: predict second z-score: $\hat z_2 = r z_1$ Step 3: convert back: $\hat y_2=\mu_2+\hat z_2\sigma_2$ If $|r|<1$, an extreme first score is predicted to be less extreme on the second measurement.
