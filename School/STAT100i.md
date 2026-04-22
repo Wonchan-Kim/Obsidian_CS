@@ -75,3 +75,401 @@ a personal probability of an outcome is a number between 0 and 1 that expresses 
 
 Probabiliyy: p [0,1], odds = p / 1 - p, p = odds / odds + 1 odds [0,inf)
 
+<div class="stat-cheatsheet">
+
+# STAT 100 FINAL CHEAT SHEET
+---
+
+## 1. Basic terms
+- Population: 알고 싶은 전체 집단
+- Sample: 실제로 조사한 일부
+- Individual (case/unit): 데이터 한 개체
+- Variable: 개체의 특성
+  - categorical
+  - numerical
+- Parameter: population 수치
+- Statistic: sample 수치
+- Bias: 체계적으로 한쪽으로 빗나감
+- Variability: 표본마다 자연스럽게 달라짐
+
+---
+
+## 2. Study types
+### Sample survey
+표본을 뽑아 조사
+
+### Census
+전체 population 조사
+
+### Observational study
+처치 안 하고 관찰만 함
+
+### Experiment
+처치를 가하고 결과 관찰
+
+### Cause and effect
+- observational study → association
+- randomized experiment → stronger causation evidence
+
+---
+
+## 3. Sampling / bias
+- Voluntary response
+- Convenience sample
+- Undercoverage
+- Overcoverage
+- Nonresponse
+- Selection bias
+- Response bias
+- Questionnaire wording effects
+- Interviewer bias
+- Mode effects
+- Probability sample
+- SRS
+
+시험 포인트:
+- random sampling → population inference
+- random assignment → causation evidence
+
+---
+
+## 4. Graphs
+- Pie chart
+- Bar graph
+- Line graph
+- Histogram
+- Boxplot
+
+볼 때:
+- shape
+- center
+- spread
+- outliers
+- misleading scale
+
+---
+
+## 5. Distributions
+- symmetric
+- skewed right / left
+- unimodal / bimodal
+- outlier
+- center
+- spread
+- mode
+
+### Five-number summary
+- min, Q1, median, Q3, max
+
+### IQR
+$$
+IQR = Q3 - Q1
+$$
+
+### Mean vs Median
+- mean: outlier에 민감
+- median: resistant
+
+---
+
+## 6. Normal distribution
+### Standard score
+$$
+z = \frac{x-\mu}{\sigma}
+$$
+
+실전:
+$$
+z = \frac{\text{observed} - \text{mean}}{\text{SD or SE}}
+$$
+
+### 68–95–99.7 rule
+- 68% within 1 SD
+- 95% within 2 SD
+- 99.7% within 3 SD
+
+---
+
+## 7. Probability
+$$
+P(A^c)=1-P(A)
+$$
+
+$$
+P(A\cup B)=P(A)+P(B)-P(A\cap B)
+$$
+
+if independent:
+$$
+P(A\cap B)=P(A)P(B)
+$$
+
+---
+
+## 8. Odds
+### odds in favor of A
+$$
+P(A):P(A^c)
+$$
+
+### odds against A
+$$
+P(A^c):P(A)
+$$
+
+If $p=P(A)$:
+
+$$
+\text{odds in favor of }A=\frac{p}{1-p}
+$$
+
+$$
+\text{odds against }A=\frac{1-p}{p}
+$$
+
+If odds in favor = $a:b$:
+$$
+P(A)=\frac{a}{a+b}
+$$
+
+If odds against = $a:b$:
+$$
+P(A)=\frac{b}{a+b}
+$$
+
+---
+
+## 9. Expected value
+$$
+E(X)=\sum xP(X=x)
+$$
+
+의미:
+- 반복 시 장기 평균 결과
+
+---
+
+## 10. Scatterplot / correlation
+- direction
+- form
+- strength
+- outliers
+
+$$
+-1 \le r \le 1
+$$
+
+- correlation measures linear relationship
+- correlation ≠ causation
+
+---
+
+## 11. Regression
+### Least squares line
+$$
+\hat y = a+bx
+$$
+
+### Coefficient of determination
+$$
+r^2
+$$
+
+= y variability 중 x가 설명하는 비율
+
+### Regression prediction by standardization
+$$
+z_x = \frac{x-\bar x}{s_x}
+$$
+
+$$
+\hat z_y = rz_x
+$$
+
+$$
+\hat y = \bar y + s_y\hat z_y
+$$
+
+Equivalent form:
+$$
+\hat y = \bar y + r\frac{s_y}{s_x}(x-\bar x)
+$$
+
+Also:
+$$
+b=r\frac{s_y}{s_x}, \quad a=\bar y - b\bar x
+$$
+
+### Reverse prediction
+$$
+z_y = \frac{y-\bar y}{s_y}
+$$
+
+$$
+\hat z_x = rz_y
+$$
+
+$$
+\hat x = \bar x + s_x\hat z_x
+$$
+
+$$
+\hat x = \bar x + r\frac{s_x}{s_y}(y-\bar y)
+$$
+
+Note:
+- predicted standardized score = $r \times$ original standardized score
+- prediction is usually less extreme
+- regression to the mean
+
+---
+
+## 12. Sampling distributions
+- statistic varies from sample to sample
+- sampling distribution = distribution of a statistic
+- standard error = SD of that distribution
+
+### Sample proportion
+$$
+\hat p = \frac{x}{n}
+$$
+
+### Sample mean
+$$
+\bar x
+$$
+
+---
+
+## 13. Confidence intervals
+General form:
+$$
+\text{estimate} \pm (\text{critical value})(\text{SE})
+$$
+
+### Proportion CI
+$$
+\hat p \pm z^*\sqrt{\frac{\hat p(1-\hat p)}{n}}
+$$
+
+### Mean CI
+$$
+\bar x \pm z^*\frac{s}{\sqrt n}
+$$
+
+### Common critical values
+- 90%: 1.645
+- 95%: 1.96
+- 99%: 2.576
+
+### Margin of error
+$$
+ME = z^* \times SE
+$$
+
+Sentence:
+> I am __% confident that the true population [mean/proportion] of ___ is between ___ and ___.
+
+---
+
+## 14. Hypothesis testing
+### Hypotheses
+$$
+H_0:p=p_0 \quad \text{or} \quad H_0:\mu=\mu_0
+$$
+
+$$
+H_a:p>p_0,\; p<p_0,\; p\ne p_0
+$$
+
+$$
+H_a:\mu>\mu_0,\; \mu<\mu_0,\; \mu\ne \mu_0
+$$
+
+### Test statistic
+For proportion:
+$$
+z=\frac{\hat p-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}
+$$
+
+For mean:
+$$
+z=\frac{\bar x-\mu_0}{s/\sqrt n}
+$$
+
+### Important
+$$
+SE(\hat p)_{CI}=\sqrt{\frac{\hat p(1-\hat p)}{n}}
+$$
+
+$$
+SE(\hat p)_{test}=\sqrt{\frac{p_0(1-p_0)}{n}}
+$$
+
+$$
+SE(\bar x)=\frac{s}{\sqrt n}
+$$
+
+### P-value rules
+- right-tailed → area right
+- left-tailed → area left
+- two-sided → 2 × smaller tail area
+
+### Conclusion template
+> There is [weak / some / strong / very strong] evidence that the true [mean / proportion / probability] of ___ is [greater than / less than / different from] ___.
+
+---
+
+## 15. P-value interpretation
+Correct:
+- assuming $H_0$ true, probability of a result at least as extreme as observed
+
+Incorrect:
+- P-value = probability $H_0$ is true
+
+---
+
+## 16. Statistically significant ≠ practically important
+- small P-value does not automatically mean big real-world effect
+- large n can make tiny differences significant
+
+---
+
+## 17. Ultra-short formula box
+$$
+\hat p=\frac{x}{n}
+$$
+
+$$
+IQR=Q3-Q1
+$$
+
+$$
+z=\frac{x-\mu}{\sigma}
+$$
+
+$$
+P(A^c)=1-P(A)
+$$
+
+$$
+P(A\cup B)=P(A)+P(B)-P(A\cap B)
+$$
+
+$$
+P(A\cap B)=P(A)P(B) \text{ if independent}
+$$
+
+$$
+E(X)=\sum xP(X=x)
+$$
+
+$$
+\hat y=a+bx
+$$
+
+$$
+r^2=\text{proportion of variability explained}
+$$
+
+</div>
