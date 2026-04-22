@@ -262,7 +262,7 @@ cssclasses:
 - One-sided or two-sided?
 - Did I write the final sentence in context?
 ---
-19. **Extra notes from Jan 05–Feb 25 solutions**
+19. 
 - **Population** = actual group of people/objects of interest; **population size** = number in that group. Do not say “the population is 270”; 270 is the size, not the population.
 - **Target sample** = people you tried to survey; **respondents** = people who actually answered. If asked for the intended sample, do not give only the respondents.
 - **Census** = attempt to survey the entire population. Even with nonresponse, it can still be a census attempt, just incomplete.
@@ -282,3 +282,21 @@ cssclasses:
 - If $r=0.5$, then $R^2=r^2=0.25$, so **25% of the variation in $y$ is explained by the regression on $x$**.
 - Regression example: if mean entrance score $=72$, SD $=12$, mean GPA $=2.8$, SD $=0.4$, $r=0.5$, and score $=90$, then $z_x=\frac{90-72}{12}=1.5$, $\hat z_y=0.5(1.5)=0.75$, and predicted GPA is $\hat y=2.8+0.75(0.4)=3.1$.
 - Reverse prediction example: if explanatory mean $=19.4$, SD $=4.3$, response mean $=25$, SD $=6.8$, $r=0.62$, and explanatory score $=27$, then $z_x=\frac{27-19.4}{4.3}=1.77$, $\hat z_y=0.62(1.77)\approx1.10$, and predicted response is $\hat y=25+1.10(6.8)\approx32.45$. Reversing from final score $32.45$: $z_y=\frac{32.45-25}{6.8}\approx1.096$, $\hat z_x=0.62(1.096)\approx0.679$, so $\hat x=19.4+4.3(0.679)\approx22.3$. Do not just go back to the original 27.
+- To compute **sample correlation from raw standardized values**, average the products of the paired z-scores: if the six products are $0.94, 0.57, 0.01, -0.52, 1.22, -0.33$, then $r=\frac{0.94+0.57+0.01-0.52+1.22-0.33}{5}\approx0.378$. If using raw data, use $r=\frac{1}{n-1}\sum \left(\frac{x_i-\bar x}{s_x}\right)\left(\frac{y_i-\bar y}{s_y}\right)$.
+- **Regression effect / regression to the mean** can explain why children of low-IQ birth mothers may have average IQs closer to the population mean even without any environmental effect. Example: if mothers average $85$ when population mean is $100$ and SD is $15$, then mothers are $1$ SD below average; if $r=0.5$, children are predicted to be only $0.5$ SD below average, i.e. about $100-0.5(15)=92.5$.
+- For **equally likely outcomes**, probability = $1/(\text{number of outcomes})$. Example: European roulette has 37 equally likely slots, so $P(22)=1/37$.
+- For **odds against** $35:1$, probability of the event is $1/(35+1)=1/36$. More generally, if odds against are $a:b$, then $P(\text{event})=\frac{b}{a+b}$.
+- If several probabilities are given and must sum to 1, find the missing one by subtraction. Example: for a tetrahedral die, if $P(1)=0.3$, $P(2)=0.4$, $P(3)=0.2$, then $P(4)=1-0.3-0.4-0.2=0.1$.
+- For the probability of **either A or B** when outcomes are disjoint, add: $P(A\text{ or }B)=P(A)+P(B)$. Example: $P(1\text{ or }3)=0.3+0.2=0.5$.
+- **Expected value** of a fair tetrahedral die: $E(X)=1(1/4)+2(1/4)+3(1/4)+4(1/4)=2.5$.
+- For two fair tetrahedral dice, there are **16 equally likely ordered outcomes**: $(1,1),(1,2),\dots,(4,4)$, each with probability $1/16$.
+- If a random variable is the **difference** Red − Green for two fair tetrahedral dice, possible values are $-3,-2,-1,0,1,2,3$ with probabilities $1/16,2/16,3/16,4/16,3/16,2/16,1/16$, so the expected value is $0$.
+- Multi-stage gambling / roulette EV problems: identify the **possible final values** and their probabilities first, then compute expected value. Example: if you leave with either $0$ or $1296$ dollars and $P(1296)=(1/38)^2$, then $E(\text{final amount})=1296(1/38)^2+0(1-(1/38)^2)\approx0.898$. If you started with \$1, expected **winnings** are $0.898-1=-0.102$.
+- Confidence interval for a probability with many trials: estimate $\hat p=x/n$, compute $SE=\sqrt{\frac{\hat p(1-\hat p)}{n}}$, then do $\hat p\pm z^*SE$. Example: roulette red results $4915/10000$ give $\hat p=0.4915$, $SE\approx0.00500$, and for confidence level $80.64\%$, $z^*\approx1.3$, so CI is $0.4915\pm1.3(0.00500)\approx(0.485,0.498)$.
+- Confidence interval for a **population mean**: use sample mean $\bar x$, sample SD $s$, and $SE=s/\sqrt n$. Example: $n=2500$, $\bar x=1.7$, $s=2.7$, so $SE=\frac{2.7}{\sqrt{2500}}=0.054$. For a 98% CI, use $z^*\approx2.05$, so CI is $1.7\pm2.05(0.054)\approx(1.59,1.81)$.
+- A population may **not** be approximately Normal if the SD is too large relative to the mean and Normality would imply impossible negative values. Example: if mean papers published is $1.7$ and SD is $2.7$, a Normal model would put noticeable probability below $0$, which is impossible.
+- One-sided p-value from a z-statistic: if alternative is $p>p_0$, use the **right-tail** area. Example: with $\hat p=180/900=0.2$, $p_0=1/6$, $SE=\sqrt{\frac{p_0(1-p_0)}{900}}\approx0.0124$, and $z\approx2.68$, the p-value is the area to the right, about $0.0035$. Very small p-value $\Rightarrow$ strong evidence that $p>p_0$.
+- If given a **one-sided p-value** and asked for the z-statistic, reverse the tail logic. Example: if right-tail p-value is $0.0019$, then the left-tail area is $0.9981$, which corresponds to about $z=2.9$.
+- In tests, always match the **direction of the alternative** to the tail: if the treatment is supposed to increase the response, then the p-value is in the **right-hand tail**.
+- Two-sided mean test example: if $\bar x=299054.2$, $\mu_0=299792.5$, $s=54.2$, $n=20$, then $SE=\frac{54.2}{\sqrt{20}}\approx12.1$ and $z=\frac{299054.2-299792.5}{12.1}\approx-61.0$. This is so extreme that the p-value is essentially $0$. A practical interpretation is that the method is **badly biased**, and the bias dominates the random variation.
+- Good exam answers usually need **words, not just formulas**. In probability/CI/test questions, explain the setup briefly: what parameter is being estimated or tested, why the formula applies, and what the final number means.
