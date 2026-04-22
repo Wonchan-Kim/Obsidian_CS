@@ -67,15 +67,6 @@ first midterm 90 -> 2sd -> estimate 0.5** 2 = 1 -> 70 + 10 = 80
 lurking variable that influence both x and y can create high correlation -> common response: both the explanatory and reponse variable are responding to some lurking variable. 
 ![[Pasted image 20260305221953.png|400]]
 
-index = value * 100 / base
-fixed market basket price index is an index number for the total cost of a fixed collection of goods and services. 
-CPI is a fixed market basket price index with several hundred items that represent all consumer purchases. Holding the market basket fixed allows a legitimate comparison of prices because we compare the prices of the same items at each time. 
-ex) CPI for October 2018 was 252.9 means that we must spend 252.9 to buy goos and services that cost 100 in the 1982 and 1984 base period. 
-Tables headings - median household income. restating all incomes in  that will but as much as the dollar would buy in 2017. Term constant dollars and real income/terms. Meaning that all dollar amounts represent the same buying power even though they may describe different years. 
-
-adjusting the buying power: dollars at time B = dollars at time A * CPI at time B / CPI at time A
-
-CPI covers urban consumers-80%. Different households buy different things, so categorize the purchase of huge sample. So market basket is not actually fixed. CPI can't really measure the changes in the cost of living as the buying items change. 
 
 random: individual outcomes are uncertain but there is nonetheless a regular distribution of outcomes in a large number of repetitions. 
 probability: number between 0 and 1 describes the proportions of times that outcome would occur in a very long series of repetitions. 
@@ -84,4 +75,3 @@ a personal probability of an outcome is a number between 0 and 1 that expresses 
 
 Probabiliyy: p [0,1], odds = p / 1 - p, p = odds / odds + 1 odds [0,inf)
 
-</div>
