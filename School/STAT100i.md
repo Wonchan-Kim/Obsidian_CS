@@ -1571,4 +1571,390 @@ $$
 
 So extreme observations are predicted to be less extreme next time.
 
+---
+
+# Extra notes from class solution sets
+
+## 1. Population vs population size
+- **Population** = the actual group of people/objects we want information about
+- **Population size** = the number of people/objects in that population
+
+Example:
+- population = students registered in STAT 100
+- population size = 270
+
+### Common mistake
+- saying “the population is 270” is wrong
+- 270 is the **population size**, not the population itself
+
+---
+
+## 2. Target sample vs respondents
+- **Target sample** = the set of people you tried to survey
+- **Respondents** = the people who actually replied
+
+Example:
+- if you tried to survey everyone in the class, the **target sample** is the whole class
+- the 131 people who answered are just the **respondents**
+
+### Common mistake
+- calling the respondents “the sample” when the question is asking for the **desired / target sample**
+
+---
+
+## 3. Census can still fail
+A survey can still be a **census attempt** even if not everyone responds, as long as you tried to survey the whole population.
+
+### Key idea
+- census = attempt to survey the entire population
+- nonresponse can make it a **failed / incomplete census**, but it was still a census attempt
+
+---
+
+## 4. Frame, undercoverage, overcoverage
+- **Frame** = the list or method used to identify who can be sampled
+- **Undercoverage** = some people in the population are missing from the frame
+- **Overcoverage** = the frame includes people who are not in the population
+
+### Important point
+You can have **both** undercoverage and overcoverage at the same time.
+
+Example:
+- Jan 5 class list used later
+- students who dropped are still on the list → **overcoverage**
+- students who joined later are missing → **undercoverage**
+
+### Common mistake
+- saying they “cancel out”
+- they do **not** cancel out because they involve different people
+
+---
+
+## 5. Response bias can have a direction
+If people systematically misreport answers, the estimate can be biased **up** or **down**.
+
+Example:
+- people may underreport weight
+- heavier people may skip the weight question
+- both effects make the estimated average weight **too low**
+
+### Useful phrasing
+- “biased down” = estimate tends to be too small
+- “biased up” = estimate tends to be too large
+
+---
+
+## 6. Write estimates as estimates
+Better wording:
+- “We estimate the percentage to be 61%”
+
+Avoid:
+- “61% of Canadian adults think ...”
+
+### Why
+A sample result is an **estimate**, not exact truth about the population.
+
+---
+
+## 7. Quick 95% CI method from early course
+For a proportion at 95% confidence:
+
+$$
+MOE \approx \frac{1}{\sqrt{n}}
+$$
+
+and
+
+$$
+\text{CI} \approx \hat p \pm MOE
+$$
+
+Example:
+- \(n=1000\)
+- \(\hat p=0.61\)
+
+$$
+MOE \approx \frac{1}{\sqrt{1000}} \approx 0.0316 \approx 3.2\%
+$$
+
+So the CI is about
+
+$$
+61\% \pm 3.2\% = (57.8\%, 64.2\%)
+$$
+
+---
+
+## 8. Change + confidence interval for a difference
+If estimate of change is \(-1800\) and the standard error of the change is \(5700\), then for a rough 95% CI:
+
+$$
+MOE \approx 2 \times SE = 2(5700)=11400
+$$
+
+So
+
+$$
+-1800 \pm 11400 = (-13200,\ 9600)
+$$
+
+### Interpretation
+We are 95% confident that the true change is between a **decrease of 13,200** and an **increase of 9,600**.
+
+### Useful note
+- for these problems, the sentence matters
+- just writing numbers loses marks
+
+---
+
+## 9. Experiment vs observational study: definition
+A study is an **experiment** if the researcher **manipulates at least one explanatory variable**.
+
+Even if the design is bad, it is still an experiment if the treatment variable was controlled.
+
+Example:
+- instructor changes exam time of day
+- this is an **experiment**, though poorly designed
+
+### Common mistake
+- calling it observational just because it has flaws
+
+---
+
+## 10. Confounding variable: how to explain it
+To explain confounding well, you must say how the confounder is related to:
+
+1. the explanatory / treatment variable  
+2. the response variable
+
+Example:
+- treatment variable = time of day of exam
+- response variable = exam score
+- possible confounder = exam difficulty
+
+Why?
+- harder exams lower scores
+- if evening exam was harder, then time of day is tangled with difficulty
+
+### Key exam tip
+Do not just name a confounder.  
+Explain how it connects to **both** variables.
+
+---
+
+## 11. Correlation does not imply causation: better criticism
+If someone says:
+- entrance test score is positively correlated with final GPA
+- therefore test prep will improve final GPA
+
+A better criticism is:
+- correlation may be due to lurking variables such as **ability**, **study habits**, or **background preparation**
+- improving score on the exam does not necessarily improve the underlying causes of success
+
+### Stronger answer
+Mention specific lurking variables, not just “correlation is not causation.”
+
+---
+
+## 12. Histogram bin counting detail
+If histogram bars include the **lower limit** but not the **upper limit**, then values exactly on the boundary go into the bar on the **right**, not the left.
+
+Example:
+- bin \(1{:}59.0\) to \(2{:}00.0\): includes 1:59.4, but not 2:00.0
+- bin \(2{:}00.0\) to \(2{:}01.0\): includes 2:00.0, 2:00.2, 2:00.4, ...
+
+### Exam tip
+Always check whether endpoints are included or excluded.
+
+---
+
+## 13. Misleading graph clue
+A graph can be misleading if different series use **different y-axis scales**.
+
+### Why this matters
+Two lines may look comparable even when one is actually far larger than the other.
+
+### Exam phrase
+- “The graph is misleading because it uses different vertical scales.”
+
+---
+
+## 14. Quartiles from a normal distribution
+To find quartiles of a Normal distribution:
+- Q1 corresponds to about the **25th percentile**
+- median corresponds to the **50th percentile**
+- Q3 corresponds to about the **75th percentile**
+
+Using the normal table:
+- Q1 is about \(z=-0.7\)
+- median is \(z=0\)
+- Q3 is about \(z=0.7\)
+
+Then convert back:
+
+$$
+x = \mu + z\sigma
+$$
+
+Example with mean \(68\) and SD \(2.5\):
+$$
+Q1 \approx 68-0.7(2.5)=66.25
+$$
+
+$$
+Q2 = 68
+$$
+
+$$
+Q3 \approx 68+0.7(2.5)=69.75
+$$
+
+---
+
+## 15. Truncating data changes mean and SD
+If you remove all observations above some cutoff:
+
+- the **mean goes down**
+- the **SD goes down**
+
+### Why
+- all remaining values are below the old mean, so the center shifts down
+- the data are less spread out than before
+
+Example:
+- if you remove all sons taller than 69 inches, both mean and SD become smaller
+
+---
+
+## 16. Reverse prediction reminder
+To predict \(x\) from \(y\), you do **not** use the same slope as predicting \(y\) from \(x\).
+
+If predicting \(x\) from \(y\):
+
+$$
+b = r\frac{s_x}{s_y}
+$$
+
+Example:
+- \(r=0.5\)
+- \(s_x=12\)
+- \(s_y=0.4\)
+
+$$
+b = 0.5 \cdot \frac{12}{0.4}=15
+$$
+
+### Common mistake
+Using
+$$
+r\frac{s_y}{s_x}
+$$
+for the reverse direction.
+
+---
+
+## 17. Regression \(R^2\) as percent explained
+If
+$$
+r=0.5
+$$
+then
+$$
+R^2 = r^2 = 0.25
+$$
+
+So the percentage of variation explained is:
+
+$$
+25\%
+$$
+
+### Exam wording
+- “25% of the variation in \(y\) is explained by the regression on \(x\).”
+
+---
+
+## 18. Regression prediction example
+If:
+- mean entrance score = 72
+- SD entrance score = 12
+- mean GPA = 2.8
+- SD GPA = 0.4
+- \(r=0.5\)
+- student score = 90
+
+Then:
+
+### Step 1. Convert to z-score
+$$
+z_x=\frac{90-72}{12}=1.5
+$$
+
+### Step 2. Predict response z-score
+$$
+\hat z_y = r z_x = 0.5(1.5)=0.75
+$$
+
+### Step 3. Convert back
+$$
+\hat y = 2.8 + 0.75(0.4)=3.1
+$$
+
+So the predicted GPA is
+
+$$
+3.1
+$$
+
+---
+
+## 19. Undoing standardization example
+If:
+- explanatory mean = 19.4
+- explanatory SD = 4.3
+- response mean = 25
+- response SD = 6.8
+- \(r=0.62\)
+- explanatory score = 27
+
+### Step 1. Standardize explanatory score
+$$
+z_x=\frac{27-19.4}{4.3}=1.77
+$$
+
+### Step 2. Predict response z-score
+$$
+\hat z_y = 0.62(1.77)\approx 1.10
+$$
+
+### Step 3. Convert back
+$$
+\hat y = 25 + 1.10(6.8)\approx 32.45
+$$
+
+---
+
+## 20. Reverse prediction example
+Using the same setup, suppose a student has final score \(32.45\).
+
+### Step 1. Standardize final score
+$$
+z_y=\frac{32.45-25}{6.8}\approx 1.096
+$$
+
+### Step 2. Predict explanatory z-score
+$$
+\hat z_x = 0.62(1.096)\approx 0.679
+$$
+
+### Step 3. Convert back
+$$
+\hat x = 19.4 + 4.3(0.679)\approx 22.3
+$$
+
+### Common mistake
+Do **not** just go back to the original 27.
+
+---
+
 </div>
