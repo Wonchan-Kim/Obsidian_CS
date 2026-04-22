@@ -300,3 +300,131 @@ cssclasses:
 - In tests, always match the **direction of the alternative** to the tail: if the treatment is supposed to increase the response, then the p-value is in the **right-hand tail**.
 - Two-sided mean test example: if $\bar x=299054.2$, $\mu_0=299792.5$, $s=54.2$, $n=20$, then $SE=\frac{54.2}{\sqrt{20}}\approx12.1$ and $z=\frac{299054.2-299792.5}{12.1}\approx-61.0$. This is so extreme that the p-value is essentially $0$. A practical interpretation is that the method is **badly biased**, and the bias dominates the random variation.
 - Good exam answers usually need **words, not just formulas**. In probability/CI/test questions, explain the setup briefly: what parameter is being estimated or tested, why the formula applies, and what the final number means.
+- ## 20. Inference answer-writing flow (professor style)
+
+### Confidence interval answer flow
+- In exam answers, do not write only formulas; include short sentences explaining the setup.
+- First define the parameter in context.
+- Then state the estimate from the sample.
+- Then say you will compute the standard error.
+- Then find the multiplier from Table B using the confidence level.
+- Then compute:
+  - estimate $\pm$ multiplier $\times$ standard error
+- Final CI sentence:
+  - “I am __% confident that the true population [mean/proportion/probability] of ___ is between ___ and ___.”
+
+### Hypothesis test answer flow
+- In exam answers, do not write only formulas; include short sentences explaining the setup.
+- First define the parameter in context.
+- State the null hypothesis and the alternative hypothesis in symbols and words.
+- Decide whether the problem is left-tailed, right-tailed, or two-sided.
+- Compute the standard error for the test.
+- Compute the test statistic.
+- Use the correct tail area from Table B to get the P-value.
+- Final test sentence:
+  - “There is [weak/some/strong/very strong] evidence that the true [mean/proportion/probability] of ___ is [greater than/less than/different from] ___.”
+
+### Important testing reminder
+- The alternative hypothesis should be chosen before looking at the data.
+- Do not choose one-sided vs two-sided after seeing the sample result.
+
+---
+## 21. Finding critical values / multipliers from confidence level
+
+- If confidence level is $C$, then:
+  - middle area $= C$
+  - total outside area $= 1-C$
+  - each tail area $= \frac{1-C}{2}$
+  - left cumulative area for Table B $= 1-\frac{1-C}{2}=\frac{1+C}{2}$
+- Use that left cumulative area to find the critical value $z^*$.
+
+### Common examples
+- 90% confidence:
+  - left cumulative area $=0.95$
+  - $z^*\approx1.645$
+- 95% confidence:
+  - left cumulative area $=0.975$
+  - $z^*\approx1.96$
+- 99% confidence:
+  - left cumulative area $=0.995$
+  - $z^*\approx2.58$
+
+---
+## 22. Tail direction guide for hypothesis tests
+
+- If the alternative says:
+  - “greater than,” “higher,” “more,” “increase,” “better”
+  - use the right tail.
+- If the alternative says:
+  - “less than,” “lower,” “decrease,” “worse”
+  - use the left tail.
+- If the alternative says:
+  - “different,” “not equal,” “changed,” “anything but”
+  - use a two-sided test.
+- For a two-sided test:
+  - P-value = 2 × (smaller tail area).
+
+### Tail reminders
+- Right-tailed test: large positive $z$ gives small P-value.
+- Left-tailed test: large negative $z$ gives small P-value.
+- Two-sided test: either very positive or very negative $z$ gives small P-value.
+
+---
+## 23. P-value interpretation reminders
+
+- P-value = probability, assuming the null hypothesis is true, of getting a result at least as extreme as the one observed.
+- P-value is computed by pretending $H_0$ is true.
+- P-value is NOT the probability that $H_0$ is true.
+- P-value is NOT the probability that the alternative hypothesis is true.
+- Small P-value means strong evidence against $H_0$.
+- Large P-value means weak evidence against $H_0$.
+### Standard significance language
+- If $P<0.05$, the result is called statistically significant.
+- If $P$ is very small, you can say there is very strong evidence against the null hypothesis.
+- Statistical significance does not automatically mean practical importance.
+---
+## 24. Exact vs rough 95% margin of error for a proportion
+- Exact 95% CI for a proportion:
+  - $\hat p \pm 1.96\sqrt{\frac{\hat p(1-\hat p)}{n}}$
+- Rough 95% MOE rule:
+  - $MOE \approx \frac{1}{\sqrt n}$
+### Why the rough rule works
+- $1.96 \approx 2$
+- If $\hat p$ is near $0.5$, then:
+  - $\sqrt{\hat p(1-\hat p)} \approx 0.5$
+- So:
+  - $1.96\sqrt{\frac{\hat p(1-\hat p)}{n}}
+    \approx 2\sqrt{\frac{0.25}{n}}
+    = \frac{1}{\sqrt n}$
+### When the rough rule is best
+- Works best when $\hat p$ is between about $0.4$ and $0.6$.
+- If $\hat p$ is far from $0.5$, the exact SE using $\hat p(1-\hat p)$ is better.
+### Conservative rule
+- The rough rule $\frac{1}{\sqrt n}$ is conservative.
+- That means it usually gives a slightly wider interval than the exact 95% proportion CI.
+---
+## 25. Extra wording reminders for inference questions
+
+- Always say what the parameter means in context.
+- Always say whether you are estimating or testing.
+- For confidence intervals, interpret the interval in context.
+- For tests, interpret the P-value as evidence against the null hypothesis.
+- Avoid saying:
+  - “The probability the null is true is ...”
+  - “The probability the parameter is in this one computed interval is ...”
+- Better exam wording:
+  - “We estimate ...”
+  - “We are __% confident that the true population ...”
+  - “There is strong evidence that ...”
+  - “There is weak evidence that ...”
+
+---
+## 26. Quick professor-style checklist for CI/test problems
+
+- What is the parameter?
+- What is the estimate?
+- What is the standard error?
+- What multiplier or test statistic do I need?
+- Is the test left-tailed, right-tailed, or two-sided?
+- What does the final number mean in words and in context?
+- Did I write a sentence, not just formulas?
