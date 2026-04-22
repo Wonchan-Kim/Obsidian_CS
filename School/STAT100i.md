@@ -138,8 +138,8 @@ cssclasses:
 - Probability model: mathematical description of chance behavior
 - Rules: $P(A^c)=1-P(A)$, $P(A\cup B)=P(A)+P(B)-P(A\cap B)$
 - If independent: $P(A\cap B)=P(A)P(B)$
-- Odds in favor of $A$: $P(A):P(A^c)=p:(1-p)$, value $p/(1-p)$
-- Odds against $A$: $P(A^c):P(A)=(1-p):p$, value $(1-p)/p$
+- Odds in favor of $A$: $P(A):P(A^c)=p:(1-p)$, value $p/(1-p)$ means success:failure 
+- Odds against $A$: $P(A^c):P(A)=(1-p):p$, value $(1-p)/p$ means success:failure ex)odds of 35 to 1 against landing on 22 P(22) = 35:1 = 1/36
 - If odds in favor are $a:b$, then $P(A)=a/(a+b)$
 - If odds against are $a:b$, then $P(A)=b/(a+b)$
 - Expected value: $E(X)=\sum xP(X=x)$
