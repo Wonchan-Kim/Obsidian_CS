@@ -317,3 +317,46 @@ $r=\frac{1}{n-1}\sum \left(\frac{x_i-\bar{x}}{s_x}\right)\left(\frac{y_i-\bar{y}
 - Regression fallacy: incorrectly explaining regression to the mean as a real causal change.
 - Regression to the mean: if correlation is imperfect ($|r|<1$), an extreme first measurement is usually followed by a less extreme second measurement.
 - Example: students with very low first scores often improve next time partly because of regression to the mean, not necessarily because of a special treatment. Regression to the mean prediction: Step 1: standardize first score: $z_1=\frac{x_1-\mu_1}{\sigma_1}$ Step 2: predict second z-score: $\hat z_2 = r z_1$ Step 3: convert back: $\hat y_2=\mu_2+\hat z_2\sigma_2$ If $|r|<1$, an extreme first score is predicted to be less extreme on the second measurement.
+
+
+## Sampling / study design patterns that keep showing up
+
+- Simple random sample (SRS): every sample of size $n$ has the same chance of being chosen.
+- Probability sample: sample chosen by a random method with known selection mechanism; SRS, stratified, and cluster samples are all probability samples.
+- Stratified sampling: divide population into groups (strata), then take random samples from each group; used when we want representation from every type.
+- Cluster sampling: divide population into natural groups (clusters), randomly choose some clusters, then sample everyone or many people inside selected clusters.
+- Key memory:
+  - stratified = sample from every group
+  - cluster = pick some groups
+
+## Common exam traps
+- If you randomly sample classes/courses and then use all students in chosen classes, that is a cluster sample of students, not an SRS of students.
+- If you divide people into groups like first-year vs others and randomly sample from each group, that is stratified random sampling.
+- Randomly selected students from a university = probability sample; not necessarily an experiment.
+- Observational study: just observe existing behaviour/traits; no treatment imposed.
+- Experiment: researcher imposes a treatment or explanatory condition.
+- Random sampling supports inference to a population.
+- Random assignment supports causal claims.
+
+## What changes when sample size increases?
+- Variability of a sample statistic decreases.
+- Margin of error decreases.
+- Standard error decreases.
+- Non-sampling bias does not automatically decrease.
+- Sampling bias does not automatically decrease.
+- Confidence level does not automatically change.
+
+## Bias reminders
+- Undercoverage: some population members are missing from the frame.
+- Overcoverage: frame includes people not in the population.
+- Nonresponse: selected individuals do not respond.
+- Voluntary response: people choose themselves; often overrepresents strong opinions.
+- Bigger sample reduces variability, not bias.
+
+## Fast recognition rules
+- “sample some schools/classes/courses, then use students in them” $\to$ cluster
+- “split into categories first, then sample each category” $\to$ stratified
+- “choose individuals directly from full list” $\to$ SRS
+- “randomly selected” $\to$ probability sample
+- “researcher did not assign treatment” $\to$ observational study
+- “researcher assigned treatment / condition” $\to$ experiment
