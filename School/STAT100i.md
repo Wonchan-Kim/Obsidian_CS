@@ -1,4 +1,11 @@
-<div class="stat-cheatsheet">
+---
+cssclasses:
+  - stat-cheatsheet
+---
+---
+cssclasses:
+  - stat-cheatsheet
+---
 
 # STAT 100 FINAL CHEAT SHEET
 
@@ -26,7 +33,7 @@
 - Bias: repeated samples miss the true parameter in the same direction; systematic over/underestimate
 - Variability: statistic changes from sample to sample due to random fluctuation
 - Sampling error: error from using sample instead of whole population
-- Bigger sample: reduces variability, not bias
+- Bigger sample reduces variability, not bias
 - Probability sample: random mechanism known
 - SRS: every sample of size \(n\) has equal chance
 - Convenience sample: easy to reach, weak representativeness
@@ -35,7 +42,6 @@
 - Overcoverage: frame includes people not in population
 - Nonresponse: selected people do not respond
 - Response bias: inaccurate answers due to wording / sensitivity / mode
-- Questionnaire effects / interviewer bias / mode effects all can bias answers
 - Random sampling \(\to\) supports population inference
 - Random assignment \(\to\) supports causal claims
 
@@ -47,8 +53,8 @@
 - Target sample = people you tried to survey
 - Respondents = people who actually replied
 - Frame = list/method used to identify who can be sampled
-- Census = attempt to survey entire population; can still be an incomplete/failed census if not everyone responds
-- Same frame can have both undercoverage and overcoverage; they do not “cancel out”
+- Census = attempt to survey entire population; can still be incomplete if not everyone responds
+- Same frame can have both undercoverage and overcoverage; they do not cancel out
 
 ---
 
@@ -67,7 +73,7 @@
 
 ---
 
-## 5. Sampling methods: distinguish
+## 5. Sampling methods
 - SRS: choose individuals directly from whole population
 - Stratified: divide into strata, sample from each stratum
 - Cluster: divide into clusters, choose some whole clusters, survey everyone/many there
@@ -107,7 +113,7 @@
 - Median:
   - odd \(n\): middle value, position \((n+1)/2\)
   - even \(n\): average of middle two, positions \(n/2\) and \(n/2+1\)
-- Quartiles (intro rule):
+- Quartiles:
   - odd \(n\): remove overall median, then find medians of lower/upper halves
   - even \(n\): split into two equal halves, find medians of halves
 - Five-number summary: min, \(Q1\), median, \(Q3\), max
@@ -158,36 +164,23 @@
 - Correlation measures linear relationship only
 - Correlation unaffected by unit changes
 - Correlation \(\neq\) causation
-- Steep slope does not imply strong correlation
 - Outliers can change \(r\) a lot
 - Restricting/truncating \(x\)-range usually makes \(r\) smaller
 
 ---
 
-## 12. Regression / residual / \(r^2\)
-- Least-squares line: \(\hat y=a+bx\)
-- \(b\): predicted change in \(y\) for 1-unit increase in \(x\)
-- \(a\): predicted \(y\) at \(x=0\) (may be meaningless if outside data range)
-- Least squares minimizes sum of squared vertical residuals
-- Residual: \(y-\hat y\); positive = point above line, negative = below
-- Sample correlation from raw data:
-  \[
-  r=\frac{1}{n-1}\sum \left(\frac{x_i-\bar x}{s_x}\right)\left(\frac{y_i-\bar y}{s_y}\right)
-  \]
-- Slope:
-  \[
-  b=r\frac{s_y}{s_x}
-  \]
-- Intercept:
-  \[
-  a=\bar y-b\bar x
-  \]
-- \(r^2\): proportion of variation in \(y\) explained by regression on \(x\)
-- Unexplained variation: \(1-r^2\)
-- Also:
-  \[
-  r^2=1-\frac{\sum(y_i-\hat y_i)^2}{\sum(y_i-\bar y)^2}
-  \]
+## 12. Regression / residual / $r^2$
+
+- Least-squares line: $\hat y=a+bx$
+- $b$: predicted change in $y$ for 1-unit increase in $x$
+- $a$: predicted $y$ at $x=0$
+- Residual: $y-\hat y$; positive = above line, negative = below
+- Sample correlation from raw data: $r=\frac{1}{n-1}\sum \left(\frac{x_i-\bar x}{s_x}\right)\left(\frac{y_i-\bar y}{s_y}\right)$
+- Slope: $b=r\frac{s_y}{s_x}$
+- Intercept: $a=\bar y-b\bar x$
+- $r^2$: proportion of variation in $y$ explained by regression on $x$
+- Unexplained variation: $1-r^2$
+- Also: $r^2=1-\frac{\sum (y_i-\hat y_i)^2}{\sum (y_i-\bar y)^2}$
 
 ---
 
@@ -208,12 +201,12 @@
   \[
   \hat y=\bar y+r\frac{s_y}{s_x}(x-\bar x)
   \]
-- Reverse prediction is different:
+- Reverse prediction:
   \[
   z_y=\frac{y-\bar y}{s_y},\quad \hat z_x=rz_y,\quad \hat x=\bar x+s_x\hat z_x
   \]
 - If predicting \(x\) from \(y\), slope is \(r(s_x/s_y)\), not \(r(s_y/s_x)\)
-- Extrapolation = predict outside observed \(x\)-range; dangerous
+- Extrapolation = predict outside observed \(x\)-range
 - Regression to the mean: if \(|r|<1\), extreme observations are predicted to be less extreme next time because \(\hat z=rz\)
 
 ---
@@ -223,7 +216,7 @@
 - SE = SD of sampling distribution
 - SD = spread of individual data; SE = spread of statistic
 - \(\hat p=x/n\), \(\bar x\) = sample mean
-- Rough 95% MOE for a proportion at early-course level:
+- Rough 95% MOE for a proportion:
   \[
   MOE\approx \frac{1}{\sqrt n}
   \]
@@ -246,9 +239,8 @@
   \]
 - Common \(z^*\): 90% 1.645, 95% 1.96, 99% 2.576
 - MOE \(=z^*\cdot SE\)
-- Confidence level = long-run success rate of method, not probability the fixed parameter is random
+- Confidence level = long-run success rate of method
 - CI is for parameter, not individual observations
-- Write estimates as estimates: “We estimate …”, not “The population is definitely …”
 - Good CI sentence: “I am __% confident that the true population [mean/proportion] of ___ is between ___ and ___.”
 
 ---
@@ -409,29 +401,3 @@ z_y=\frac{32.45-25}{6.8}\approx 1.096,\quad \hat z_x=0.62(1.096)\approx 0.679
 - CI or hypothesis test?
 - One-sided or two-sided?
 - Did I write the final sentence in context?
-
-
----
-cssclasses:
-  - stat-cheatsheet
----
-
-# Test
-
-- Complement: \(P(A^c)=1-P(A)\)
-- Union: \(P(A\cup B)=P(A)+P(B)-P(A\cap B)\)
-- If independent: \(P(A\cap B)=P(A)P(B)\)
-
-$$
-z=\frac{x-\mu}{\sigma}
-$$
-
-$$
-\hat p=\frac{x}{n}
-$$
-
-$$
-SE=\sqrt{\frac{\hat p(1-\hat p)}{n}}
-$$
-
-</div>
