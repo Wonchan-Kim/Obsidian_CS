@@ -1192,20 +1192,41 @@ $$
 P(A)=\frac{b}{a+b}
 $$
 
-# 32. Final check list
+## CI example for a proportion
 
-문제 보면 바로 체크:
+Given \(x=34,\ n=400\),
 
-1. sample survey / observational study / experiment?
-2. population / sample / parameter / statistic?
-3. variable categorical or numerical?
-4. bias / nonresponse / undercoverage / lurking variable?
-5. graph면 shape, center, spread, outlier?
-6. normal / z-score / percentile 문제인가?
-7. scatterplot이면 direction, form, strength, outlier?
-8. regression이면 slope, intercept, residual, \(r^2\)?
-9. CI인지 hypothesis test인지?
-10. one-sided인지 two-sided인지?
-11. 마지막 문장을 context에 맞게 썼나?
+$$
+\hat{p}=\frac{34}{400}=0.085
+$$
 
+$$
+SE=\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+=\sqrt{\frac{0.085(0.915)}{400}}
+\approx 0.0139
+$$
+
+For 96.5% confidence:
+
+$$
+z^*\approx 2.1
+$$
+
+$$
+CI=\hat{p}\pm z^*SE
+=0.085\pm 2.1(0.0139)
+$$
+
+$$
+(0.0557,\ 0.1143)
+$$
+
+Interpretation:  
+I am 96.5% confident that the true probability is between 0.0557 and 0.1143.
+### CI for proportion checklist
+1. compute \(\hat p=x/n\)  
+2. compute \(SE=\sqrt{\hat p(1-\hat p)/n}\)  
+3. find \(z^*\) from confidence level  
+4. do \(\hat p \pm z^*SE\)  
+5. write sentence in context
 </div>
