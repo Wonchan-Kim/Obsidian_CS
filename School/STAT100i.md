@@ -159,6 +159,8 @@ cssclasses:
 - Correlation $\neq$ causation
 - Outliers can change $r$ a lot
 - Restricting/truncating $x$-range usually makes $r$ smaller
+$r=\frac{1}{n-1}\sum \left(\frac{x_i-\bar{x}}{s_x}\right)\left(\frac{y_i-\bar{y}}{s_y}\right)$  
+  $r$: sample correlation   $\bar{x}, \bar{y}$: sample means  $s_x, s_y$: sample standard deviations  Measures direction and strength of the linear relationship between $x$ and $y$  Always satisfies $-1 \le r \le 1$
 
 ---
 
