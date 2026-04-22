@@ -761,6 +761,18 @@ $$
 
 # 21. Regression line
 
+If raw data are given, the sample correlation can be computed by standardizing both variables and averaging the products of the z-scores:  
+  
+$$  
+r = \frac{1}{n-1}\sum \left(\frac{x_i-\bar{x}}{s_x}\right)\left(\frac{y_i-\bar{y}}{s_y}\right)  
+$$  
+  
+### Meaning  
+- measures the **direction and strength of a linear relationship**  
+- based on how \(x\)-z-scores and \(y\)-z-scores move together  
+- positive \(r\): above-average \(x\) tends to go with above-average \(y\)  
+- negative \(r\): above-average \(x\) tends to go with below-average \(y\)
+- 
 ## Least squares regression line
 $$
 \hat y = a+bx
